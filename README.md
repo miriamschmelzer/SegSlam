@@ -1,2 +1,2 @@
 # SegSlam
-Segmrnt-basiertes SLAM-Verfahren mit 3D Punktwolken
+Segment-basiertes SLAM-Verfahren mit 3D Punktwolken
