@@ -5,7 +5,7 @@
   <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
 
   <!-- Bag file path -->
-  <arg name="bag_file" value="$(env HOME)/miriam/Dokumente/20191005_155135.bag"/>
+  <arg name="bag_file" value="$(env HOME)/Dokumente/20191005_155135.bag"/>
   <rosparam param="LaserMapper/bag_file" subst_value="True">$(arg bag_file)</rosparam>
 
   <!-- Rviz visualization config file path -->
