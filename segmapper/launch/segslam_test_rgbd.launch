@@ -5,7 +5,7 @@
   <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
 
   <!-- Bag file path -->
-  <arg name="bag_file" value="$(env HOME)/Dokumente/20191005_155135.bag"/>
+  <arg name="bag_file" value="$(env HOME)/.segmap/kitti/2011_09_30_drive_18.bag"/> <!--my_bagfile_3.bag" -->
   <rosparam param="LaserMapper/bag_file" subst_value="True">$(arg bag_file)</rosparam>
 
   <!-- Rviz visualization config file path -->
@@ -14,7 +14,7 @@
   <!-- ROS parameters -->
   <rosparam>use_sim_time: true</rosparam>  <!-- Programm verwendet Zeitstempel der bagfiles (einkommender Nachrichten) anstatt die des PC's -->
 
-  <rosparam command="load" file="$(find segmapper)/launch/kitti/kitti_loop_closure.yaml"/>
+  <rosparam command="load" file="$(find segmapper)/launch/segslam_test_rgbd.yaml"/>
 
 
   <!-- rviz node -->
