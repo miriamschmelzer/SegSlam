@@ -130,11 +130,9 @@ include_directories(
 #    src/PublisherSubscriber.cpp
 #)
 
-cs_add_executable(PublisherSubscriber
-  #src/publisher_subscriber_node.cpp
-  #src/publish_pose_stamped_node.cpp
-  src/publish_transform_stamped_node.cpp
-  )
+cs_add_executable(pose_stamped src/publish_pose_stamped_node.cpp)
+cs_add_executable(transform_stamped src/publish_transform_stamped_node.cpp)
+
 #target_link_libraries(PublisherSubscriber ${PROJECT_NAME})
 
 
