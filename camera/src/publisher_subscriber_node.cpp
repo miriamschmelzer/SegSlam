@@ -1,21 +1,21 @@
 #include <ros/ros.h>
 #include <publisher_subscriber.h>
-#include <std_msgs/String.h>
+#include <nav_msgs/Path.h>
+#include <geometry_msgs/PoseStamped.h>
 
 template<>
-void PublisherSubscriber<std_msgs::String, std_msgs::String>::subscriberCallback(const std_msgs::String::ConstPtr& receivedMsg)
+void PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Path>::subscriberCallback(const nav_msgs::Path::ConstPtr& receivedMsg)
 {
-  ROS_INFO("I received the following: %s", receivedMsg->data.c_str());
-  ROS_INFO("Sending the received message on 'echo' topic");
-  std_msgs::String echo_msg;
-  echo_msg.data = receivedMsg->data;
-  publisherObject.publish(echo_msg);
+  ROS_INFO("Sending the received message on 'pose' topic");
+  geometry_msgs::PoseStamped pose_msg;
+  pose_msg = receivedMsg->poses.front();  // poses are received in a vector, only the first element is needed, other elements are copies of the first one
+  publisherObject.publish(pose_msg);
 }
 
 int main(int argc, char **argv)
 {
   // Set up ROS
   ros::init(argc, argv, "publisher_subscriber_node");
-  PublisherSubscriber<std_msgs::String, std_msgs::String> parrot("echo", "chatter", 1);
+  PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Path> parrot("pose", "rtabmap/mapPath", 1);
   ros::spin();
 }
