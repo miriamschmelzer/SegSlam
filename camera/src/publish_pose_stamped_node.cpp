@@ -15,7 +15,7 @@ void PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Path>::subscriber
 int main(int argc, char **argv)
 {
   // Set up ROS
-  ros::init(argc, argv, "publisher_subscriber_node");
+  ros::init(argc, argv, "publish_pose_stamped_node");
   PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Path> parrot("pose", "rtabmap/mapPath", 1);
   ros::spin();
 }
