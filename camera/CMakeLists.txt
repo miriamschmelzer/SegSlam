@@ -132,6 +132,8 @@ include_directories(
 
 cs_add_executable(pose_stamped src/publish_pose_stamped_node.cpp)
 cs_add_executable(transform_stamped src/publish_transform_stamped_node.cpp)
+cs_add_executable(tf src/publish_tf_node.cpp)
+
 
 #target_link_libraries(PublisherSubscriber ${PROJECT_NAME})
 
