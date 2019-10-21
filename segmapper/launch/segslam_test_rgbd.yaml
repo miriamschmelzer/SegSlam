@@ -12,9 +12,9 @@ SegMapper: {
     use_odometry_information: false,
 
     odom_frame: "odom", #"world",
-    sensor_frame: "camera_link", #"velodyne",
+    sensor_frame: "camera_link", #"camera_depth_optical_frame", #"camera_link", #"velodyne",
 
-    assembled_cloud_sub_topic: "voxel_cloud", #"/velodyne_points",
+    assembled_cloud_sub_topic: "/camera/depth/color/points", #"voxel_cloud", #"/velodyne_points",
     trajectory_pub_topic: "trajectory",
     odometry_trajectory_pub_topic: "odometry_trajectory",
     full_map_pub_topic: "full_map",
