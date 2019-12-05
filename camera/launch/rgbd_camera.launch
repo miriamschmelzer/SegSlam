@@ -1,0 +1,17 @@
+<launch>
+
+  <arg name="offline"          default="false"/>
+  <include unless="$(arg offline)"
+      file="$(find realsense2_camera)/launch/rs_camera.launch">
+      <arg name="align_depth" value="true"/>
+      <arg name="linear_accel_cov" value="1.0"/>
+      <arg name="unite_imu_method" value="linear_interpolation"/>
+
+      <arg name="filters"                   default="pointcloud"/>
+      <arg name="pointcloud_texture_stream" default="RS2_STREAM_ANY"/>
+      <arg name="enable_color"              default="true"/>
+      <arg name="tf_publish_rate"           default="10"/>
+
+  </include>
+
+</launch>
