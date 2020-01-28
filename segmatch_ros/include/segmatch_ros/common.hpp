@@ -37,7 +37,7 @@ struct SegMatchWorkerParams {
 
   double ratio_of_points_to_keep_when_publishing;
 
-  bool export_segments_and_matches = false;
+  bool export_segments_and_matches; //= false;
 
   bool publish_predicted_segment_matches = false;
 

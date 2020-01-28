@@ -133,7 +133,10 @@ include_directories(
 cs_add_executable(pose_stamped src/publish_pose_stamped_node.cpp)
 cs_add_executable(transform_stamped src/publish_transform_stamped_node.cpp)
 cs_add_executable(tf src/publish_tf_node.cpp)
-
+cs_add_executable(tf_to_transformstamped src/publish_tf_to_transform_stamped_node.cpp)
+cs_add_executable(tf_regularly src/publish_tf_regularly_node.cpp)
+cs_add_executable(transformstamped_to_tf src/publish_transform_stamped_to_tf_node.cpp)
+cs_add_executable(publish_point_stamped src/publish_point_stamped_node.cpp)
 
 #target_link_libraries(PublisherSubscriber ${PROJECT_NAME})
 

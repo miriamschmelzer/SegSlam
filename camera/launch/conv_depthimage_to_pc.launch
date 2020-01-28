@@ -31,11 +31,12 @@
    <remap from="image_raw" to="camera/depth/image"/>
    <remap from="image" to="camera/depth/image_m"/>
  </node>
+  <!-- vermutlich schon von TUM gemacht, weil depth image bereits im topic camera/depth/image statt image_raw (openNi vorgegeben) und m statt mm auch empfohlen für ros -->
 
  <!-- Convert it into a point cloud -->
  <node pkg="nodelet" type="nodelet" name="cloudify"
        args="load depth_image_proc/point_cloud_xyz record_player_manager --no-bond">
-   <remap from="image_rect" to="camera/depth/image_m"/>
+   <remap from="image_rect" to="camera/depth/image"/>
    <remap from="points" to="camera/depth_registered/points"/>
    <remap from="camera_info" to="camera/depth/camera_info"/>
  </node>

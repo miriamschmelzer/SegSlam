@@ -16,6 +16,13 @@ public:
   }
   void subscriberCallback(const typename SubscribeT::ConstPtr& receivedMsg);
 
+
+
+float x_prev;
+float y_prev;
+float z_prev;
+
+
 protected:
   ros::Subscriber subscriberObject;
   ros::Publisher  publisherObject;

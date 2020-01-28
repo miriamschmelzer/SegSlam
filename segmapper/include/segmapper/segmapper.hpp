@@ -24,7 +24,7 @@ struct SegMapperParams {
 
   bool clear_local_map_after_loop_closure = true;
 
-  // Enable publishing a tf transform from world to odom.
+  // Enable publishing a tf transformgetQueuedPoints from world to odom.
   bool publish_world_to_odom;
   std::string world_frame;
   double tf_publication_rate_hz;

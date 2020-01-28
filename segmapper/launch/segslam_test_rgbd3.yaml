@@ -11,10 +11,10 @@ SegMapper: {
   LaserSlamWorker: {
     use_odometry_information: true,
     
-    odom_frame: "world",
-    sensor_frame: "velodyne",
+    odom_frame: "odom",
+    sensor_frame: "openni_rgb_optical_frame",
     
-    assembled_cloud_sub_topic: "/velodyne_points",
+    assembled_cloud_sub_topic: "/camera/depth_registered/points",
     trajectory_pub_topic: "trajectory",
     odometry_trajectory_pub_topic: "odometry_trajectory",
     full_map_pub_topic: "full_map",
@@ -40,7 +40,7 @@ SegMapper: {
   
   ratio_of_points_to_keep_when_publishing: 1.0,
   
-  export_segments_and_matches: true,
+  export_segments_and_matches: false,
   publish_predicted_segment_matches: false,
   
   line_scale_loop_closures: 5.0,
@@ -124,4 +124,3 @@ SegMapper: {
     results_directory: "/tmp/segmap_benchmark/kitti_loop_closure"
   }
 }
-
