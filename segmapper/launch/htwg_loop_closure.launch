@@ -5,16 +5,16 @@
   <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
 
   <!-- Bag file path -->
-  <arg name="bag_file" value="$(env HOME)/Downloads/s2n_3_all.bag"/> <!--my_bagfile_3.bag" -->
+  <arg name="bag_file" value="$(env HOME)/Downloads/match_85.bag"/> <!--s2n_3_all parameterstudie/stuhl_pc" -->
   <rosparam param="LaserMapper/bag_file" subst_value="True">$(arg bag_file)</rosparam>
 
   <!-- Rviz visualization config file path -->
-  <arg name="rviz_config_file" value="$(env HOME)/.segmap/kitti/kitti_loop_closure.rviz"/>
+  <arg name="rviz_config_file" value="$(env HOME)/.rviz/stuhl_parameter.rviz"/>
 
   <!-- ROS parameters -->
   <rosparam>use_sim_time: true</rosparam>  <!-- Programm verwendet Zeitstempel der bagfiles (einkommender Nachrichten) anstatt die des PC's -->
 
-  <rosparam command="load" file="$(find segmapper)/launch/segslam_test_rgbd.yaml"/>
+  <rosparam command="load" file="$(find segmapper)/launch/htwg_loop_closure.yaml"/>
 
 
   <!-- rviz node -->
@@ -25,7 +25,7 @@
 
     <!-- segmapper node -->
   <include file="$(find segmapper)/launch/segmapper.launch">
-    <arg name="icp_configuration_file" value="$(find segmapper)/launch/kitti/icp_dynamic_outdoor.yaml"/>
+    <arg name="icp_configuration_file" value="$(find segmapper)/launch/icp_dynamic_outdoor.yaml"/>
     <arg name="icp_input_filters_file" value="$(find segmapper)/launch/kitti/input_filters_outdoor.yaml"/>
   </include>
 

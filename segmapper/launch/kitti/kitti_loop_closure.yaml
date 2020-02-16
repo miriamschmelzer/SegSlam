@@ -5,7 +5,7 @@ SegMapper: {
   world_frame: "map",
   clear_local_map_after_loop_closure: false,
   
-  publish_world_to_odom: true,
+  publish_world_to_odom: false,
   tf_publication_rate_hz: 10,
   
   LaserSlamWorker: {

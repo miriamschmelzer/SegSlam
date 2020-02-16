@@ -22,8 +22,8 @@ int main(int argc, char** argv)
   while (node.ok()){
     geometry_msgs::TransformStamped transformStampedTmp;
     try {
-      transformStampedTmp = tfBuffer.lookupTransform("world", "kinect", ros::Time(0));
-      //transformStampedTmp = tfBuffer.lookupTransform("odom", "base_link", ros::Time(0));
+      //transformStampedTmp = tfBuffer.lookupTransform("world", "kinect", ros::Time(0));
+      transformStampedTmp = tfBuffer.lookupTransform("odom", "base_link", ros::Time(0));
       geometry_msgs::TransformStamped transformStamped;
       transformStamped.header = transformStampedTmp.header;
       transformStamped.child_frame_id = "";
