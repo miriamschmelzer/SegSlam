@@ -36,7 +36,7 @@
  <!-- Convert it into a point cloud -->
  <node pkg="nodelet" type="nodelet" name="cloudify"
        args="load depth_image_proc/point_cloud_xyz record_player_manager --no-bond">
-   <remap from="image_rect" to="camera/depth/image"/>
+   <remap from="image_rect" to="camera/depth/image_rect_raw"/>
    <remap from="points" to="camera/depth_registered/points"/>
    <remap from="camera_info" to="camera/depth/camera_info"/>
  </node>

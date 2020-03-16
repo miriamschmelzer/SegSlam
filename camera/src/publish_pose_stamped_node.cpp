@@ -7,7 +7,7 @@
 
 
 // TUM ground truth
-template<>
+/*template<>
 void PublisherSubscriber<geometry_msgs::PoseStamped, visualization_msgs::MarkerArray>::subscriberCallback(const visualization_msgs::MarkerArray::ConstPtr& receivedMsg)
 {
   ROS_INFO("Sending the received message on 'pose_imu' topic");
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
   PublisherSubscriber<geometry_msgs::PoseStamped, visualization_msgs::MarkerArray> parrot("pose_imu", "/cortex_marker_array", 1);
   ros::spin();
 }
-
+*/
 // TUM Pioneer
 //template<>
 //void PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Odometry>::subscriberCallback(const nav_msgs::Odometry::ConstPtr& receivedMsg)
@@ -55,6 +55,24 @@ int main(int argc, char **argv)
 //  ros::spin();
 //}
 
+// RS D435i
+template<>
+void PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Odometry>::subscriberCallback(const nav_msgs::Odometry::ConstPtr& receivedMsg)
+{
+  ROS_INFO("Sending the received message on 'pose_imu' topic");
+  geometry_msgs::PoseStamped pose_msg;
+  pose_msg.header = receivedMsg->header;
+  pose_msg.pose = receivedMsg->pose.pose;
+  publisherObject.publish(pose_msg);
+}
+
+int main(int argc, char **argv)
+{
+  // Set up ROS
+  ros::init(argc, argv, "publish_pose_stamped_node");
+  PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Odometry> parrot("pose_imu", "/rtabmap/odom", 1);
+  ros::spin();
+}
 
 // D435
 /*
