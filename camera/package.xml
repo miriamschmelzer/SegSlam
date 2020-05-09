@@ -52,6 +52,8 @@
   <depend>sensor_msgs</depend>
   <depend>visualization_msgs</depend>
   <depend>pcl_catkin</depend>
+  <depend>octomap_world</depend>
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

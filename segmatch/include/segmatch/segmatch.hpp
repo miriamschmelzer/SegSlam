@@ -231,7 +231,7 @@ class SegMatch {
   std::vector<database::MergeEvent> merge_events_;
 
   // Filtering parameters.
-  static constexpr double kCylinderHeight_m = 40;
+  static constexpr double kCylinderHeight_m = 5;
   static constexpr unsigned int kMaxNumberOfCloudToTransfer = 1u;
 
   static constexpr laser_slam::Time kMaxTimeDiffBetweenSegmentAndPose_ns = 20000000000u;

@@ -129,6 +129,7 @@ include_directories(
 #cs_add_library(${PROJECT_NAME}
 #    src/PublisherSubscriber.cpp
 #)
+cs_add_executable(blabla src/test.cpp)
 
 cs_add_executable(pose_stamped src/publish_pose_stamped_node.cpp)
 cs_add_executable(transform_stamped src/publish_transform_stamped_node.cpp)
