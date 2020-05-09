@@ -1,0 +1,15 @@
+<launch>
+
+  <!-- tf_regularly node -->
+  <node name="tf_regularly" pkg="camera" type="tf_regularly">
+  </node>
+
+  <!-- camera node -->
+  <include file="$(find camera)/launch/rs_d435.launch">
+  </include>
+
+  <node pkg="rosserial_python" name="serial_node" type="serial_node.py" output="screen">
+    <param name="port_name" value="/dev/ttyUSB0" />
+    <param name="baud" value="500000" />
+  </node>
+</launch>

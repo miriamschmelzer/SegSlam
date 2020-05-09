@@ -5,7 +5,8 @@
   <arg name="respawn_value" default="false" /> <!-- boolean: true, false -->
 
   <!-- Bag file path -->
-  <arg name="bag_file" value="$(env HOME)/Downloads/match_85.bag"/> <!--s2n_3_all parameterstudie/stuhl_pc" -->
+
+  <arg name="bag_file" value="$(env HOME)/Downloads/p_4_added_pose_trans_pc.bag"/> <!--rgb_segmentierung/vgl/    s2n_3_all parameterstudie/stuhl_pc" -->
   <rosparam param="LaserMapper/bag_file" subst_value="True">$(arg bag_file)</rosparam>
 
   <!-- Rviz visualization config file path -->
@@ -25,8 +26,8 @@
 
     <!-- segmapper node -->
   <include file="$(find segmapper)/launch/segmapper.launch">
-    <arg name="icp_configuration_file" value="$(find segmapper)/launch/icp_dynamic_outdoor.yaml"/>
-    <arg name="icp_input_filters_file" value="$(find segmapper)/launch/kitti/input_filters_outdoor.yaml"/>
+    <arg name="icp_configuration_file" value="$(find segmapper)/launch/kitti/icp_dynamic_outdoor.yaml"/>
+    <arg name="icp_input_filters_file" value="$(find segmapper)/launch/input_filters_indoor.yaml"/>
   </include>
 
 </launch>

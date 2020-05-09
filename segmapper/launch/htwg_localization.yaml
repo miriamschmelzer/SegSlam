@@ -11,10 +11,10 @@ SegMapper: {
   LaserSlamWorker: {
     use_odometry_information: true,
 
-    odom_frame: "odom",
-    sensor_frame: "camera_depth_optical_frame",
+    odom_frame: "world",
+    sensor_frame: "velodyne",
 
-    assembled_cloud_sub_topic: "/camera/depth/color/points",
+    assembled_cloud_sub_topic: "/velodyne_points",
     trajectory_pub_topic: "trajectory",
     odometry_trajectory_pub_topic: "odometry_trajectory",
     full_map_pub_topic: "full_map",

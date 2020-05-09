@@ -12,9 +12,9 @@ SegMapper: {
     use_odometry_information: true,
 
     odom_frame: "odom",
-    sensor_frame: "camera_depth_optical_frame", #"camera_depth_optical_frame   openni_rgb_optical_frame",
+    sensor_frame: "openni_rgb_optical_frame", #"camera_depth_optical_frame   openni_rgb_optical_frame",
 
-    assembled_cloud_sub_topic: "/camera/depth/color/points",#"/camera/depth/color/points     /camera/depth_registered/points",
+    assembled_cloud_sub_topic: "/camera/depth_registered/points",#"/camera/depth/color/points     /camera/depth_registered/points",
     trajectory_pub_topic: "trajectory",
     odometry_trajectory_pub_topic: "odometry_trajectory",
     full_map_pub_topic: "full_map",
@@ -26,6 +26,10 @@ SegMapper: {
     publish_distant_map: false,
     publish_full_map: false,
     map_publication_rate_hz: 3,
+
+    remove_ground_from_local_map: true,
+    #minimum_distance_to_add_pose,
+    ground_distance_to_robot_center_m: 0.3, #0.2, #0.84,
   },
 
   # SegMatchWorker parameters
@@ -35,7 +39,7 @@ SegMapper: {
 
   distance_between_segmentations_m: 0.0,
 
-  distance_to_lower_target_cloud_for_viz_m: 15.0,
+  distance_to_lower_target_cloud_for_viz_m: 5.0,
   align_target_map_on_first_loop_closure: false,
 
   ratio_of_points_to_keep_when_publishing: 1.0,
@@ -51,23 +55,28 @@ SegMapper: {
     boundary_radius_m: 999.0,
     filter_duplicate_segments: true,
     centroid_distance_threshold_m: 0.0,
-    min_time_between_segment_for_matches_s: 0,
+    min_time_between_segment_for_matches_s: 10,
     check_pose_lies_below_segments: false,
 
+    normal_estimator_type: "Incremental", #"Simple"
+    radius_for_normal_estimation_m: 0.06,
+
     LocalMap: {
-      voxel_size_m: 0.05,
-      min_points_per_voxel: 1,
-      radius_m: 5,  # 50
+      voxel_size_m: 0.04 , # 0.05,
+      min_points_per_voxel: 3,
+      radius_m: 2.5,  # 50
       min_vertical_distance_m: -999.0,
       max_vertical_distance_m: 999.0,
       neighbors_provider_type: "KdTree",
     },
 
     Segmenters: {
-      segmenter_type: "IncrementalEuclideanDistance", # IncrementalSmoothnessConstraints, SimpleSmoothnessConstraints
-      min_cluster_size: 100,
+      segmenter_type: "IncrementalEuclideanDistance", # IncrementalSmoothnessConstraints, SimpleSmoothnessConstraints, IncrementalEuclideanDistance
+      min_cluster_size: 60,
       max_cluster_size: 5000,
-      radius_for_growing: 0.05
+      radius_for_growing: 0.06 , # 0.05
+      sc_smoothness_threshold_deg: 14.0,
+      sc_curvature_threshold: 20.0
     },
 
     Descriptors: {
@@ -75,10 +84,10 @@ SegMapper: {
     },
 
     Classifier: {
-     threshold_to_accept_match: 0.60,
-     n_nearest_neighbours: 120,
+     threshold_to_accept_match: 0.6,
+     n_nearest_neighbours: 120, # 120,
      knn_feature_dim: 7,
-     enable_two_stage_retrieval: true,
+     enable_two_stage_retrieval: true,               # verwendet Random Forest, um k-d-tree output (Korrespondenz-Kandidaten) noch zu verfeinern, muss traniniertr werden! deshalb eher raus lassen? (s. SegMatch)
      apply_hard_threshold_on_feature_distance: true,
      feature_distance_threshold: 0.01,
 
@@ -88,10 +97,10 @@ SegMapper: {
     },
 
     GeometricConsistency: {
-      recognizer_type: "Incremental", #"Simple", "Partitioned"
-      resolution: 0.4,
-      min_cluster_size: 2,
-      max_consistency_distance_for_caching: 3.0,
+      recognizer_type: "Incremental", #"Simple", "Partitioned"   Incremental
+      resolution: 0.4, # 0.4,
+      min_cluster_size: 4, # 4,
+      max_consistency_distance_for_caching: 3.0, # 2.0,
     }
   },
   },

@@ -3,7 +3,7 @@ project(camera)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
-add_definitions(-std=c++11 -DBENCHMARK_ENABLE)
+add_definitions(-std=c++14 -DBENCHMARK_ENABLE)
 
 
 ## Find catkin macros and libraries
@@ -137,6 +137,12 @@ cs_add_executable(tf_to_transformstamped src/publish_tf_to_transform_stamped_nod
 cs_add_executable(tf_regularly src/publish_tf_regularly_node.cpp)
 cs_add_executable(transformstamped_to_tf src/publish_transform_stamped_to_tf_node.cpp)
 cs_add_executable(publish_point_stamped src/publish_point_stamped_node.cpp)
+
+cs_add_executable(region_growing_rgb_segmentation src/region_growing_rgb_segmentation.cpp)
+cs_add_executable(segment_rgb src/segment_rgb.cpp)
+cs_add_executable(segment_smoothness_rgb src/segment_smoothness_rgb.cpp)
+cs_add_executable(segment_smothness src/segment_smothness.cpp)
+
 
 #target_link_libraries(PublisherSubscriber ${PROJECT_NAME})
 

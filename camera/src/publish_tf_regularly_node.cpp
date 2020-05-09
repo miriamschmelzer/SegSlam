@@ -59,7 +59,7 @@ int main(int argc, char** argv)
       transform.child_frame_id = "camera_link";
       transform.transform.translation.x = 0.0;
       transform.transform.translation.y = 0.0;
-      transform.transform.translation.z = 0.85;
+      transform.transform.translation.z = 0.85;//0.85;
       transform.transform.rotation.x = 0.0;
       transform.transform.rotation.y = 0.0;
       transform.transform.rotation.z = 0.0;
