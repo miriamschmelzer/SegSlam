@@ -74,7 +74,7 @@ SegMapper: {
 
     Segmenters: {
       segmenter_type: "IncrementalSmoothnessConstraints", # IncrementalSmoothnessConstraints, SimpleSmoothnessConstraints, IncrementalEuclideanDistance
-      use_color_information: true,
+      use_color_information: false,
       color_distance_threshold: 85.0,
       min_cluster_size: 60,
       max_cluster_size: 5000,
