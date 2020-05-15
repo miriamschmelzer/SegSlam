@@ -14,6 +14,7 @@ namespace segmatch {
 // Force the compiler to reuse instantiations provided in incremental_segmenter.cpp
 extern template class IncrementalSegmenter<MapPoint, EuclideanDistance>;
 extern template class IncrementalSegmenter<MapPoint, SmoothnessConstraints>;
+//extern template class IncrementalSegmenter<MapPoint, Rgb>;
 
 //=================================================================================================
 //    IncrementalSegmenter public methods implementation
@@ -136,7 +137,7 @@ inline void IncrementalSegmenter<ClusteredPointT, PolicyName>::growRegionFromSee
     // clusters.
     for (const auto neighbor_index : neighbors_indices) {
       if (neighbor_index != -1 && Policy::canGrowToPoint(
-          policy_params_, normals, seed_queue[current_seed_index], neighbor_index)) {
+          policy_params_, normals, seed_queue[current_seed_index], neighbor_index, cloud[current_seed_index], cloud[neighbor_index])) {
         if (isPointAssignedToCluster(cloud[neighbor_index])) {
           // If the search reaches an existing cluster we link to its partial clusters set.
           if (partial_cluster_id != getClusterId(cloud[neighbor_index])) {

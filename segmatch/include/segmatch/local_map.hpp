@@ -28,6 +28,10 @@ struct LocalMapParameters {
   float max_vertical_distance_m;
   /// \brief Type of the method used for querying nearest neighbors information.
   std::string neighbors_provider_type;
+  /// \brief Use color for generating the local map
+  bool use_color_information;
+  /// \brief Use nearest neighbors search for estimating the voxel color.
+  bool use_nn_search_for_color_estimation;
 };
 
 /// \brief Manages the local point cloud of a robot. Provides methods for inserting, filtering and

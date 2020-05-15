@@ -29,6 +29,13 @@ typedef PointCloud::Ptr PointCloudPtr;
 typedef std::pair<PclPoint, PclPoint> PointPair;
 typedef std::vector<PointPair> PointPairs;
 
+//RGB
+typedef pcl::PointXYZRGB PclPointRgb;
+typedef pcl::PointCloud<PclPointRgb> PointCloudRgb;
+typedef PointCloudRgb::Ptr PointCloudRgbPtr;
+typedef std::pair<PclPointRgb, PclPointRgb> PointPairRgb;
+typedef std::vector<PointPairRgb> PointPairsRgb;
+
 typedef pcl::Normal PclNormal;
 typedef pcl::PointCloud<PclNormal> PointNormals;
 typedef pcl::PointCloud<PclNormal>::Ptr PointNormalsPtr;

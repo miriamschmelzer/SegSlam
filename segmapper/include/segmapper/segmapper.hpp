@@ -62,14 +62,18 @@ class SegMapper {
   void getParameters();
 
   /// The local map for each \c LaserSlamWoker.
-  std::vector<segmatch::LocalMap<segmatch::PclPoint, segmatch::MapPoint>> local_maps_;
+  std::vector<segmatch::LocalMap<segmatch::PclPointRgb, segmatch::MapPoint>> local_maps_;
   std::vector<std::mutex> local_maps_mutexes_;
+  //  RGB
+//  std::vector<segmatch::LocalMap<segmatch::PclPointRgb, segmatch::MapPoint>> local_maps_rgb_;
 
   // Node handle.
   ros::NodeHandle& nh_;
 
   // Publisher of the local maps
   ros::Publisher local_map_pub_;
+  // RGB
+//  ros::Publisher local_map_rgb_pub_;
   static constexpr unsigned int kPublisherQueueSize = 50u;
 
   // Parameters.

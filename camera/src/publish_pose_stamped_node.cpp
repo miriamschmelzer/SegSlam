@@ -86,10 +86,6 @@ int main(int argc, char **argv)
 <<<<<<< HEAD
 }*/
 
-=======
-}
-*/
->>>>>>> bbe6cabd6ac990994c525c86bc51beab87079410
 // TUM Pioneer
 //template<>
 //void PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Odometry>::subscriberCallback(const nav_msgs::Odometry::ConstPtr& receivedMsg)
@@ -110,7 +106,7 @@ int main(int argc, char **argv)
 //}
 
 // RS D435i
-template<>
+/*template<>
 void PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Odometry>::subscriberCallback(const nav_msgs::Odometry::ConstPtr& receivedMsg)
 {
   ROS_INFO("Sending the received message on 'pose_imu' topic");
@@ -127,7 +123,7 @@ int main(int argc, char **argv)
   PublisherSubscriber<geometry_msgs::PoseStamped, nav_msgs::Odometry> parrot("pose_imu", "/rtabmap/odom", 1);
   ros::spin();
 }
-
+*/
 // D435
 /*
 template<>

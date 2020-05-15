@@ -13,7 +13,7 @@
 namespace segmatch {
 
 // Force the compiler to reuse instantiations provided in local_map.cpp
-extern template class LocalMap<PclPoint, MapPoint>;
+extern template class LocalMap<PclPointRgb, MapPoint>;
 
 //=================================================================================================
 //    LocalMap public methods implementation
@@ -22,7 +22,7 @@ extern template class LocalMap<PclPoint, MapPoint>;
 template<typename InputPointT, typename ClusteredPointT>
 LocalMap<InputPointT, ClusteredPointT>::LocalMap(
     const LocalMapParameters& params, std::unique_ptr<NormalEstimator> normal_estimator)
-  : voxel_grid_(params.voxel_size_m, params.min_points_per_voxel)
+  : voxel_grid_(params.voxel_size_m, params.min_points_per_voxel, params.use_color_information, params.use_nn_search_for_color_estimation)
   , radius_squared_m2_(pow(params.radius_m, 2.0))
   , min_vertical_distance_m_(params.min_vertical_distance_m)
   , max_vertical_distance_m_(params.max_vertical_distance_m)
@@ -48,7 +48,7 @@ void LocalMap<InputPointT, ClusteredPointT>::updatePoseAndAddPoints(
     const std::vector<InputCloud>& new_clouds, const laser_slam::Pose& pose) {
   BENCHMARK_BLOCK("SM.UpdateLocalMap");
 
-  std::vector<bool> is_point_removed = updatePose(pose);
+  std::vector<bool> is_point_removed = updatePose(pose);      // gibt voxel indizes zurück, die activ waren und aus dem radius der lokalen karte raus fallen und daher gelöscht werden
   std::vector<int> created_points_indices = addPointsAndGetCreatedVoxels(new_clouds);
   std::vector<int> points_mapping = buildPointsMapping(is_point_removed, created_points_indices);
 
@@ -107,6 +107,7 @@ std::vector<int> LocalMap<InputPointT, ClusteredPointT>::addPointsAndGetCreatedV
 
   // Accumulate clouds and insert them in the voxel grid.
   for (const auto& cloud : new_clouds) merged_cloud += cloud;
+
   std::vector<int> created_points_indices = voxel_grid_.insert(merged_cloud);
 
   // Record local map metrics.

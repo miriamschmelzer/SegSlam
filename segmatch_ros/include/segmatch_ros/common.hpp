@@ -162,6 +162,11 @@ static segmatch::SegMatchParams getSegMatchParams(const ros::NodeHandle& nh,
               params.local_map_params.max_vertical_distance_m);
   nh.getParam(ns + "/LocalMap/neighbors_provider_type",
               params.local_map_params.neighbors_provider_type);
+  nh.getParam(ns + "/LocalMap/use_nn_search_for_color_estimation",
+              params.local_map_params.use_nn_search_for_color_estimation);
+  nh.getParam(ns + "/LocalMap/use_color_information",
+                params.local_map_params.use_color_information);
+
 
   // Descriptors parameters.
   nh.getParam(ns + "/Descriptors/descriptor_types",
@@ -183,6 +188,10 @@ static segmatch::SegMatchParams getSegMatchParams(const ros::NodeHandle& nh,
   // Segmenter parameters.
   nh.getParam(ns + "/Segmenters/segmenter_type",
               params.segmenter_params.segmenter_type);
+  nh.getParam(ns + "/Segmenters/use_color_information",
+              params.segmenter_params.use_color_information);
+  nh.getParam(ns + "/Segmenters/color_distance_threshold",
+              params.segmenter_params.color_distance_threshold);
   nh.getParam(ns + "/Segmenters/min_cluster_size",
               params.segmenter_params.min_cluster_size);
   nh.getParam(ns + "/Segmenters/max_cluster_size",

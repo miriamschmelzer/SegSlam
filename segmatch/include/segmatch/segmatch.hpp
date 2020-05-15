@@ -48,7 +48,7 @@ struct SegMatchParams {
 class SegMatch {
  public:
   /// \brief Type of the local map.
-  typedef LocalMap<PclPoint, MapPoint> LocalMapT;
+  typedef LocalMap<PclPointRgb, MapPoint> LocalMapT;
 
   explicit SegMatch(const SegMatchParams& params);
   SegMatch();

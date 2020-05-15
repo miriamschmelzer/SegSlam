@@ -34,6 +34,10 @@ cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::PointCloud <pcl::PointXYZRGB>::Ptr cloud (new pcl::PointCloud <pcl::PointXYZRGB>);
   pcl::fromROSMsg (*input, *cloud);
 
+
+  std::cout << "test: " << cloud->points[4]  << std::endl;
+  std::cout << "test2: " << cloud->points[4].rgb << cloud->points[4].r << cloud->points[4].g << cloud->points[4].b << std::endl;
+
   pcl::search::Search <pcl::PointXYZRGB>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZRGB>);
 
   pcl::PointCloud <pcl::PointXYZRGB>::Ptr cloud_filtered (new pcl::PointCloud <pcl::PointXYZRGB>);

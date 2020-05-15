@@ -1,5 +1,6 @@
 #ifndef SEGMATCH_REGION_GROWING_POLICY_HPP_
 #define SEGMATCH_REGION_GROWING_POLICY_HPP_
+#include <cmath>
 
 #include "segmatch/common.hpp"
 #include "segmatch/parameters.hpp"
@@ -70,9 +71,12 @@ class RegionGrowingPolicy {
   /// \param point_normals Normal vectors to the points of the point cloud.
   /// \param seed_index Index of the seed point.
   /// \param candidate_index Index of the candidate point.
+  /// \param seed_point Values of the seed point.
+  /// \param candidate_point Values of the candidate point.
   /// \returns True if the candidate point must be included in the seed region, false otherwise.
+  template <typename PointT>
   static bool canGrowToPoint(const PolicyParameters& params, const PointNormals& point_normals,
-                             int seed_index, int candidate_index);
+                             int seed_index, int candidate_index, const PointT& seed_point, const PointT& candidate_point);
 
   /// \brief Rule for preparing the seed indices.
   /// \param point_normals Normal vectors to the points of the point cloud.
@@ -92,13 +96,17 @@ template<>
 class RegionGrowingPolicy<EuclideanDistance> {
  public:
   /// \brief Parameters of the segmentation policy.
-  struct PolicyParameters { };
+  struct PolicyParameters {
+    bool use_color_information;
+    float color_distance_threshold;
+  };
 
   /// \brief Create the parameters for the segmentation policy.
   /// \param params Parameters of the segmenter.
   /// \returns The parameters of the segmentation policy.
   static PolicyParameters createParameters(const SegmenterParameters& params) {
-    return { };
+    return {params.use_color_information,
+          params.color_distance_threshold, };
   }
 
   /// \brief Gets the cluster ID of a target point.
@@ -141,8 +149,31 @@ class RegionGrowingPolicy<EuclideanDistance> {
   /// \param seed_index Index of the seed point.
   /// \param candidate_index Index of the candidate point.
   /// \returns True if the candidate point must be included in the seed region, false otherwise.
+  template <typename PointT>
   static bool canGrowToPoint(const PolicyParameters& params, const PointNormals& point_normals,
-                             int seed_index, int candidate_index) {
+                             int seed_index, int candidate_index, const PointT& seed_point, const PointT& candidate_point) {
+
+    if(params.use_color_information) {
+
+      std::vector<uint8_t> seed_color;
+      seed_color.resize (3, 0);
+      std::vector<uint8_t> candidate_color;
+      candidate_color.resize (3, 0);
+      seed_color[0] = seed_point.r;
+      seed_color[1] = seed_point.g;
+      seed_color[2] = seed_point.b;
+      candidate_color[0] = candidate_point.r;
+      candidate_color[1] = candidate_point.g;
+      candidate_color[2] = candidate_point.b;
+
+      uint16_t difference = 0u;
+      difference += (seed_color[0] - candidate_color[0]) * (seed_color[0] - candidate_color[0]);
+      difference += (seed_color[1] - candidate_color[1]) * (seed_color[1] - candidate_color[1]);
+      difference += (seed_color[2] - candidate_color[2]) * (seed_color[2] - candidate_color[2]);
+
+      if (static_cast<float>(sqrt(difference)) > params.color_distance_threshold)
+        return (false);
+    }
     return true;
   }
 
@@ -171,6 +202,9 @@ class RegionGrowingPolicy<SmoothnessConstraints> {
 
     /// \brief Threshold on the curvature of a point for using it as seed.
     float curvature_threshold;
+
+    bool use_color_information;
+    float color_distance_threshold;
   };
 
   /// \brief Create the parameters for the segmentation policy.
@@ -179,7 +213,9 @@ class RegionGrowingPolicy<SmoothnessConstraints> {
   static PolicyParameters createParameters(const SegmenterParameters& params) {
     return {
       std::cos(params.sc_smoothness_threshold_deg / 180.0f * static_cast<float>(M_PI)),
-      params.sc_curvature_threshold
+      params.sc_curvature_threshold,
+      params.use_color_information,
+      params.color_distance_threshold
     };
   }
 
@@ -223,14 +259,41 @@ class RegionGrowingPolicy<SmoothnessConstraints> {
   /// \param seed_index Index of the seed point.
   /// \param candidate_index Index of the candidate point.
   /// \returns True if the candidate point must be included in the seed region, false otherwise.
+  template <typename PointT>
   static bool canGrowToPoint(const PolicyParameters& params, const PointNormals& point_normals,
-                             const int seed_index, const int candidate_index) {
+                             const int seed_index, const int candidate_index, const PointT& seed_point, const PointT& candidate_point) {
     pcl::Vector3fMapConst seed_normal = point_normals[seed_index].getNormalVector3fMap();
     pcl::Vector3fMapConst candidate_normal = point_normals[candidate_index].getNormalVector3fMap();
 
     // For computational efficiency, use a threshold on the dot product instead of the angle.
     const float dot_product = std::abs(candidate_normal.dot(seed_normal));
-    return dot_product >= params.cosine_angle_threshold;
+
+    if(!(dot_product >= params.cosine_angle_threshold))
+      return (false);
+
+    if(params.use_color_information) {
+
+      std::vector<uint8_t> seed_color;
+      seed_color.resize (3, 0);
+      std::vector<uint8_t> candidate_color;
+      candidate_color.resize (3, 0);
+      seed_color[0] = seed_point.r;
+      seed_color[1] = seed_point.g;
+      seed_color[2] = seed_point.b;
+      candidate_color[0] = candidate_point.r;
+      candidate_color[1] = candidate_point.g;
+      candidate_color[2] = candidate_point.b;
+
+      uint16_t difference = 0u;
+      difference += (seed_color[0] - candidate_color[0]) * (seed_color[0] - candidate_color[0]);
+      difference += (seed_color[1] - candidate_color[1]) * (seed_color[1] - candidate_color[1]);
+      difference += (seed_color[2] - candidate_color[2]) * (seed_color[2] - candidate_color[2]);
+
+      if (static_cast<float>(sqrt(difference)) > params.color_distance_threshold)
+        return (false);
+    }
+
+    return (true);
   }
 
   /// \brief Rule for preparing the seed indices.

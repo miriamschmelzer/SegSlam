@@ -5,11 +5,11 @@
     xMax: inf
     yMin: -inf
     yMax: inf
-    zMin: 0.0  # filtert Punkte in vertikaler Richtung
-    zMax: 2.0
+    zMin: -inf  # filtert Punkte in vertikaler Richtung
+    zMax: inf
     removeInside: 0
 - MaxDistDataPointsFilter:
-    maxDist: 5.0
+    maxDist: 10.0
 #- RandomSamplingDataPointsFilter:
 #    prob: 0.2
 - SurfaceNormalDataPointsFilter:

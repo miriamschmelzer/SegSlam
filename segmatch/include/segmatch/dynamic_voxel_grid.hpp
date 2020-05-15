@@ -50,11 +50,14 @@ class DynamicVoxelGrid {
   /// \param resolution Edge length of the voxels.
   /// \param min_points_per_voxel Minimum number of points that a voxel must contain in order to be
   /// considered \e active.
+  /// \param use_nn_search_for_color_estimation Use nearest neighbor search for estimating the voxel color
   /// \param origin The point around which the grid is centered.
-  DynamicVoxelGrid(const float resolution, const int min_points_per_voxel,
+  DynamicVoxelGrid(const float resolution, const int min_points_per_voxel, bool use_color_information, bool use_nn_search_for_color_estimation,
                    const InputPointT& origin = InputPointT())
     : resolution_(resolution)
     , min_points_per_voxel_(min_points_per_voxel)
+    , use_color_information_(use_color_information)
+    , use_nn_search_for_color_estimation_(use_nn_search_for_color_estimation)
     , origin_(origin)
     , grid_size_(
         resolution * static_cast<float>(n_voxels_x),
@@ -80,6 +83,8 @@ class DynamicVoxelGrid {
   DynamicVoxelGrid(DynamicVoxelGrid&& other)
     : resolution_(other.resolution_)
     , min_points_per_voxel_(other.min_points_per_voxel_)
+    , use_color_information_(other.use_color_information_)
+    , use_nn_search_for_color_estimation_(other.use_nn_search_for_color_estimation_)
     , origin_(std::move(other.origin_))
     , grid_size_(std::move(other.grid_size_))
     , origin_offset_(std::move(other.origin_offset_))
@@ -206,6 +211,8 @@ class DynamicVoxelGrid {
   // Properties of the grid.
   const float resolution_;
   const int min_points_per_voxel_;
+  bool use_color_information_;
+  bool use_nn_search_for_color_estimation_;
   const InputPointT origin_;
 
   // Size of the voxel grid.

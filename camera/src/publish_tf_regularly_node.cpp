@@ -127,9 +127,6 @@ int main(int argc, char** argv)
   return 0;
 }
 
-
-
-<<<<<<< HEAD
 // RS D435i
 
 //int main(int argc, char** argv)
@@ -258,9 +255,8 @@ int main(int argc, char** argv)
 //}
 
 
-/*
-=======
->>>>>>> bbe6cabd6ac990994c525c86bc51beab87079410
+
+
 // TUM
 //int main(int argc, char** argv)
 //{

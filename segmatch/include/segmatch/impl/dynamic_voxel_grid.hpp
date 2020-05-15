@@ -14,13 +14,14 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/PointIndices.h>
+#include <pcl/kdtree/kdtree_flann.h>
 
 #include "segmatch/common.hpp"
 
 namespace segmatch {
 
 // Force the compiler to reuse instantiations provided in dynamic_voxel_grid.cpp
-extern template class DynamicVoxelGrid<PclPoint, MapPoint>;
+extern template class DynamicVoxelGrid<PclPointRgb, MapPoint>;
 
 //=================================================================================================
 //    DynamicVoxelGrid public methods implementation
@@ -173,30 +174,118 @@ inline bool DynamicVoxelGrid<_DVG_TEMPLATE_SPEC_>::createVoxel_(
   auto centroid_map = centroid.getVector3fMap();
   uint32_t old_points_count = 0u;
   uint32_t new_points_count = std::distance(data.points_begin, data.points_end);
+  uint16_t r = 0u;
+  uint16_t g = 0u;
+  uint16_t b = 0u;
+
+//  bool use_rgb_information = true;
+//  bool use_nn_search =  true;
 
   // Add contribution from the existing voxel.
   if (data.old_voxel != nullptr) {
     centroid = *(data.old_voxel->centroid);
+
     old_points_count = data.old_voxel->num_points;
+
+    // Mittelwert RGB
+    if (use_color_information_ && !use_nn_search_for_color_estimation_) {
+
+      r = centroid.r;
+      g = centroid.g;
+      b = centroid.b;
+
+      if (new_points_count != 0u) {
+        r *= old_points_count;
+        g *= old_points_count;
+        b *= old_points_count;
+      }
+    }
+
     if (new_points_count != 0u) {
       centroid_map *= static_cast<float>(old_points_count);
     }
   }
+
   uint32_t total_points_count = old_points_count + new_points_count;
+
+  pcl::PointXYZRGB tmp_point;
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr voxel_points (new pcl::PointCloud<pcl::PointXYZRGB>);
 
   // Add contribution from the new points.
   if (new_points_count != 0u) {
+    if (use_color_information_ && use_nn_search_for_color_estimation_ && (old_points_count != 0u)) {
+      tmp_point.x = centroid.x;
+      tmp_point.y = centroid.y;
+      tmp_point.z = centroid.z;
+      tmp_point.r = centroid.r;
+      tmp_point.g = centroid.g;
+      tmp_point.b = centroid.b;
+
+      voxel_points->push_back(tmp_point);
+    }
+
     for (auto it = data.points_begin; it != data.points_end; ++it) {
+      if (use_color_information_) {
+        if(use_nn_search_for_color_estimation_) {
+          tmp_point.x = it->point.x;
+          tmp_point.y = it->point.y;
+          tmp_point.z = it->point.z;
+          tmp_point.r = it->point.r;
+          tmp_point.g = it->point.g;
+          tmp_point.b = it->point.b;
+          voxel_points->push_back(tmp_point);
+        } else {
+          r += it->point.r;
+          g += it->point.g;
+          b += it->point.b;
+        }
+      }
+
       centroid_map += it->point.getVector3fMap();
     }
+
     centroid_map /= static_cast<float>(total_points_count);
+
+    if(use_color_information_) {
+      if (use_nn_search_for_color_estimation_) {
+        // KNN search for the nearest point to the new centroid and assign its rgb values to the new centroid
+        pcl::KdTreeFLANN<pcl::PointXYZRGB> kdtree;
+        kdtree.setInputCloud (voxel_points);
+        pcl::PointXYZRGB new_centroid;
+        new_centroid.x = centroid.x;
+        new_centroid.y = centroid.y;
+        new_centroid.z = centroid.z;
+        new_centroid.r = 1;
+        new_centroid.g = 1;
+        new_centroid.b = 1;
+
+        int K = 1;
+        std::vector<int> pointIdxNKNSearch(K);
+        std::vector<float> pointNKNSquaredDistance(K);
+        kdtree.nearestKSearch (new_centroid, 1, pointIdxNKNSearch, pointNKNSquaredDistance);
+
+        centroid.r = voxel_points->points[pointIdxNKNSearch[0]].r;
+        centroid.g = voxel_points->points[pointIdxNKNSearch[0]].g;
+        centroid.b = voxel_points->points[pointIdxNKNSearch[0]].b;
+      } else {
+        // calculate the mean values vor r, g and b and assign them to the new centroid
+        r /= total_points_count;
+        g /= total_points_count;
+        b /= total_points_count;
+
+        centroid.r = static_cast<uint8_t>(r);
+        centroid.g = static_cast<uint8_t>(g);
+        centroid.b = static_cast<uint8_t>(b);
+      }
+    }
   }
 
   // Save centroid to the correct point cloud.
   VoxelPointT* centroid_pointer;
   bool is_new_voxel = false;
-  if (total_points_count >= min_points_per_voxel_) {
+  if (total_points_count >= min_points_per_voxel_) {    
     new_active_centroids.push_back(centroid);
+
     centroid_pointer = &new_active_centroids.back();
     is_new_voxel = (old_points_count < min_points_per_voxel_);
   } else {

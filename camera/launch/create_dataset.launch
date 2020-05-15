@@ -5,7 +5,7 @@
   </node>
 
   <!-- camera node -->
-  <include file="$(find camera)/launch/rs_d435.launch">
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
   </include>
 
   <node pkg="rosserial_python" name="serial_node" type="serial_node.py" output="screen">
