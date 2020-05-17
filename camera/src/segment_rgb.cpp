@@ -28,8 +28,6 @@ ros::Publisher pub;
 void
 cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 {
-
-
   // Convert the sensor_msgs/PointCloud2 data to pcl/PointCloud
   pcl::PointCloud <pcl::PointXYZRGB>::Ptr cloud (new pcl::PointCloud <pcl::PointXYZRGB>);
   pcl::fromROSMsg (*input, *cloud);
@@ -59,10 +57,10 @@ cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
   reg.setInputCloud (cloud_filtered);
   reg.setIndices (indices);
   reg.setSearchMethod (tree);
-  reg.setDistanceThreshold (0.05);
+  reg.setDistanceThreshold (0.06);
   reg.setPointColorThreshold (6);
   reg.setRegionColorThreshold (5);
-  reg.setMinClusterSize (100);
+  reg.setMinClusterSize (60);
   reg.setMaxClusterSize (15000);
 
   std::vector <pcl::PointIndices> clusters;

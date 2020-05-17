@@ -188,8 +188,7 @@ inline bool DynamicVoxelGrid<_DVG_TEMPLATE_SPEC_>::createVoxel_(
     old_points_count = data.old_voxel->num_points;
 
     // Mittelwert RGB
-    if (use_color_information_ && !use_nn_search_for_color_estimation_) {
-
+    if (use_color_information_ && (!use_nn_search_for_color_estimation_)) {
       r = centroid.r;
       g = centroid.g;
       b = centroid.b;
@@ -248,6 +247,7 @@ inline bool DynamicVoxelGrid<_DVG_TEMPLATE_SPEC_>::createVoxel_(
 
     if(use_color_information_) {
       if (use_nn_search_for_color_estimation_) {
+
         // KNN search for the nearest point to the new centroid and assign its rgb values to the new centroid
         pcl::KdTreeFLANN<pcl::PointXYZRGB> kdtree;
         kdtree.setInputCloud (voxel_points);
