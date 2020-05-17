@@ -36,6 +36,8 @@ class IncrementalSegmenter : public Segmenter<ClusteredPointT> {
     , min_segment_size_(params.min_cluster_size)
     , max_segment_size_(params.max_cluster_size)
     , policy_params_(Policy::createParameters(params)) {
+
+    region_neighbour_number_ = 100;
   }
 
   /// \brief Cluster the given point cloud, writing the found segments in the segmented cloud. Only
@@ -151,8 +153,19 @@ class IncrementalSegmenter : public Segmenter<ClusteredPointT> {
   const int min_segment_size_;
   const int max_segment_size_;
   typename Policy::PolicyParameters policy_params_;
+  float color_r2r_threshold_;
 
   static constexpr ClusterId kUnassignedClusterId = 0u;
+
+  /** \brief Stores the neighboures for the corresponding segments. */
+  std::vector< std::vector<int> > segment_neighbours_;
+  /** \brief Stores distances for the segment neighbours from segment_neighbours_ */
+  std::vector< std::vector<float> > segment_distances_;
+  std::vector< std::vector<int> > point_neighbours_;
+  /** \brief Stores distances for the point neighbours from point_neighbours_ */
+  std::vector< std::vector<float> > point_distances_;
+  int number_of_segments_;
+  int region_neighbour_number_;
 }; // class IncrementalSegmenter
 
 } // namespace segmatch

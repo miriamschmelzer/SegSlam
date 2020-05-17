@@ -34,7 +34,7 @@ const PointNeighbors KdTreePointsNeighborsProvider<PointT>::getNeighborsOf(
   kd_tree_.radiusSearch((*point_cloud_)[point_index], search_radius, neighbors_indices,
                         neighbors_distances);
 
-  return neighbors_indices;
+  return neighbors_indices,neighbors_distances;
 }
 
 } // namespace segmatch
