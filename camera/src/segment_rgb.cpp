@@ -43,6 +43,7 @@ cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setInputCloud (cloud);
   float voxel_size = 0.04;
+  sor.setMinimumPointsNumberPerVoxel(3);
   sor.setLeafSize (voxel_size, voxel_size, voxel_size);
   sor.filter (*cloud_filtered);
 
@@ -59,9 +60,9 @@ cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
   reg.setSearchMethod (tree);
   reg.setDistanceThreshold (0.06);
   reg.setPointColorThreshold (6);
-  reg.setRegionColorThreshold (5);
+  reg.setRegionColorThreshold (2);
   reg.setMinClusterSize (60);
-  reg.setMaxClusterSize (15000);
+  reg.setMaxClusterSize (5000);
 
   std::vector <pcl::PointIndices> clusters;
   reg.extract (clusters);

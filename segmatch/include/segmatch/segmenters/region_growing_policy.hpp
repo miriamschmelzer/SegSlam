@@ -166,13 +166,19 @@ class RegionGrowingPolicy<EuclideanDistance> {
       candidate_color[1] = candidate_point.g;
       candidate_color[2] = candidate_point.b;
 
-      uint16_t difference = 0u;
+      uint32_t difference = 0u;
       difference += (seed_color[0] - candidate_color[0]) * (seed_color[0] - candidate_color[0]);
       difference += (seed_color[1] - candidate_color[1]) * (seed_color[1] - candidate_color[1]);
       difference += (seed_color[2] - candidate_color[2]) * (seed_color[2] - candidate_color[2]);
 
-      if (static_cast<float>(sqrt(difference)) > params.color_distance_threshold)
-        return (false);
+      if (((seed_index == 862) && (candidate_index == 861)) || ((seed_index == 861) && (candidate_index == 862)) ) {
+        std::cout << "Differenz: " << (int)difference << std::endl;
+        std::cout << "Grenzwert: " << (params.color_distance_threshold * params.color_distance_threshold) << std::endl;
+      }
+
+     if (difference > (params.color_distance_threshold * params.color_distance_threshold)) {
+        return false;
+     }
     }
     return true;
   }
