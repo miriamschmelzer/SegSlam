@@ -192,6 +192,8 @@ static segmatch::SegMatchParams getSegMatchParams(const ros::NodeHandle& nh,
               params.segmenter_params.use_color_information);
   nh.getParam(ns + "/Segmenters/color_distance_threshold",
               params.segmenter_params.color_distance_threshold);
+  nh.getParam(ns + "/Segmenters/region_color_distance_threshold",
+              params.segmenter_params.region_color_distance_threshold);
   nh.getParam(ns + "/Segmenters/min_cluster_size",
               params.segmenter_params.min_cluster_size);
   nh.getParam(ns + "/Segmenters/max_cluster_size",

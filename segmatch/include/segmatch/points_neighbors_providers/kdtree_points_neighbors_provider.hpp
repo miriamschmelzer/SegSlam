@@ -41,6 +41,13 @@ class KdTreePointsNeighborsProvider : public PointsNeighborsProvider<PointT> {
   /// \return Vector containing the indices of the neighbor points.
   const PointNeighbors getNeighborsOf(size_t point_index, float search_radius);
 
+  const PointNeighbors getNeighborsOfPoint(size_t point_index);
+  const std::vector<float> getDistancesOfPoint(size_t point_index);
+
+  PointNeighbors neighbors_;
+  std::vector<float> distances_;
+
+
   /// \brief Returns the underlying PCL search object.
   /// \remarks This function is present only for compatibility with the old segmenters and
   /// should not be used in new code.

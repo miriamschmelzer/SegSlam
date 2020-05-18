@@ -155,6 +155,8 @@ class RegionGrowingPolicy<EuclideanDistance> {
 
     if(params.use_color_information) {
 
+      std::cout << "Farbe bei Growing" << std::endl;
+
       std::vector<uint8_t> seed_color;
       seed_color.resize (3, 0);
       std::vector<uint8_t> candidate_color;
@@ -272,9 +274,10 @@ class RegionGrowingPolicy<SmoothnessConstraints> {
       return (false);
 
     if(params.use_color_information) {
-      std::vector<unsigned int> seed_color;
+
+      std::vector<uint8_t> seed_color;
       seed_color.resize (3, 0);
-      std::vector<unsigned int> candidate_color;
+      std::vector<uint8_t> candidate_color;
       candidate_color.resize (3, 0);
       seed_color[0] = seed_point.r;
       seed_color[1] = seed_point.g;
@@ -283,13 +286,13 @@ class RegionGrowingPolicy<SmoothnessConstraints> {
       candidate_color[1] = candidate_point.g;
       candidate_color[2] = candidate_point.b;
 
-      float difference = 0.0f;
-        difference += (seed_color[0] - candidate_color[0]) * (seed_color[0] - candidate_color[0]);
-        difference += (seed_color[1] - candidate_color[1]) * (seed_color[1] - candidate_color[1]);
-        difference += (seed_color[2] - candidate_color[2]) * (seed_color[2] - candidate_color[2]);
+      uint16_t difference = 0u;
+      difference += (seed_color[0] - candidate_color[0]) * (seed_color[0] - candidate_color[0]);
+      difference += (seed_color[1] - candidate_color[1]) * (seed_color[1] - candidate_color[1]);
+      difference += (seed_color[2] - candidate_color[2]) * (seed_color[2] - candidate_color[2]);
 
-        if (sqrt(difference) > params.color_distance_threshold)
-            return (false);
+      if (static_cast<float>(sqrt(difference)) > params.color_distance_threshold)
+        return (false);
     }
 
     return (true);

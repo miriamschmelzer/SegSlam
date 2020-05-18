@@ -32,6 +32,8 @@ class IncrementalSegmenter : public Segmenter<ClusteredPointT> {
   /// \param params The parameters of the segmenter.
   explicit IncrementalSegmenter(const SegmenterParameters& params)
     : params_(params)
+    , use_color_information_(params.use_color_information)
+    , color_r2r_threshold_(params.region_color_distance_threshold)
     , search_radius_(params.radius_for_growing)
     , min_segment_size_(params.min_cluster_size)
     , max_segment_size_(params.max_cluster_size)
@@ -147,13 +149,20 @@ class IncrementalSegmenter : public Segmenter<ClusteredPointT> {
   // Sets the cluster ID of a point.
   void setClusterId(ClusteredPointT& point, ClusterId cluster_id) const noexcept;
 
+
+  size_t findSegmentNeighbours(PartialClusters& partial_clusters, ClusteredCloud& cloud, PointsNeighborsProvider<ClusteredPointT>& points_neighbors_provider);
+  size_t findRegionsKNN (int index, int nghbr_number, PartialClusters& partial_clusters, ClusteredCloud& cloud, PointsNeighborsProvider<ClusteredPointT>& points_neighbors_provider, std::vector<int>& nghbrs, std::vector<float>& dist);
+
+  size_t applyRegionMergingAlgorithm ( PartialClusters& partial_clusters, ClusteredCloud& cloud, std::vector<std::pair<Id, Id>>& renamed_segments );
+
   // Segmenter settings.
   SegmenterParameters params_;
+  bool use_color_information_;
+  const float color_r2r_threshold_;
   const double search_radius_;
   const int min_segment_size_;
   const int max_segment_size_;
   typename Policy::PolicyParameters policy_params_;
-  float color_r2r_threshold_;
 
   static constexpr ClusterId kUnassignedClusterId = 0u;
 

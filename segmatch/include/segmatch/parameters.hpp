@@ -37,6 +37,7 @@ struct SegmenterParameters {
   std::string segmenter_type = "IncrementalEuclideanDistance";
   bool use_color_information;
   float color_distance_threshold;
+  float region_color_distance_threshold;
   int min_cluster_size;
   int max_cluster_size;
   float radius_for_growing;

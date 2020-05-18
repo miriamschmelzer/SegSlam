@@ -64,18 +64,19 @@ SegMapper: {
     LocalMap: {
       voxel_size_m: 0.04 , # 0.05,
       min_points_per_voxel: 2,
-      radius_m: 3.5,  # 50
+      radius_m: 10.0,  # 50
       min_vertical_distance_m: -999.0,
       max_vertical_distance_m: 999.0,
       neighbors_provider_type: "KdTree",
-      use_color_information: true,
+      use_color_information: false,
       use_nn_search_for_color_estimation: true;
     },
 
     Segmenters: {
       segmenter_type: "IncrementalEuclideanDistance", # IncrementalSmoothnessConstraints, SimpleSmoothnessConstraints, IncrementalEuclideanDistance
-      use_color_information: true,
-      color_distance_threshold: 200.0,
+      use_color_information: false,
+      color_distance_threshold: 441.0,
+      region_color_distance_threshold: 441.0,
       min_cluster_size: 60,
       max_cluster_size: 5000,
       radius_for_growing: 0.06 , # 0.05
