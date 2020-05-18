@@ -63,8 +63,8 @@ SegMapper: {
 
     LocalMap: {
       voxel_size_m: 0.04 , # 0.05,
-      min_points_per_voxel: 9,
-      radius_m: 2.5,  # 50
+      min_points_per_voxel: 3,
+      radius_m: 3.5,  # 50
       min_vertical_distance_m: -999.0,
       max_vertical_distance_m: 999.0,
       neighbors_provider_type: "KdTree",
