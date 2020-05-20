@@ -151,7 +151,7 @@ class IncrementalSegmenter : public Segmenter<ClusteredPointT> {
 
 
   size_t findSegmentNeighbours(PartialClusters& partial_clusters, ClusteredCloud& cloud, PointsNeighborsProvider<ClusteredPointT>& points_neighbors_provider);
-  size_t findRegionsKNN (int index, int nghbr_number, PartialClusters& partial_clusters, ClusteredCloud& cloud, PointsNeighborsProvider<ClusteredPointT>& points_neighbors_provider, std::vector<int>& nghbrs, std::vector<float>& dist);
+  size_t findRegionsKNN (int index, int nghbr_number, PartialClusters& partial_clusters, ClusteredCloud& cloud, PointsNeighborsProvider<ClusteredPointT>& points_neighbors_provider, std::vector<int> point_cluster_ids, std::vector<int>& nghbrs, std::vector<float>& dist);
 
   size_t applyRegionMergingAlgorithm ( PartialClusters& partial_clusters, ClusteredCloud& cloud, std::vector<std::pair<Id, Id>>& renamed_segments );
 

@@ -154,9 +154,6 @@ class RegionGrowingPolicy<EuclideanDistance> {
                              int seed_index, int candidate_index, const PointT& seed_point, const PointT& candidate_point) {
 
     if(params.use_color_information) {
-
-      std::cout << "Farbe bei Growing" << std::endl;
-
       std::vector<uint8_t> seed_color;
       seed_color.resize (3, 0);
       std::vector<uint8_t> candidate_color;

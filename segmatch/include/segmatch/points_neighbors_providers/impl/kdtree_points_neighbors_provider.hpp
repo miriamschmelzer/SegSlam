@@ -21,6 +21,10 @@ void KdTreePointsNeighborsProvider<PointT>::update(
   // Build k-d tree
   point_cloud_ = point_cloud;
   kd_tree_.setInputCloud(point_cloud_);
+//  std::vector<int> neighbor_tmp;
+//  neighbors_ = std::vector<std::vector<int> >(point_cloud_->size(),neighbor_tmp);
+//  std::vector<float> distances_tmp;
+//  distances_ = std::vector<std::vector<float> >(point_cloud_->size(),distances_tmp);
 }
 
 template<typename PointT>
@@ -31,11 +35,12 @@ const PointNeighbors KdTreePointsNeighborsProvider<PointT>::getNeighborsOf(
   // Get the neighbors from the kd-tree.
   std::vector<int> neighbors_indices;
   std::vector<float> neighbors_distances;
+
   kd_tree_.radiusSearch((*point_cloud_)[point_index], search_radius, neighbors_indices,
                         neighbors_distances);
 
-  neighbors_.swap(neighbors_indices);
-  distances_.swap(neighbors_distances);
+  neighbors_ = neighbors_indices;
+  distances_ = neighbors_distances;
 
   return neighbors_indices;
 }
