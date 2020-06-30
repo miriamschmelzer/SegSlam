@@ -307,7 +307,7 @@ inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::findSegmentNeig
   segment_distances_ =  std::vector<std::vector<float> >(number_of_segments_, distances);
 
   std::vector<int> point_cluster_ids;
-  point_cluster_ids.resize(cloud.size(),-1);//.reserve(cloud.size());
+  point_cluster_ids.resize(cloud.size(),-1);
 
   for (int i_seg = 0; i_seg < number_of_segments_; i_seg++)   // durchlaufen aller Cluster
   {
@@ -334,91 +334,30 @@ inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::findRegionsKNN 
   float max_dist = std::numeric_limits<float>::max ();
   distances.resize (number_of_segments_, max_dist);
 
-  //int number_of_points = getClusterSize(partial_clusters, index);
-  //std::vector<size_t>::iterator it;
-
   //loop throug every point in this segment and check neighbours
-  //for (int i_point = 0; i_point < number_of_points; i_point++)
-  //for(it = partial_clusters[index].point_indices.begin(), it < partial_clusters[index].point_indices.end(); it++)
   int number_of_points = partial_clusters[index].point_indices.size();
-
-//  for (int i = 0; i < number_of_segments_; i++) {
-//    for (const auto point_id : partial_cluster.point_indices) {
-//      int point_index = partial_clusters[index].point_indices[i_point];
-//      //std::vector<int> point_neighbours = points_neighbors_provider.getNeighborsOfPoint(point_index);
-//      std::vector<int> point_neighbours = points_neighbors_provider.getNeighborsOf(point_index,search_radius_);
-//      std::vector<float> point_distances = points_neighbors_provider.getDistancesOfPoint(point_index);
-
-//      int number_of_neighbours = static_cast<int> (point_neighbours.size ());
-//      //loop throug every neighbour of the current point, find out to which segment it belongs
-//      //and if it belongs to neighbouring segment and is close enough then remember segment and its distance
-//      for (int i_nghbr = 0; i_nghbr < number_of_neighbours; i_nghbr++)   // durchlauf aller nachbarn eines punktes
-//      {
-//        // find segment
-//        int cluster_index = -1;
-//        //cluster_index = point_labels_[ point_neighbours_[point_index][i_nghbr] ];
-//  //      if (params_.segmenter_type == "IncrementalEuclideanDistance")
-//  //        cluster_index = cloud[ point_neighbours[i_nghbr] ].ed_cluster_id;
-//  //      else if (params_.segmenter_type == "IncrementalSmoothnessConstraints")
-//  //        cluster_index = cloud[ point_neighbours[i_nghbr] ].sc_cluster_id;
-//        cluster_index = getClusterId(cloud[point_neighbours[i_nghbr]]);
-
-//        if ( cluster_index != index ) //index
-//        {
-//          // try to push it to the queue
-//          if (distances[cluster_index] > point_distances[i_nghbr])
-//            distances[cluster_index] = point_distances[i_nghbr];
-//        }
-//      }
-
-//    }
-//  }
-
-
-
-
 
   for(int i_point = 0; i_point < number_of_points; i_point++)      // durchlauf aller Punkte eines clusters
   {
     int point_index = partial_clusters[index].point_indices[i_point];
-    //std::vector<int> point_neighbours = points_neighbors_provider.getNeighborsOfPoint(point_index);
     std::vector<int> point_neighbours = points_neighbors_provider.getNeighborsOf(point_index,search_radius_);
     std::vector<float> point_distances = points_neighbors_provider.getDistancesOfPoint(point_index);
 
-//    std::cout << "Punkt: " << point_index << std::endl;
-
     int number_of_neighbours = static_cast<int> (point_neighbours.size ());
-//    std::cout << "Nachbarn: " << number_of_neighbours << std::endl;
 
     //loop throug every neighbour of the current point, find out to which segment it belongs
     //and if it belongs to neighbouring segment and is close enough then remember segment and its distance
     for (int i_nghbr = 0; i_nghbr < number_of_neighbours; i_nghbr++)   // durchlauf aller nachbarn eines punktes
     {
 
-//      std::cout << "Nachbar " << i_nghbr <<  ": " << point_neighbours[i_nghbr] << std::endl;
       // find segment
       int cluster_index = -1;
-      //cluster_index = point_labels_[ point_neighbours_[point_index][i_nghbr] ];
-//      if (params_.segmenter_type == "IncrementalEuclideanDistance")
-//        cluster_index = cloud[ point_neighbours[i_nghbr] ].ed_cluster_id;
-//      else if (params_.segmenter_type == "IncrementalSmoothnessConstraints")
-//        cluster_index = cloud[ point_neighbours[i_nghbr] ].sc_cluster_id;
-      //cluster_index = getClusterId(cloud[point_neighbours[i_nghbr]]);
-
-//      for (const auto& partial_cluster : partial_clusters) {
-//        for (int point_id = 0; point_id < partial_cluster.point_indices.size(); point_id++) {
-//            if (point_id == point_neighbours[i_nghbr])
-//              cluster_index = point_id;
-//        }
-//      }
       cluster_index = point_cluster_ids[point_neighbours[i_nghbr]];
-//      std::cout << "Cluster-ID Punkt: " <<  index << ", Nachbar: " << cluster_index << std::endl;
 
       if ( cluster_index != index ) //index
       {
         // try to push it to the queue
 
-//        std::cout << "Distanz: " << distances[cluster_index] << ", Punktdistanz: " << point_distances[i_nghbr] << std::endl;
         if (distances[cluster_index] > point_distances[i_nghbr])
 
           distances[cluster_index] = point_distances[i_nghbr];
@@ -462,7 +401,6 @@ inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::applyRegionMerg
   segment_color.resize (number_of_segments_, color);
 
   std::vector<int> num_pts_in_segment;
-  //num_pts_in_segment.resize (number_of_segments_, 0);
 
   for (int i = 0; i < number_of_segments_; i++) {
     for (int i_point = 0; i_point < partial_clusters[i].point_indices.size(); i_point++) {
@@ -472,34 +410,12 @@ inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::applyRegionMerg
     }
   }
 
-
-
-//  for (int i_point = 0; i_point < number_of_points; i_point++)  // durchlaufen jeden Punkt in geclusterter Wolke
-//  {
-//    //int point_index = cloud[i_point];
-//    //int cluster_index = point_labels_[point_index];
-//    uint32_t cluster_index;
-//    //cluster_index = getClusterId(cloud[i_point]);
-//    if (params_.segmenter_type == "IncrementalEuclideanDistance")
-//      cluster_index = cloud[ i_point ].ed_cluster_id;
-//    else if (params_.segmenter_type == "IncrementalSmoothnessConstraints")
-//      cluster_index = cloud[ i_point ].sc_cluster_id;
-
-//    segment_color[cluster_index][0] += cloud[i_point].r;
-//    //std::cout << "Anzahl Punkte: " << (int)num_pts_in_segment[i_point] << std::endl;
-//    std::cout << "cluster_index: " << (int)cluster_index << std::endl;
-//    std::cout << "Rot: " << (int)cloud[i_point].r << std::endl;
-//    std::cout << "Rot Summe: " << (int)segment_color[cluster_index][0] << std::endl;
-//    segment_color[cluster_index][1] += cloud[i_point].g;
-//    segment_color[cluster_index][2] += cloud[i_point].b;
-//    //num_pts_in_segment[cluster_index] += 1;
-//  }
   for (int i_seg = 0; i_seg < number_of_segments_; i_seg++)   // durchlauf aller cluster
   {
     int num_pts_in_segment = int(partial_clusters[i_seg].point_indices.size());
-    segment_color[i_seg][0] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][0]) / static_cast<float> (num_pts_in_segment));//[i_seg]));
-    segment_color[i_seg][1] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][1]) / static_cast<float> (num_pts_in_segment));//[i_seg]));
-    segment_color[i_seg][2] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][2]) / static_cast<float> (num_pts_in_segment));//[i_seg]));
+    segment_color[i_seg][0] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][0]) / static_cast<float> (num_pts_in_segment));
+    segment_color[i_seg][1] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][1]) / static_cast<float> (num_pts_in_segment));
+    segment_color[i_seg][2] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][2]) / static_cast<float> (num_pts_in_segment));
   }
 
   // now it is time to find out if there are segments with a similar color
@@ -535,7 +451,6 @@ inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::applyRegionMerg
     {
       int index = segment_neighbours_[i_seg][i_nghbr];
 
-//      std::cout << "Distanz: " << (int)segment_distances_[i_seg][i_nghbr] << ", Grenze: " << dist_thresh << std::endl;
       if (segment_distances_[i_seg][i_nghbr] > dist_thresh)
       {
         i_nghbr++;
@@ -550,8 +465,6 @@ inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::applyRegionMerg
         difference_tmp += (segment_color[i_seg][2] - segment_color[index][2]) * (segment_color[i_seg][2] - segment_color[index][2]);
 
         difference = static_cast<float>(sqrt(difference_tmp));
-//        std::cout << "Differenz " << i_seg << ", Nachbar:" << i_nghbr << " : " << difference << std::endl;
-        //float color_r2r_threshold = 25.0; // -------------------------------------------------------------------------------------------------------------------------------------------------------------
         if (difference < color_r2r_threshold_)
         {
           segment_labels[index] = curr_homogeneous_region;
@@ -559,225 +472,22 @@ inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::applyRegionMerg
           num_seg_in_homogeneous_region[curr_homogeneous_region] += 1;
 
           if(partial_clusters[i_seg].partial_clusters_set != partial_clusters[index].partial_clusters_set) {
-//            std::cout << "Seg ID: " << (int)partial_clusters[i_seg].partial_clusters_set->cluster_id << ", SID: " << (int)partial_clusters[i_seg].partial_clusters_set->segment_id << ", Cluster: ";
-//            for ( std::unordered_set<size_t>::iterator it = partial_clusters[i_seg].partial_clusters_set->partial_clusters_indices.begin(); it != partial_clusters[i_seg].partial_clusters_set->partial_clusters_indices.end(); ++it) {
-//              std::cout << *it << ", ";
-//            }
-//            std::cout << std::endl;
-
-
-
-//                      //<< partial_clusters[i_seg].partial_clusters_set->partial_clusters_indices  << std::endl;
-//            std::cout << "Nacbar ID: " << (int)partial_clusters[index].partial_clusters_set->cluster_id << ", SID: " << (int)partial_clusters[index].partial_clusters_set->segment_id << ", Cluster: ";
-//            for ( std::unordered_set<size_t>::iterator it = partial_clusters[index].partial_clusters_set->partial_clusters_indices.begin(); it != partial_clusters[index].partial_clusters_set->partial_clusters_indices.end(); ++it) {
-//              std::cout << *it << ", ";
-//            }
-//            std::cout << std::endl;// << partial_clusters[index].partial_clusters_set->partial_clusters_indices  << std::endl;
 
             k++;
             linkPartialClusters(i_seg, index, partial_clusters, renamed_segments);
-//            std::cout << "Linkt!! " << k << std::endl;
-//            std::cout << "Nach link! Seg ID: " << (int)partial_clusters[i_seg].partial_clusters_set->cluster_id << ", SID: " << (int)partial_clusters[i_seg].partial_clusters_set->segment_id << ", Cluster: ";
-//            for ( std::unordered_set<size_t>::iterator it = partial_clusters[i_seg].partial_clusters_set->partial_clusters_indices.begin(); it != partial_clusters[i_seg].partial_clusters_set->partial_clusters_indices.end(); ++it) {
-//              std::cout << *it << ", ";
-//            }
-//            std::cout << std::endl;// << partial_clusters[i_seg].partial_clusters_set->partial_clusters_indices  << std::endl;
-//            std::cout << "Nach link! Nacbar ID: " << (int)partial_clusters[index].partial_clusters_set->cluster_id << ", SID: " << (int)partial_clusters[index].partial_clusters_set->segment_id << ", Cluster: ";
-//            for ( std::unordered_set<size_t>::iterator it = partial_clusters[index].partial_clusters_set->partial_clusters_indices.begin(); it != partial_clusters[index].partial_clusters_set->partial_clusters_indices.end(); ++it) {
-//              std::cout << *it << ", ";
-//            }
-//            std::cout << std::endl;// << partial_clusters[index].partial_clusters_set->partial_clusters_indices  << std::endl;
-
           }
-
-//          linkPartialClusters(i_seg, index, partial_clusters, renamed_segments);
         }
       }
       i_nghbr++;
     }// next neighbour
   }// next segment
-  std::cout << "Grenzwert: " << color_r2r_threshold_ << std::endl;
   segment_color.clear ();
   color.clear ();
-//  int k = 0;
 
-//  for (int i = 0; i < segment_labels.size(); i++) {
-//   // std::cout << "Label: " << segment_labels[i] << std::endl;
-
-//    for (int j = (i+1); j < segment_labels.size(); j++ ) {
-
-//      //  partial_clusters[i].partial_clusters_set->partial_clusters_indices.insert(j);
-//      if (segment_labels[i] == segment_labels[j] ) {
-//        k++;
-//        linkPartialClusters(i, j, partial_clusters, renamed_segments);
-//        std::cout << "Linkt!! " << k << std::endl;
-//      }
-////        partial_clusters[i].partial_clusters_set->partial_clusters_indices.insert(j);
-
-////      }
-//    }
-//  }
-std::cout << "Partielle Cluster neu: " << (int)partial_clusters.size() << std::endl;
   segment_neighbours_.clear();
   segment_distances_.clear();
 
-
-//  std::vector< std::vector<int> > final_segments;
-//  std::vector<int> region;
-//  final_segments.resize (homogeneous_region_number, region);
-//  //final_segments = std::vector<std::vector<int> >(number_of_segments_, neighbours);
-//  for (int i_reg = 0; i_reg < homogeneous_region_number; i_reg++)
-//  {
-//    final_segments[i_reg].resize (num_seg_in_homogeneous_region[i_reg], 0);
-//  }
-
-//  std::vector<int> counter;
-//  counter.resize (homogeneous_region_number, 0);
-//  for (int i_seg = 0; i_seg < number_of_segments_; i_seg++)   // alle Segmente durchlaufen
-//  {
-//    int index = segment_labels[i_seg];
-//    final_segments[ index ][ counter[index] ] = i_seg;
-//    counter[index] += 1;
-//  }
-
-//  std::vector< std::vector< std::pair<float, int> > > region_neighbours;
-//  findRegionNeighbours (region_neighbours, final_segments);
-
-//  int final_segment_number = homogeneous_region_number;
-//  for (int i_reg = 0; i_reg < homogeneous_region_number; i_reg++)
-//  {
-//    if (static_cast<int> (num_pts_in_homogeneous_region[i_reg]) < min_segment_size_)
-//    {
-//      if ( region_neighbours[i_reg].empty () )
-//        continue;
-//      int nearest_neighbour = region_neighbours[i_reg][0].second;
-//      if ( region_neighbours[i_reg][0].first == std::numeric_limits<float>::max () )
-//        continue;
-//      int reg_index = segment_labels[nearest_neighbour];
-//      int num_seg_in_reg = num_seg_in_homogeneous_region[i_reg];
-//      for (int i_seg = 0; i_seg < num_seg_in_reg; i_seg++)
-//      {
-//        int segment_index = final_segments[i_reg][i_seg];
-//        final_segments[reg_index].push_back (segment_index);
-//        segment_labels[segment_index] = reg_index;
-//      }
-//      final_segments[i_reg].clear ();
-//      num_pts_in_homogeneous_region[reg_index] += num_pts_in_homogeneous_region[i_reg];
-//      num_pts_in_homogeneous_region[i_reg] = 0;
-//      num_seg_in_homogeneous_region[reg_index] += num_seg_in_homogeneous_region[i_reg];
-//      num_seg_in_homogeneous_region[i_reg] = 0;
-//      final_segment_number -= 1;
-
-//      int nghbr_number = static_cast<int> (region_neighbours[reg_index].size ());
-//      for (int i_nghbr = 0; i_nghbr < nghbr_number; i_nghbr++)
-//      {
-//        if ( segment_labels[ region_neighbours[reg_index][i_nghbr].second ] == reg_index )
-//        {
-//          region_neighbours[reg_index][i_nghbr].first = std::numeric_limits<float>::max ();
-//          region_neighbours[reg_index][i_nghbr].second = 0;
-//        }
-//      }
-//      nghbr_number = static_cast<int> (region_neighbours[i_reg].size ());
-//      for (int i_nghbr = 0; i_nghbr < nghbr_number; i_nghbr++)
-//      {
-//        if ( segment_labels[ region_neighbours[i_reg][i_nghbr].second ] != reg_index )
-//        {
-//          std::pair<float, int> pair;
-//          pair.first = region_neighbours[i_reg][i_nghbr].first;
-//          pair.second = region_neighbours[i_reg][i_nghbr].second;
-//          region_neighbours[reg_index].push_back (pair);
-//        }
-//      }
-//      region_neighbours[i_reg].clear ();
-//      std::sort (region_neighbours[reg_index].begin (), region_neighbours[reg_index].end (), comparePair);
-//    }
-//  }
-
-//  assembleRegions (num_pts_in_homogeneous_region, static_cast<int> (num_pts_in_homogeneous_region.size ()));
-
-//  number_of_segments_ = final_segment_number;
 }
-
-//template<typename ClusteredPointT, typename PolicyName>
-//inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::assembleRegions (std::vector<unsigned int>& num_pts_in_region, int num_regions)
-//{
-//  clusters_.clear ();
-//  pcl::PointIndices segment;
-//  clusters_.resize (num_regions, segment);
-//  for (int i_seg = 0; i_seg < num_regions; i_seg++)   // Platz in Vector anlegen
-//  {
-//    clusters_[i_seg].indices.resize (num_pts_in_region[i_seg]);
-//  }
-
-//  std::vector<int> counter;
-//  counter.resize (num_regions, 0);
-//  int point_number = static_cast<int> (indices_->size ());
-//  for (int i_point = 0; i_point < point_number; i_point++)  // Alle Punkte durchlaufen
-//  {
-//    int point_index = (*indices_)[i_point];
-//    int index = point_labels_[point_index];
-//    index = segment_labels_[index];
-//    clusters_[index].indices[ counter[index] ] = point_index;
-//    counter[index] += 1;
-//  }
-
-//  // now we need to erase empty regions
-//  if (clusters_.empty ())
-//    return;
-
-//  std::vector<pcl::PointIndices>::iterator itr1, itr2;
-//  itr1 = clusters_.begin ();
-//  itr2 = clusters_.end () - 1;
-
-//  while (itr1 < itr2)
-//  {
-//    while (!(itr1->indices.empty ()) && itr1 < itr2)
-//      itr1++;
-//    while (  itr2->indices.empty ()  && itr1 < itr2)
-//      itr2--;
-
-//    if (itr1 != itr2)
-//      itr1->indices.swap (itr2->indices);
-//  }
-
-//  if (itr2->indices.empty ())
-//    clusters_.erase (itr2, clusters_.end ());
-//}
-
-
-//template<typename ClusteredPointT, typename PolicyName>
-//inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::findRegionNeighbours (std::vector< std::vector< std::pair<float, int> > >& neighbours_out, std::vector< std::vector<int> >& regions_in)
-//{
-//  int region_number = static_cast<int> (regions_in.size ());
-//  neighbours_out.clear ();
-//  neighbours_out.resize (region_number);
-
-//  for (int i_reg = 0; i_reg < region_number; i_reg++)
-//  {
-//    int segment_num = static_cast<int> (regions_in[i_reg].size ());
-//    neighbours_out[i_reg].reserve (segment_num * region_neighbour_number_);
-//  for (int i_seg = 0; i_seg < segment_num; i_seg++)
-//    {
-//      int curr_segment = regions_in[i_reg][i_seg];
-//      int nghbr_number = static_cast<int> (segment_neighbours_[curr_segment].size ());
-//      std::pair<float, int> pair;
-//      for (int i_nghbr = 0; i_nghbr < nghbr_number; i_nghbr++)
-//      {
-//        int segment_index = segment_neighbours_[curr_segment][i_nghbr];
-//        if ( segment_distances_[curr_segment][i_nghbr] == std::numeric_limits<float>::max () )
-//          continue;
-//        if (segment_labels_[segment_index] != i_reg)
-//        {
-//          pair.first = segment_distances_[curr_segment][i_nghbr];
-//          pair.second = segment_index;
-//          neighbours_out[i_reg].push_back (pair);
-//        }
-//      }// next neighbour
-//    }// next segment
-//    std::sort (neighbours_out[i_reg].begin (), neighbours_out[i_reg].end (), comparePair);
-//  }// next homogeneous region
-//}
-
 
 template<typename ClusteredPointT, typename PolicyName>
 inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::getClusterSize(

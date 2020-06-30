@@ -44,10 +44,6 @@ SegMapper::SegMapper(ros::NodeHandle& n) : nh_(n) {
     local_map_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(
         laser_slam_worker_params_.local_map_pub_topic,
         kPublisherQueueSize);
-    // RGB
-//    local_map_rgb_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(
-//        "local_map_rgb",
-//        kPublisherQueueSize);
   }
 
   // Setup the laser_slam workers.
@@ -65,9 +61,6 @@ SegMapper::SegMapper(ros::NodeHandle& n) : nh_(n) {
     }
     local_maps_.emplace_back(
         segmatch_worker_params_.segmatch_params.local_map_params, std::move(normal_estimator));
-    // RGB
-//    local_maps_rgb_.emplace_back(
-//        segmatch_worker_params_.segmatch_params.local_map_params, std::move(normal_estimator));
 
     // TODO rm offset when updating mr_foundry.
     const unsigned int offset = 0;
@@ -189,18 +182,6 @@ void SegMapper::segMatchThread() {
     // Get the queued points.
     //auto new_points = laser_slam_workers_[track_id]->getQueuedPoints();
     auto new_points = laser_slam_workers_[track_id]->getQueuedPointsRgb();
-    //printf("HHHHHHHHHHHAAAAAAAAALLLLLLLLLLLLLLOOOOOO %f", new_points[4]);
-
-//    PointCloudRgb merged_cloud;
-//    for (const auto& cloud : new_points) merged_cloud += cloud;
-//    sensor_msgs::PointCloud2 msg;
-//    laser_slam_ros::convert_to_point_cloud_2_msg(
-//        merged_cloud,
-//        params_.world_frame, &msg);
-//    pcl::toROSMsg(merged_cloud,msg);
-//    msg.header.frame_id = params_.world_frame;
-//    msg.header.stamp = ros::Time::now();
-//    local_map_pub_.publish(msg);
 
     if (new_points.empty()) {
       BENCHMARK_STOP_AND_IGNORE("SM");
