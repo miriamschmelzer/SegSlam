@@ -1,5 +1,5 @@
 - FixStepSamplingDataPointsFilter:
-    startStep: 2
+    startStep: 9
 - BoundingBoxDataPointsFilter:
     xMin: -inf
     xMax: inf
@@ -9,7 +9,7 @@
     zMax: inf
     removeInside: 0
 - MaxDistDataPointsFilter:
-    maxDist: 3.5
+    maxDist: 2.5
 #- RandomSamplingDataPointsFilter:
 #    prob: 0.2
 - SurfaceNormalDataPointsFilter:

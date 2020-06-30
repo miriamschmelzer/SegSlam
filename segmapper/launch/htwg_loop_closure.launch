@@ -6,7 +6,7 @@
 
   <!-- Bag file path -->
 
-  <arg name="bag_file" value="$(env HOME)/Downloads/jacke_rgb.bag"/> <!--rgb_segmentierung/vgl/    s2n_3_all parameterstudie/stuhl_pc" -->
+  <arg name="bag_file" value="$(env HOME)/Downloads/schirm_int_15.bag"/> <!--rgb_segmentierung/vgl/    s2n_3_all parameterstudie/stuhl_pc" -->
   <rosparam param="LaserMapper/bag_file" subst_value="True">$(arg bag_file)</rosparam>
 
   <!-- Rviz visualization config file path -->
