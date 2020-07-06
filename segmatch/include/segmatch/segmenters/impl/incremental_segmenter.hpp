@@ -29,6 +29,9 @@ void IncrementalSegmenter<ClusteredPointT, PolicyName>::segment(
   BENCHMARK_BLOCK("SM.Worker.Segmenter");
   renamed_segments.clear();
 
+  number_of_segments_ = 0;
+
+  std::cout << "cluster_ids_to_segment_ids.size(): " << cluster_ids_to_segment_ids.size() << std::endl;
   // Build partial cluster sets for the old clusters.
   PartialClusters partial_clusters(cluster_ids_to_segment_ids.size());
   for (size_t i = 0u; i < partial_clusters.size(); i++) {
@@ -36,13 +39,28 @@ void IncrementalSegmenter<ClusteredPointT, PolicyName>::segment(
     partial_clusters[i].partial_clusters_set->segment_id = cluster_ids_to_segment_ids[i];
   }
 
+  std::cout << "Partielle Cluster alt: " << (int)partial_clusters.size() << std::endl;
+
+
   // Find old clusters and new partial clusters.
   growRegions(normals, is_point_modified, cluster_ids_to_segment_ids, cloud,
               points_neighbors_provider, partial_clusters, renamed_segments);
 
+  std::cout << "Partielle Cluster: " << (int)partial_clusters.size() << std::endl;
+  number_of_segments_ = static_cast<int>(partial_clusters.size());
+  std::cout << "number_of_segments_: " << number_of_segments_ << std::endl;
+
+  if (use_color_information_) {
+    // Merge RGB Clusters
+    findSegmentNeighbours (partial_clusters, cloud, points_neighbors_provider);
+    applyRegionMergingAlgorithm (partial_clusters, cloud, renamed_segments);
+  }
+
   // Compute and write cluster indices.
   const size_t num_clusters = assignClusterIndices(partial_clusters);
   writeClusterIndicesToCloud(partial_clusters, cloud);
+
+  std::cout << "Cluster: " << num_clusters << std::endl;
 
   // Extract the valid segment and add them to the segmented cloud.
   addSegmentsToSegmentedCloud(cloud, partial_clusters, num_clusters, cluster_ids_to_segment_ids,
@@ -137,7 +155,7 @@ inline void IncrementalSegmenter<ClusteredPointT, PolicyName>::growRegionFromSee
     // clusters.
     for (const auto neighbor_index : neighbors_indices) {
       if (neighbor_index != -1 && Policy::canGrowToPoint(
-          policy_params_, normals, seed_queue[current_seed_index], neighbor_index, cloud[current_seed_index], cloud[neighbor_index])) {
+          policy_params_, normals, seed_queue[current_seed_index], neighbor_index, cloud[seed_queue[current_seed_index]], cloud[neighbor_index])) {
         if (isPointAssignedToCluster(cloud[neighbor_index])) {
           // If the search reaches an existing cluster we link to its partial clusters set.
           if (partial_cluster_id != getClusterId(cloud[neighbor_index])) {
@@ -279,6 +297,196 @@ inline void IncrementalSegmenter<ClusteredPointT, PolicyName>::addSegmentsToSegm
 
   // Delete the segments that we did not keep.
   segmented_cloud.deleteSegmentsExcept(segment_ids_to_keep);
+}
+
+template<typename ClusteredPointT, typename PolicyName>
+inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::findSegmentNeighbours(PartialClusters& partial_clusters, ClusteredCloud& cloud, PointsNeighborsProvider<ClusteredPointT>& points_neighbors_provider) {
+  std::vector<int> neighbours;
+  std::vector<float> distances;
+  segment_neighbours_ =  std::vector<std::vector<int> >(number_of_segments_, neighbours);
+  segment_distances_ =  std::vector<std::vector<float> >(number_of_segments_, distances);
+
+  std::vector<int> point_cluster_ids;
+  point_cluster_ids.resize(cloud.size(),-1);
+
+  for (int i_seg = 0; i_seg < number_of_segments_; i_seg++)   // durchlaufen aller Cluster
+  {
+    for (int i = 0; i < partial_clusters[i_seg].point_indices.size(); i++) {
+      int point_index =  partial_clusters[i_seg].point_indices[i];
+      point_cluster_ids[point_index] = i_seg;
+    }
+  }
+
+  for (int i_seg = 0; i_seg < number_of_segments_; i_seg++)   // durchlaufen aller Cluster
+  {
+    std::vector<int> nghbrs;
+    std::vector<float> dist;
+    findRegionsKNN (i_seg, region_neighbour_number_, partial_clusters, cloud, points_neighbors_provider, point_cluster_ids, nghbrs, dist);
+    segment_neighbours_[i_seg].swap (nghbrs);
+    segment_distances_[i_seg].swap (dist);
+  }
+}
+
+template<typename ClusteredPointT, typename PolicyName>
+inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::findRegionsKNN (int index, int nghbr_number, PartialClusters& partial_clusters, ClusteredCloud& cloud, PointsNeighborsProvider<ClusteredPointT>& points_neighbors_provider, std::vector<int> point_cluster_ids, std::vector<int>& nghbrs, std::vector<float>& dist)
+{
+  std::vector<float> distances;
+  float max_dist = std::numeric_limits<float>::max ();
+  distances.resize (number_of_segments_, max_dist);
+
+  //loop throug every point in this segment and check neighbours
+  int number_of_points = partial_clusters[index].point_indices.size();
+
+  for(int i_point = 0; i_point < number_of_points; i_point++)      // durchlauf aller Punkte eines clusters
+  {
+    int point_index = partial_clusters[index].point_indices[i_point];
+    std::vector<int> point_neighbours = points_neighbors_provider.getNeighborsOf(point_index,search_radius_);
+    std::vector<float> point_distances = points_neighbors_provider.getDistancesOfPoint(point_index);
+
+    int number_of_neighbours = static_cast<int> (point_neighbours.size ());
+
+    //loop throug every neighbour of the current point, find out to which segment it belongs
+    //and if it belongs to neighbouring segment and is close enough then remember segment and its distance
+    for (int i_nghbr = 0; i_nghbr < number_of_neighbours; i_nghbr++)   // durchlauf aller nachbarn eines punktes
+    {
+
+      // find segment
+      int cluster_index = -1;
+      cluster_index = point_cluster_ids[point_neighbours[i_nghbr]];
+
+      if ( cluster_index != index ) //index
+      {
+        // try to push it to the queue
+
+        if (distances[cluster_index] > point_distances[i_nghbr])
+
+          distances[cluster_index] = point_distances[i_nghbr];
+      }
+    }
+  }// next point
+
+  std::priority_queue<std::pair<float, int> > cluster_neighbours;    // sortiert Nachbarn eines Clusters so, dass das weiteste entfernte ganz vorne steht und dann absteigend
+  for (int i_seg = 0; i_seg < number_of_segments_; i_seg++)
+  {
+    if (distances[i_seg] < max_dist)
+    {
+      cluster_neighbours.push (std::make_pair (distances[i_seg], i_seg) );
+      if (int (cluster_neighbours.size ()) > nghbr_number)
+        cluster_neighbours.pop ();
+    }
+  }
+
+  int size = std::min<int> (static_cast<int> (cluster_neighbours.size ()), nghbr_number);
+  nghbrs.resize (size, 0);
+  dist.resize (size, 0);
+  int counter = 0;
+  while ( !cluster_neighbours.empty () && counter < nghbr_number )
+  {
+    dist[counter] = cluster_neighbours.top ().first;
+    nghbrs[counter] = cluster_neighbours.top ().second;
+    cluster_neighbours.pop ();
+    counter++;
+  }
+}
+
+template<typename ClusteredPointT, typename PolicyName>
+inline size_t IncrementalSegmenter<ClusteredPointT, PolicyName>::applyRegionMergingAlgorithm ( PartialClusters& partial_clusters, ClusteredCloud& cloud,std::vector<std::pair<Id, Id>>& renamed_segments)
+{
+  int number_of_points = static_cast<int> (cloud.size());
+
+  // calculate color of each segment
+  std::vector< std::vector<uint32_t> > segment_color;
+  std::vector<uint32_t> color;
+  color.resize (3, 0);
+  segment_color.resize (number_of_segments_, color);
+
+  std::vector<int> num_pts_in_segment;
+
+  for (int i = 0; i < number_of_segments_; i++) {
+    for (int i_point = 0; i_point < partial_clusters[i].point_indices.size(); i_point++) {
+      segment_color[i][0] += cloud[i_point].r;
+      segment_color[i][1] += cloud[i_point].g;
+      segment_color[i][2] += cloud[i_point].b;
+    }
+  }
+
+  for (int i_seg = 0; i_seg < number_of_segments_; i_seg++)   // durchlauf aller cluster
+  {
+    int num_pts_in_segment = int(partial_clusters[i_seg].point_indices.size());
+    segment_color[i_seg][0] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][0]) / static_cast<float> (num_pts_in_segment));
+    segment_color[i_seg][1] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][1]) / static_cast<float> (num_pts_in_segment));
+    segment_color[i_seg][2] = static_cast<uint32_t> (static_cast<float> (segment_color[i_seg][2]) / static_cast<float> (num_pts_in_segment));
+  }
+
+  // now it is time to find out if there are segments with a similar color
+  // and merge them together
+  std::vector<unsigned int> num_pts_in_homogeneous_region;
+  std::vector<int> num_seg_in_homogeneous_region;
+
+  std::vector<int> segment_labels;
+  segment_labels.resize (number_of_segments_, -1);
+
+  float dist_thresh = search_radius_; //distance_threshold_;
+  int homogeneous_region_number = 0;
+  int curr_homogeneous_region = 0;
+
+  int k = 0;
+
+  for (int i_seg = 0; i_seg < number_of_segments_; i_seg++)     // jedes Segment durchgehen
+  {
+    curr_homogeneous_region = 0;
+    if (segment_labels[i_seg] == -1)     // Nummer der aktuellen homogenen Region setzen
+    {
+      segment_labels[i_seg] = homogeneous_region_number;
+      curr_homogeneous_region = homogeneous_region_number;
+      num_pts_in_homogeneous_region.push_back (int(partial_clusters[i_seg].point_indices.size()));//(num_pts_in_segment[i_seg]);
+      num_seg_in_homogeneous_region.push_back (1);
+      homogeneous_region_number++;
+    }
+    else
+      curr_homogeneous_region = segment_labels[i_seg];
+
+    unsigned int i_nghbr = 0;
+    while ( i_nghbr < region_neighbour_number_ && i_nghbr < segment_neighbours_[i_seg].size () )   // alle Segmentnachbarn durchgehen
+    {
+      int index = segment_neighbours_[i_seg][i_nghbr];
+
+      if (segment_distances_[i_seg][i_nghbr] > dist_thresh)
+      {
+        i_nghbr++;
+        continue;
+      }
+      if ( segment_labels[index] == -1 )
+      {
+        float difference;
+        uint16_t difference_tmp = 0u;
+        difference_tmp += (segment_color[i_seg][0] - segment_color[index][0]) * (segment_color[i_seg][0] - segment_color[index][0]);
+        difference_tmp += (segment_color[i_seg][1] - segment_color[index][1]) * (segment_color[i_seg][1] - segment_color[index][1]);
+        difference_tmp += (segment_color[i_seg][2] - segment_color[index][2]) * (segment_color[i_seg][2] - segment_color[index][2]);
+
+        difference = static_cast<float>(sqrt(difference_tmp));
+        if (difference < color_r2r_threshold_)
+        {
+          segment_labels[index] = curr_homogeneous_region;
+          num_pts_in_homogeneous_region[curr_homogeneous_region] += partial_clusters[i_seg].point_indices.size();//num_pts_in_segment[index];
+          num_seg_in_homogeneous_region[curr_homogeneous_region] += 1;
+
+          if(partial_clusters[i_seg].partial_clusters_set != partial_clusters[index].partial_clusters_set) {
+
+            k++;
+            linkPartialClusters(i_seg, index, partial_clusters, renamed_segments);
+          }
+        }
+      }
+      i_nghbr++;
+    }// next neighbour
+  }// next segment
+  segment_color.clear ();
+  color.clear ();
+
+  segment_neighbours_.clear();
+  segment_distances_.clear();
+
 }
 
 template<typename ClusteredPointT, typename PolicyName>

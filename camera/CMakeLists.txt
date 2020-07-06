@@ -143,6 +143,7 @@ cs_add_executable(region_growing_rgb_segmentation src/region_growing_rgb_segment
 cs_add_executable(segment_rgb src/segment_rgb.cpp)
 cs_add_executable(segment_smoothness_rgb src/segment_smoothness_rgb.cpp)
 cs_add_executable(segment_smothness src/segment_smothness.cpp)
+cs_add_executable(stereo_pointcloud src/stereo_pointcloud.cpp)
 
 
 #target_link_libraries(PublisherSubscriber ${PROJECT_NAME})

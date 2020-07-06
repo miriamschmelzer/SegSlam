@@ -34,9 +34,21 @@ const PointNeighbors OctreePointsNeighborsProvider<PointT>::getNeighborsOf(
   octree_.radiusSearch((*point_cloud_)[point_index], search_radius, neighbors_indices,
                         neighbors_distances);
 
+  neighbors_.swap(neighbors_indices);
+  distances_.swap(neighbors_distances);
+
   return neighbors_indices;
 }
 
+template<typename PointT>
+const PointNeighbors OctreePointsNeighborsProvider<PointT>::getNeighborsOfPoint(const size_t point_index) {
+  return neighbors_;
+}
+
+template<typename PointT>
+const std::vector<float> OctreePointsNeighborsProvider<PointT>::getDistancesOfPoint(const size_t point_index) {
+  return distances_;
+}
 } // namespace segmatch
 
 #endif // SEGMATCH_IMPL_OCTREE_POINTS_NEIGHBORS_PROVIDER_HPP_

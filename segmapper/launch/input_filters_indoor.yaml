@@ -9,7 +9,7 @@
     zMax: inf
     removeInside: 0
 - MaxDistDataPointsFilter:
-    maxDist: 10.0
+    maxDist: 2.5
 #- RandomSamplingDataPointsFilter:
 #    prob: 0.2
 - SurfaceNormalDataPointsFilter:

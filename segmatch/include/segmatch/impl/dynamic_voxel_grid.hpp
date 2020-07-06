@@ -178,9 +178,6 @@ inline bool DynamicVoxelGrid<_DVG_TEMPLATE_SPEC_>::createVoxel_(
   uint16_t g = 0u;
   uint16_t b = 0u;
 
-//  bool use_rgb_information = true;
-//  bool use_nn_search =  true;
-
   // Add contribution from the existing voxel.
   if (data.old_voxel != nullptr) {
     centroid = *(data.old_voxel->centroid);
