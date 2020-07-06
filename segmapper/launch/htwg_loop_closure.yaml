@@ -56,12 +56,12 @@ SegMapper: {
       use_nn_search_for_color_estimation: false;
     },
     Segmenters: {
-      segmenter_type: "IncrementalEuclideanDistance", # IncrementalSmoothnessConstraints, SimpleSmoothnessConstraints, IncrementalEuclideanDistance
+      segmenter_type: "IncrementalSmoothnessConstraints", # IncrementalSmoothnessConstraints, SimpleSmoothnessConstraints, IncrementalEuclideanDistance
       use_color_information: false,
       color_distance_threshold: 8.5,
       region_color_distance_threshold: 8.5,
       min_cluster_size: 60,
-      max_cluster_size: 10000,
+      max_cluster_size: 5000,
       radius_for_growing: 0.06, # 0.05
       sc_smoothness_threshold_deg: 14.0,
       sc_curvature_threshold: 20.0
@@ -71,7 +71,7 @@ SegMapper: {
     },
     Classifier: {
      threshold_to_accept_match: 0.6,
-     n_nearest_neighbours: 120, # 120,
+     n_nearest_neighbours: 5, #120, # 120,
      knn_feature_dim: 7,
      enable_two_stage_retrieval: true,               # verwendet Random Forest, um k-d-tree output (Korrespondenz-Kandidaten) noch zu verfeinern, muss traniniertr werden! deshalb eher raus lassen? (s. SegMatch)
      apply_hard_threshold_on_feature_distance: true,
@@ -82,9 +82,9 @@ SegMapper: {
     },
     GeometricConsistency: {
       recognizer_type: "Incremental", #"Simple", "Partitioned"   Incremental
-      resolution: 0.4, # 0.4,
-      min_cluster_size: 14, # 4,
-      max_consistency_distance_for_caching: 3.0, # 2.0,
+      resolution: 0.1, #0.4, # 0.4,
+      min_cluster_size: 4, #14, # 4,
+      max_consistency_distance_for_caching: 0.2, #3.0, # 2.0,
     }
   },
   },
