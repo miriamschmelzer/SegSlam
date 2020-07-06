@@ -1,0 +1,15 @@
+[0] Config.pm:340> INFO - This is Biber 2.4
+[0] Config.pm:343> INFO - Logfile is 'report.blg'
+[36] biber:287> INFO - === Do Mai 28, 2020, 13:34:34
+[131] Biber.pm:348> INFO - Reading 'report.bcf'
+[269] Utils.pm:147> WARN - Warning: Found biblatex control file version 3.5, expected version 3.0
+[271] Biber.pm:742> INFO - Found 37 citekeys in bib section 0
+[279] Biber.pm:3151> INFO - Processing section 0
+[311] Biber.pm:3308> INFO - Looking for bibtex format file './bib/report.bib' for section 0
+[372] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[424] bibtex.pm:974> INFO - Found BibTeX data source './bib/report.bib'
+[699] Utils.pm:147> WARN - The field 'pages' in entry 'Rabbani2006' cannot be null, deleting it
+[699] Utils.pm:147> WARN - The field 'pages' in entry 'Olson2007' cannot be null, deleting it
+[700] Utils.pm:147> WARN - The field 'pages' in entry 'Ioffe2015' cannot be null, deleting it
+[700] Utils.pm:147> WARN - The field 'pages' in entry 'Brock2016' cannot be null, deleting it
+[700] Utils.pm:147> WARN - The field 'pages' in entry 'Eppstein2010' cannot be null, deleting it

@@ -1,0 +1,166 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.1}Motivation}{2}{section.1.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.2}Ziel der Arbeit}{4}{section.1.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.3}Gliederung und Aufbau}{5}{section.1.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}Umgebungswahrnehmung mit Punktwolken}{7}{chapter.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.1}Sensorik zur Umgebungswahrnehmung (Kopp)}{8}{section.2.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1.1}LiDAR}{9}{subsection.2.1.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1.2}RGB-D Kamera}{11}{subsection.2.1.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.2}Registrierung}{14}{section.2.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.1}Problemdefinition}{14}{subsection.2.2.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.2}ICP}{16}{subsection.2.2.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.3}Segmentierung}{17}{section.2.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3.1}Segmentierung in der Bildverarbeitung}{18}{subsection.2.3.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Pixel-basierte Segmentierung}{18}{subsection.2.3.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Kanten-basierte Segmentierung}{19}{figure.caption.17}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Regionen-basierte Segmentierung}{20}{figure.caption.17}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3.2}Segmentierung von Punktwolken}{20}{subsection.2.3.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Euklidisches Clustern}{21}{subsection.2.3.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Fl\IeC {\"a}chen-basiertes Clustern}{22}{algorithm.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.4}$k$-d-B\IeC {\"a}ume}{24}{section.2.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.4.1}Aufbau}{25}{subsection.2.4.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.4.2}N\IeC {\"a}chster-Nachbar-Suche}{27}{subsection.2.4.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.5}Hauptkomponentenanalyse (Schmelzer)}{29}{section.2.5}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.6}PCL}{30}{section.2.6}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}SLAM}{31}{chapter.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.1}Lokalisierung}{31}{section.3.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.2}Problemdefinition SLAM}{34}{section.3.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.3}Kartentypen}{36}{section.3.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.4}L\IeC {\"o}sungsans\IeC {\"a}tze}{37}{section.3.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4.1}EKF SLAM}{38}{subsection.3.4.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4.2}Partikelfilter SLAM}{41}{subsection.3.4.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4.3}Graph-basiertes SLAM}{44}{subsection.3.4.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.5}Place Recognition}{48}{section.3.5}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.6}ROS}{48}{section.3.6}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}K\IeC {\"u}nstliche neuronale Netze}{51}{chapter.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.1}Aufbau und Funktionsweise}{51}{section.4.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.2}Training}{55}{section.4.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}Convolutional Neural Networks}{58}{section.4.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.4}Autoencoder}{61}{section.4.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}SegMap-Algorithmus}{63}{chapter.5}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.1}Aufbau}{65}{section.5.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.2}Filterung und Registrierung}{65}{section.5.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.3}Dynamisches Voxelgitter}{66}{section.5.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.4}Inkrementelle Normal- und Kr\IeC {\"u}mmungssch\IeC {\"a}tzung}{68}{section.5.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.5}Inkrementelle Segmentierung durch Region Growing}{70}{section.5.5}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.6}Deskriptor}{73}{section.5.6}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.7}Kartierung}{77}{section.5.7}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.8}Lokalisierung}{77}{section.5.8}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.9}Inkrementeller Pose-Graph SLAM Solver}{81}{section.5.9}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.10}Herausarbeitung semantischer Informationen}{84}{section.5.10}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.11}Erweiterung um Segmentierung mit Farbwerten}{85}{section.5.11}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.11.1}Filterung und Registrierung}{85}{subsection.5.11.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.11.2}Dynamisches Voxelgitter}{86}{subsection.5.11.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.11.3}Segmentierung}{88}{subsection.5.11.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {6}Setup der Experimente}{95}{chapter.6}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.1}Kamera (Kopp)}{96}{section.6.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.1.1}Kriterien}{96}{subsection.6.1.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.1.2}Intel Realsense D435}{97}{subsection.6.1.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.1.3}Erweiterung des Sichtfelds}{98}{subsection.6.1.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.2}Odometrie (Kopp)}{100}{section.6.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.3}Ausstattung des Computers}{103}{section.6.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.4}Datens\IeC {\"a}tze (Schmelzer)}{103}{section.6.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.4.1}TUM Datensatz}{104}{subsection.6.4.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.4.2}Eigener Datensatz}{106}{subsection.6.4.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {7}Parametrierung f\IeC {\"u}r Indoor Anwendung}{109}{chapter.7}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {7.1}Vorverarbeitung der Punktwolke}{110}{section.7.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {7.2}Segmentierung}{111}{section.7.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.2.1}Beschreibung}{111}{subsection.7.2.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.2.2}Euklidische Segmentierung}{116}{subsection.7.2.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.2.3}Segmenterung auf Basis von Fl\IeC {\"a}chen}{121}{subsection.7.2.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.2.4}Farbliche Segmentierung}{123}{subsection.7.2.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.2.5}Vergleich der Segmentierungsmethoden}{126}{subsection.7.2.5}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {7.3}Place Recognition}{131}{section.7.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {8}Training des Deskriptors}{137}{chapter.8}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {8.1}Trainingsdaten}{137}{section.8.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {8.2}Validierung mit Euklidische Segmentierung}{139}{section.8.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {8.3}Validierung mit Fl\IeC {\"a}chen-basierter Segmentierung}{142}{section.8.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {9}Evaluierung der Ergebnisse und Fazit}{145}{chapter.9}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {9.1}Ergebnisse}{145}{section.9.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {9.2}Ausblick}{147}{section.9.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {9.3}Fazit der Arbeit}{148}{section.9.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Referenzen}{149}{appendix*.83}% 
+\contentsfinish 

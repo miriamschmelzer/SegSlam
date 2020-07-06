@@ -1,0 +1,38 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {6.1}{\ignorespaces Technische Daten verschiedener RGB-D Kameras mit Ros-Anbindung\relax }}{98}{table.caption.49}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {7.1}{\ignorespaces Parameter zur Vorverarbeitung der Punktwolke\relax }}{110}{table.caption.58}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {7.2}{\ignorespaces Parameter f\IeC {\"u}r die Segmentierung sowohl anhand euklidischer Abst\IeC {\"a}nde mit und ohne Ber\IeC {\"u}cksichtigung der Farbwerte als auch basierend auf Fl\IeC {\"a}chen\relax }}{117}{table.caption.65}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {7.3}{\ignorespaces Statistik (Mittelwert und Standardabweichung) \IeC {\"u}ber die generierten Segmente bei der euklidischen Segmentierung der einzelnen Datens\IeC {\"a}tze\relax }}{127}{table.caption.71}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {7.4}{\ignorespaces Statistik (Mittelwert und Standardabweichung) \IeC {\"u}ber die generierten Segmente bei der Fl\IeC {\"a}chen-basierten Segmentierung der einzelnen Datens\IeC {\"a}tze\relax }}{127}{table.caption.71}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {7.5}{\ignorespaces Statistik (Mittelwert und Standardabweichung) \IeC {\"u}ber die generierten Segmente sowie der Laufzeiten aller drei Segmentierungsmethoden bei der Anwendung auf den gleichen Datensatz\relax }}{129}{table.caption.72}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {7.6}{\ignorespaces Parameter zur Place Recognition\relax }}{134}{table.caption.74}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {8.1}{\ignorespaces Vergleich der verwendeten Trainingsdaten sowie der erzielten Ergebnisse des Trainings des bereits trainierten Deskriptors sowie der selbst trainierten Deskriptoren\relax }}{139}{table.caption.79}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {table}{\numberline {8.2}{\ignorespaces Parameter zur Place Recognition sowohl mit der euklidischen als auch mit der der Fl\IeC {\"a}chen-basierten Segmentierung \relax }}{139}{table.caption.80}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\contentsfinish 

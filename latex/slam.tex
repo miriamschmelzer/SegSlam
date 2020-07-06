@@ -1,0 +1,550 @@
+\chapter[SLAM (Kopp)]{SLAM}
+%
+%Anschließend wird das SLAM-Problem erläutert sowie verschiedene gängige Lösungsansätze vorgestellt. 
+
+Um eine mobile Roboterplattform sinnvoll einsetzen zu können, muss diese sich in einer bestimmten Umgebung kollisionsfrei und effizient bewegen können. Dazu wird sowohl eine genaue Karte der Umgebung als auch die Position des Roboters in dieser Karte benötigt. 
+
+In manchen Fällen ist keine Karte gegeben und lediglich die genaue Position des Roboters bekannt. Diese kann im Außenbereich beispielsweise über GPS oder ähnliche geostationäre oder Land-basierte Positioniersysteme bis auf geringe Ab\-wei\-chung\-en genau ermittelt werden. In diesen Fällen kann eine Karte der Umgebung abhängig von der Position des Roboters erstellt werden, wenn dieser mit ausreichend  Sensorik ausgestattet ist. Der Roboter tastet mit Hilfe der Sensorik die Umgebung ab und spei\-chert die so erhaltenen Informationen über die Umgebung anhand der relativen Lage zur aktuellen Position des Roboters in einer Karte ab. 
+
+Ist jedoch keine Information über die Position des Roboters verfügbar und nur eine genaue Karte der Umgebung gegeben, muss der Roboter in der Lage sein seine Position in der Karte zu ermitteln. Dies wird Lokalisierung genannt. 
+
+\section[Lokalisierung (Kopp)]{Lokalisierung}
+\label{sec:Lokalisierung}
+
+In einer bekannten Umgebung kann der Roboter sich anhand seiner Sensorik und den in der Karte enthaltenen Informationen zurechtfinden. Um die von der Sensorik gelieferten Daten mit den Informationen in der Karte vergleichen zu können, muss der Roboter dieselbe Art von Merkmalen aus den Sensordaten extrahieren, die in der Karte ge\-spei\-chert sind. Durch den Vergleich der Position dieser Merkmale mit denen in der Karte kann der Roboter sich lokalisieren. Die Techniken die dazu eingesetzt werden variieren je nach verwendetem Sensortyp. Merkmale können reale, auch von Menschen zur Orientierung nutzbare markante Punkte oder Objekte darstellen, wie zum Beispiel Häuserecken, Bäume, Straßenlaternen, Fenster, Türen oder Wände. Merkmale, die Roboter zur Navigation verwenden, werden als Landmarken bezeichnet. Diese müssen eindeutig, stationär und wiedererkennbar sein \cite{thrun2005}.
+
+Bei der Lokalisierung schätzt der Roboter anhand seiner Bewegungsinformationen seine Pose, die sich aus der Position und der Orientierung zusammensetzt. Die Bewegungsinformationen werden z.B. über die Steuerbefehle des Roboters oder Sensoren im Vortriebsystem, wie beispielsweise Radenkoder, ermittelt. Diese Art der La\-ge\-schät\-zung wird als Odometrie bezeichnet. 
+
+Die Odometrie-Daten sind jedoch immer fehlerbehaftet. Das ist darauf zurückzuführen, dass sowohl in der Mechanik, als auch in der Sensorik Fehler vorhanden sind, beispielsweise durch leicht unterschiedliche Raddurchmesser, Schlupf, Unebenheiten der Fahrbahn oder verrauschte Messungen der Radencoder. Je größer die vom Roboter zurückgelegte Strecke, desto größer werden diese Abweichungen, da sich die Fehler aufsummieren.  Abbildung \ref{fig:Odomfehler1} und \ref{fig:Odomfehler2} zeigen Beispiele, wie Fehler in der Odometrie über Unebenheiten im Boden oder unterschiedliche Raddurchmesser entstehen. 
+
+\begin{figure}
+	\centering
+	\begin{minipage}[t]{0.7\linewidth}
+		\centering
+		\includegraphics[width = \linewidth]{Bilder/Odometrie_fehler.png}
+		\caption{Beispiel für die Entstehung von Odometriefehlern durch Unebenheiten im Boden}
+		\label{fig:Odomfehler1}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.25\linewidth}
+		\centering
+		\includegraphics[width = \linewidth]{Bilder/Odometrie_fehler_3.png}
+		\caption{Beispiel für die Entstehung von Odometriefehlern durch unterschiedliche Raddurchmesser}
+		\label{fig:Odomfehler2}
+	\end{minipage}
+\end{figure}
+
+Abbildung \ref{fig:Lokalisierung} zeigt in türkis dargestellt einen Roboter, der sich durch eine Umgebung bewegt von der eine genaue Karte zur Verfügung steht. Durch den grauen Roboter wird die Posenschätzung anhand der Odometrie repräsentiert. Mit Hilfe der Sensorik werden Landmarken in der Umgebung wahrgenommen. Wie in (a) zu sehen ist, kann anhand der relativen Lage der gemessenen Landmarken zur Roboterpose und der tatsächlichen Positionen der Landmarken in der Karte die Abweichung zwischen den Positionen der Landmarken ermittelt werden. In (b) wird die Roboterpose entsprechend der Abweichung der Positionen der Landmarken korrigiert und somit die Lokalisierung verbessert. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{Bilder/Lokalisierung_in_Karte.png}
+	\caption{Lokalisierung bei bestehender Karte}
+	\label{fig:Lokalisierung}
+\end{figure}
+
+Es wird zwischen lokaler und globaler Lokalisierung unterschieden \cite{thrun2005}. Bei der lokalen Lokalisierung ist die initiale Roboterpose bekannt. Es werden lediglich die Roboterposen anhand der bekannten Landmarkenpositionen korrigiert. Es wird von Positionstracking gesprochen. Bei der globalen Lokalisierung ist die Roboterpose zum Startzeitpunkt jedoch nicht bekannt. Anhand der aufeinander folgenden Roboterposen muss auf die Lage in der Karte geschlossen werden. Hierbei wird die Lokalisierung in jedem Schritt genauer, da der Roboter zusätzliche Informationen über seine Umgebung sammelt. Zusätzlich gibt es das Problem des entführten Roboters. Dies stellt eine Erweiterung der globalen Lokalisierung dar. Hierbei wird der Roboter während der Lokalisierung an einen anderen Ort versetzt. Die Fähigkeit eines globalen Lokalisierungsalgorithmus Lokalisierungsfehler zu erkennen und zu verbessern wird mit Hilfe des entführten Roboter-Problems verifiziert. 
+
+%Es wird zwischen aktiver und passiver Lokalisierung unterschieden \cite{thrun2005}. Bei der passiven Lokalisierung werden die Bewegungen des Roboters nicht durch den Lokalisierungsalgorithmus beeinflusst, wie beispielsweise bei von Menschen gesteuerten Robotern. Bei der aktiven Lokalisierung greift der Lokalisierungsalgorithmus jedoch in die Steuerung des Roboters ein. 
+%zz.B. wenn Roboter an bestimmter Position in der Karte einen Gegenstand abholen soll bzw eine bestimmte Position in der Karte ansteuern solls
+%
+%Eine Anwendung der aktiven Lokalisierung ist die autonome Exploration einer Umgebung. Der Roboter versucht dabei, noch nicht kartografierte Gebiete anzusteuern und zu erkunden.
+
+Entscheidend bei der Auswahl eines geeigneten Lokalisierungsalgorithmus ist die gegebene Umgebung richtig einzuordnen. Grundsätzlich unterscheidet man statische und dynamischen Umgebungen. Bei statischen Umgebungen sind die meisten Objekte stets an der selben Position wie z.B. Häuser, Bäume und Türen. Die Lokalisierung in einer solchen Umgebung ist verhältnismäßig einfach. Aufwändiger dagegen ist die Lokalisierung in dynamischen Umgebungen. Hier können potentielle Orientierungspunkte sich mit der Zeit verändern, oder ganz wegfallen. In indoor-Umgebungen können dies Gegenstände wie z.B. Stühle, Mülleimer oder andere leichte Möbelstücke sein. In outdoor-Umgebungen stellen Autos und andere Fortbewegungsmittel dynamische Lokalisierungspunkte dar. Auch Menschen sind für die Lokalisierung, sowohl indoor als auch outdoor, sehr problematisch.
+
+%sowie den zurückgelegten Pfad, der als Trajektorie bezeichnet wird
+
+%\section{SLAM}
+%
+%Existiert weder eine Karte der Umgebung, noch eine Positionsinformation, so wird von der SLAM-Problematik gesprochen. SLAM steht für Simultaneous Localization and Mapping. Hierbei muss eine Karte der Umgebung erstellt werden während der Roboter sich gleichzeitig in dieser lokalisiert. Es stellt eine der großen Problemstellungen der mobilen Robotik dar und ist daher ein großes Feld der Forschung.
+%
+%\subsection{Problemdefinition}
+
+\section[Problemdefinition SLAM (Kopp)]{Problemdefinition SLAM}
+
+Existiert weder eine Karte der Umgebung, noch eine Positionsinformation, so wird von der SLAM-Problematik gesprochen. SLAM steht für Simultaneous Localization and Mapping. Hierbei muss eine Karte der Umgebung erstellt werden während der Roboter sich gleichzeitig in dieser lokalisiert. Es stellt eine der großen Problemstellungen der mobilen Robotik dar und ist daher ein großes Feld der Forschung.
+
+Fährt ein Roboter durch eine Umgebung, sind sowohl die Steuerbefehle $u_{1:T}=\{u_1,u_2,...,u_T\}$ des Roboters als auch die Beobachtungen $z_{1:T}=\{z_1,z_2,...,z_T\}$ der Umgebung vom Beginn seiner Fahrt bis zum Zeitpunkt $T$ bekannt. Gesucht ist die Karte $m$ der Umgebung des Roboters sowie seine Trajektorie, die sich aus den Posen $x_{0:T}=\{x_0,x_1,...x_T\}$ des Roboters während der gesamten Fahrt zusammensetzt.
+
+In den bekannten Größen kommt es zu Unsicherheiten, da sowohl die Ausführung der Steuerbefehle, beispielsweise durch Schlupf oder Unebenheiten der Fahrbahn, als auch die Beobachtungen durch Rauschen fehlerbehaftet sind. So kann die zurückgelegte Strecke des Roboters sowie die Entfernungen zu Landmarken nie exakt be\-stimmt werden. Daher stellen alle Werte nur Schätzungen der Realität dar. Um möglichst sinnvoll damit Rechnen zu können, werden die Größen als Wahrscheinlichkeiten betrachtet. Die gesuchte Trajektorie $x_{0:T}$ des Roboters kann somit über die bedingte Wahrscheinlichkeit $p(x_{0:T},m|z_{1:T},u_{1:T})$ beschrieben werden. Bedingte Wahrscheinlichkeit bedeutet, dass die Schätzungen der Trajektorie $x_{0:T}$ und der Karte $m$ unter der Bedingung der Beobachtungen $z_{1:T}$ und der Steuerbefehle $u_{1:T}$ erfolgen. 
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\linewidth]{Bilder/Gauss_Roboter.png}
+\caption{Darstellung der Normalverteilung über die Roboterposition}
+\label{fig:Gauss}
+\end{figure}
+
+Die Schätzungen der Roboterposen $ x $ werden häufig als Normalverteilung $ \mathcal{N}(\mu,\Sigma) $ angegeben. Diese ist charakterisiert durch einen Mittelwert $ \mu $ und eine Kovarianzmatrix $ \Sigma $. Der Mittelwert stellt die Posenschätzung dar und wird in Form eines Vektors angegeben, der die gleiche Dimension hat wie die Roboterpose $ x $. Die Kovarianzmatrix ist eine symmetrische quadratische Matrix, die die Unsicherheit der Posenschätzung angibt. Sie hat die quadrierte Dimension der Roboterpose $ x $. Auf Abbildung \ref{fig:Gauss} ist eine beispielhafte Normalverteilung zur eindimensionalen Posenschätzung eines Roboters graphisch dargestellt.  
+
+Abbildung \ref{fig:SLAM} (a) stellt das SLAM-Problem graphisch dar. Die türkis hinterlegten Elemente repräsentieren die unbekannten Positionen $x_{0:T}$ zu jedem Zeitpunkt $t$ sowie die Karte $m$. Die hellen Elemente stellen die bekannten Größen, Steuerbefehle $u_{1:t}$ und die Beobachtungen $z_{1:t}$, dar. Wird neben der Karte $ m $ die gesamte Trajektorie $x_{0:t}$, des Roboters seit dem Startpunkt gesucht, so spricht man von Full SLAM. Mathematisch ist die a-posteriori Wahrscheinlichkeit $ p(x_{0:t},m|z_{1:t},u_{1:t}) $ gesucht. In der Praxis ist jedoch oft auch nur die aktuelle Position $x_t$ von Interesse, also $p (x_{t},m|z_{1:t},u_{1:t})$. Dies wird als Online SLAM bezeichnet. Das grafische Modell dazu ist in Abbildung \ref{fig:SLAM} (b) dargestellt.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Bilder/SLAM_Graphisch.png}
+\caption{Graphische Darstellung des (a) Full SLAM sowie (b) des Online SLAM Problems }
+\label{fig:SLAM}
+\end{figure}
+   			
+Zur Schätzung der Bewegung des Roboters wird ein Bewegungsmodell $ p(x_t \vert u_t,x_{t-1}) $ verwendet.  Dieses beschreibt die Wahrscheinlichkeitsverteilung über die Roboterpose $ x_t $ zum Zeitpunkt $ t $ anhand des bekannten Steuerungsbefehls $ u_t $ und der geschätzten Pose $ x_{t-1} $ des vorherigen Zeitpunktes $ t-1 $. Die Modellierung ist abhängig von den kinematischen Eigenschaften der Roboterplattform. 
+
+Entsprechend werden auch die erwarteten Beobachtungen modelliert. Das Beobachtungsmodell $ p(z_t \vert x_t,m) $ gibt die Wahrscheinlichkeitsverteilung an, dass zum Zeitpunkt $ t $ von der bekannten Pose $ x_t $ eine Umgebungsbeobachtung $ z_t $ gemacht wird abhängig von der bekannten Karte $ m $. Das Beobachtungsmodell wird abhängig von der verwendeten Sensorik zu Umgebungswahrnehmung sowie der in der Karte verwendeten Umgebungsrepräsentation erstellt. Auf die Umgebungsrepräsentation wird in Kapitel \ref{sec:Karten} eingegangen.  	
+   			
+Mit Betrachtung der Ungenauigkeiten bei der Posenschätzung und der Umgebungsbeobachtung wird  die Problematik des SLAM noch deutlicher. Abbildung \ref{fig:Ungenauigkeiten} veranschaulicht, dass der Roboter bei jedem Zeitschritt eine steigende Unsicherheit über seine Position aufweist. Da die Umgebungsmessungen auch Fehlerbehaftet sind, addieren sich diese Fehler und wachsen gemeinsam. Durch eine mehrfache Observierung derselben Landmarken kann die Unsicherheit der Posenschätzung verringert werden. Dies ist auf der Abbildung in der dritten Roboterpose durch die gestrichelte Linie dargestellt. 
+
+Die eindeutige Unterscheidung verschiedener Umgebungsmerkmale ist eine maß\-geb\-li\-che Bedingung, um SLAM erfolgreich durchführen zu können. Eine falsche Zuordnung von Observationen kann zu katastrophalen Fehlinterpretationen führen. 
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\linewidth]{Bilder/Slam_fehler.png}
+\caption{Graphische Darstellung der Ungenauigkeiten in der Roboterpose sowie der Positionen der Landmarken }
+\label{fig:Ungenauigkeiten}
+\end{figure}
+%
+%Daher ist die Feature Extraktion ein Maßgeblicher teil der Slam Problematik. Diese Arbeit beschäftigt sich mit einem Ansatz welcher die Zuordnungssicherheit gewährleisten soll.\\
+%
+
+In \cite{thrun2005} wird von Landmarken mit bekannter und unbekannter Zuordnung bzw. Korrespondenz gesprochen. Bekannte Korrespondenz bedeutet, dass eine Landmarke, die einmal erkannt und abgespeichert wurde, bei einer erneuten Observation, auch aus anderen Blickwinkeln, sicher zugeordnet werden kann. Bekannte Zuordnungen werden in SLAM-Algorithmen durch Vorverarbeitungsschritte zur Verfügung gestellt. Jedoch können auch unbekannte Zuordnungen direkt durch SLAM-Algorithmen verarbeitet werden.
+
+
+%Die Landmarken werden als Landmarken mit bekannter Zuordnung und unbekannter Zuordnung unterschieden. SLAM Algorithmen müssen unbekannte zurodnungen versuchen zuordenbar zu machen.\\
+
+
+%In [TFB06] wird zwischen Landmarken mit bekannter Zuordnung und Landmarken
+% mit unbe- kannter Zuordnung unterschieden.
+%Bekannte Zuordnung (Korrespondenz) bedeutet, dass Landmarken, die einmal erkannt wurden, immer wieder auch aus anderen Positionen wiedererkannt und zugeordnet werden können. Die- se Zuordnung muss in einem Vorverarbeitungsschritt stattfinden, da die SLAM Algorithmen die- se Informationen für ihre Berechnungen verwendet.
+%Eine unbekannte Zuordnung (Korrespondenz) verlangt diese Vorverarbeitung nicht und der SLAM Algorithmus versucht in seiner Abarbeitung selbst eine Zuordnung zu schätzen und handelt auf- grund dieser Schätzung. Dabei kennt der SLAM die Positionen der identifizierten Features und schätzt die Zuordnung anhand ihrer Nähe zueinander. Weswegen ein zu geringer Abstand zwi- schen den Features zu einer erhöhten Anzahl an Fehlzuordnungen führt, was die Positionsver- besserung verhindert.
+
+\section[Kartentypen (Kopp)]{Kartentypen}
+\label{sec:Karten}
+
+Je nach erforderlicher Anwendung, gibt es im Allgemeinen drei verschiedene Ansätze die Umgebung in Form einer Karte zu repräsentieren. Es gibt zudem viele Unterformen, die für unterschiedliche SLAM-Verfahren genutzt werden. Im Grunde jedoch basieren alle auf den folgenden drei grundlegenden Kartentypen. Die Auswahl eines geeigneten Kartentyps ist abhängig von der verwendeten Form der Umgebungsrepräsentation, beispielsweise durch Keypoints oder Objekte. 
+
+\textbf{Feature-Karten} stellen eine Umgebungsrepräsentation dar, bei der die Position eines Merkmals, auch Feature genannt, in einem zwei- oder dreidimensionalen Koordinatensystem der Karte gespeichert wird. Die Positionen werden dabei meist als Normalverteilung dargestellt \cite{Stachniss2016}. Je nach verwendetem SLAM-Verfahren werden unterschiedliche Speicherstrukturen gewählt, wie z.B. Baumstrukturen. In Abbildung \ref{fig:karte}(a) ist eine Feature-Karte exemplarisch dargestellt.
+
+\textbf{Rasterkarten} teilen die Umgebung zunächst in ein regelmäßiges Raster mit einer definierten Kantenlänge auf. Die Rastergröße sollte kleiner gewählt werden als der Abstand, der zwischen zwei Messungen der Umgebung zurückgelegt wird. Jedes Feld kann dabei drei verschiedene Zustände annehmen. Es wird zwischen belegten, unbelegten und unbekannten Feldern unterschieden. Die unbekannten Felder stellen hierbei Felder dar, die nicht durch die Sensorik abgetastet wurden, beispielsweise durch eine versperrte Sicht. Abbildung \ref{fig:karte}(b) zeigt eine Rasterkarte bei der dunkelblau belegte, hellblau unbelegte und türkis unbekannte Felder symbolisiert werden. 
+
+\textbf{Graphen-basierte Karten} bauen ihre Umgebung in Form eines Graphen auf. Dieser besteht aus Knoten, die durch Kanten miteinander verbunden sind. Knoten können z.B. Roboter- oder Feature-Positionen sein, die Kanten stellen deren Beziehungen zueinander dar. Der Graph in Abbildung \ref{fig:karte}(c) stellt Roboterposen und die Positionen der dabei observierten Features als Knoten dar, die Kanten bilden deren Beziehungen ab.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Bilder/Karten_2.png}
+\caption{Karten}
+\label{fig:karte}
+\end{figure}
+
+\section[Lösungsansätze (Kopp)]{Lösungsansätze}
+
+Es gibt verschiedene Ansätze, um das SLAM-Problem zu lösen. Die Auswahl des passenden Algorithmus hängt mit der verwendeten Sensorik und der Aufgabe der mobilen Roboterplattform zusammen. Im Allgemeinen existieren drei verschieden Lösungsansätze, auf die im folgenden näher eingegangen wird. Viele weitere Verfahren sind Abwandlungen bzw. Erweiterungen dieser Verfahren.
+
+\subsection[EKF SLAM (Kopp)]{EKF SLAM}
+
+%Der Kalman Filter ist ein Verfahren für die Zustandsschätzung linearer Systeme in Form einer Normalverteilung und stellt damit eine Spezialform des Bayes-Filters dar. Der Filter setzt sich aus einem Vorhersage- und einem Korrekturschritt zusammen. Die aktuelle Roboterpose $ x_t $ zum Zeitpunkt $ t $ sowie die Positionen der Landmarken $ m $ werden anhand der Wahrscheinlichkeitsverteilung $ bel(x_{t-1},m) := p(x_{t-1},m \vert z_{1:t-1},u_{1_t-1}) $ der vorherigen Roboterpose samt Landmarkenpositionen und des zuletzt ausgeführten Steuerungsbefehls $ u_t $ in Form einer Normalverteilung $ \overline{bel}(x_t,m) $ vorhergesagt. Anschließend wird die Vorhersage durch die aktuelle Beobachtung $ z_t $ korrigiert. Falls keine Informationen über die Startposition des Roboters vorhanden sind, kann diese beispielsweise durch eine Gleichverteilung modelliert werden. Die Schätzungen der Roboterposen sowie der Positionen der Landmarken liegen also zu jedem Zeitpunkt t in Form einer normalverteilten Zufallsvariablen, also $ p(x_t,m \vert z_{1:t},u_{1:t}) \sim \mathcal{N}(\mu_t,\Sigma_t) $ mit dem Erwartungswert $ \mu_t $ und der Kovarianzmatrix $ \Sigma_t $,vor.
+%
+%Da sowohl die Bewegungs-, als auch die Beobachtungsmodelle mobiler Roboter meistens durch nichtlineare Funktionen beschrieben werden ist der Kalman Filter ungeeignet. Deshalb wird der Extended Kalman Filter, kurz EKF, eingesetzt. Der EKF ist eine Erweiterung des Kalman Filters, um nichtlineare Gleichungen zu verarbeiten. 
+%
+%Die Roboterpose und die Positionen der Landmarken werden als ein  Zustandsvektor $y_k$ im zweidimensionalen Zustandsraum mit der Größe $(3+2n)$ dargestellt. Dieser beinhaltet die Roboterpose $x_t=(x,y,\theta)$ und die Positionen der Landmarken $m_i=(x,y)$. $n$ ist dabei die Anzahl der Landmarken: 
+%
+
+Der Kalman Filter ist ein Verfahren für die Zustandsschätzung linearer Systeme in Form einer Normalverteilung und stellt damit eine Spezialform des Bayes Filters dar \cite{Stachniss2016}. Der Filter setzt sich aus einem Vorhersage- und einem Korrekturschritt zusammen. Die Vorhersage wird mit einem gemessenen Zustandswert verglichen und eine Gewichtung für die Fusionierung von Vorhersage und Messung berechnet. Nach der Fusionierung wird die Schätzung aktualisiert und verbessert.
+
+Abbildung \ref{fig:KF} veranschaulicht das Prinzip des Kalman Filters. Im ersten Schritt (a) werden die aktuelle Roboterpose sowie die Positionen der Landmarken in Form einer Normalverteilung vorhergesagt. Die Vorhersage wird anhand der vorherigen Roboterpose samt Landmarkenpositionen und des zuletzt ausgeführten Steuerungsbefehls getroffen. Auf der Abbildung ist die Landmarke durch den Stern symbolisiert, die Unsicherheit der Schätzungen ist als Oval um die Positionsschätzungen ein\-ge\-zeich\-net. Im nächsten Schritt (b) wird die Landmarke durch die aktuelle Beobachtung observiert. Die gemessene Lage der Landmarke weicht von der erwarteten Position ab. Im letz\-ten Schritt (c) wird die vorhergesagte Roboterpose durch die Beobachtung der Landmarke korrigiert. Die Unsicherheit um die Roboterpose und die Position der Landmarke streuen dadurch weniger weit um die geschätzten Positionen. 
+
+%In (a) Prädiziert der Roboter seine Position, diese Schätzung ist  als heller Roboter dargestellt. Die Prädiktion wird anhand der Steuerbefehle und des Bewegungsmodells erstellt, die Unsicherheit dieser Schätzung ist als graues Oval um den Roboter eingezeichnet, im Algorithmus ist die Unsicherheit in der Kovarianzmatrix festgehalten. In seiner Karte ist eine Landmarke, symbolisiert durch den Stern, verzeichnet, welche er von der geschätzten neuen Position in einem bestimmten Abstand und Winkel registrieren müsste. Wenn in (b) die Bewegung erfolgt ist, wird der tatsächliche Scan mit der Schätzung der Landmarkenposition verglichen und rekursiv die Position des Roboters und deren Unsicherheit angepasst. Die Position der Landmarke wird nicht angepasst, jedoch deren Unsicherheit verringert.
+
+\begin{figure}
+\centering
+	\includegraphics[width=\linewidth]{Bilder/EKF_SLAM_2.png}
+	\caption{a)-c) beschreiben die drei schritte des EKF Algorithmus. Hellblau Symbolisiert Schätzungen, grau Unsicherheiten}
+	\label{fig:KF}
+\end{figure}
+
+Da sowohl die Bewegungs-, als auch die Beobachtungsmodelle mobiler Roboter meistens durch nichtlineare Funktionen beschrieben werden, ist der Kalman Filter ungeeignet. Deshalb wird der Extended Kalman Filter, kurz EKF, eingesetzt \cite{Stachniss2016}. Der EKF ist eine Erweiterung des Kalman Filters, um nichtlineare Gleichungen zu verarbeiten. Hierbei werden das Bewegungs- und das Beobachtungsmodell linearisiert, um den Kalman Filter anwenden zu können.
+ 
+%Die Karte wir als Zustandsvektor $y_k$ mit der Größe $(3+2n)$ dargestellt, welcher die Fahrzeugpose $x_t=(x,y,\theta)$ und die Positionen der Landmarken $m_i=(x,y)$ beinhaltet. $n$ ist dabei die Anzahl der Landmarken
+
+Die Schätzungen der Roboterposen $ x_t $ sowie der Positionen der Landmarken $ m $ liegen zu jedem Zeitpunkt $ t $ in Form einer normalverteilten Zufallsvariablen, also \linebreak $ p(x_t,m \vert z_{1:t}, u_{1:t}) \sim \mathcal{N}(\mu_t,\Sigma_t) $ mit dem Erwartungswert $ \mu_t $ und der Kovarianzmatrix $ \Sigma_t $, vor. Die Schätzung der Roboterpose und der Positionen der Landmarken werden im Erwartungswert $\mu_t $ als Zustandsvektor, im zweidimensionalen Zustandsraum mit der Größe $(3+2n)$, dargestellt. Dieser beinhaltet die Roboterpose $x_t=(x,y,\theta)$ und die Positionen der Landmarken $m_i=(x,y)$. $n$ ist dabei die Anzahl der Landmarken: 
+
+\begin{align}
+\mu_t = (x,y,\theta,m_{1x},m_{1y},..m_{nx},m_{ny})^T
+\end{align}
+
+%Wie bereits erläutert, stehen keine eindeutigen Messwerte zur Verfügung. Daher werden alle Größen durch Zufallsvariablen beschrieben. Bei den meisten EKF-Verfahren werden die Positionen mit einer Normalverteilung beschrieben. Die Unsicherheiten des Systems werden in einer Kovarianzmatrix $\Sigma_k$ dargestellt.
+
+%Die Unsicherheiten des Systems werden in der Kovarianzmatrix $\Sigma_k$ dargestellt: 
+
+In der Kovarianzmatrix $ \Sigma_t $ werden die Beziehungen zwischen allen Landmarken und der Fahrzeugpose dargestellt. Die Hauptdiagonale besteht aus den Varianzen aller Zufallsvariablen, die den Unsicherheiten der Positionen entsprechen. Werden neue Landmarken erfasst, werden der Zustandsvektor und die Kovarianzmatrix um diese erweitert. Dementsprechend wächst die Kovarianzmatrix quadratisch an, da diese die Größe $(3+2n) \times (3+2n)$ besitzt.
+%
+%\begin{align}
+%	\Sigma_t = \begin{pmatrix}
+%    \sigma^2_{x} & \sigma_{xy} & \sigma_{x\theta}&\sigma_{xm_1}& \sigma_{xm_2}& \cdots &  \sigma_{xm_n} \\
+%    \sigma_{xy} & \sigma^2_{y} & \sigma_{y\theta}&\sigma_{ym_1}& \sigma_{ym_2}& \cdots &  \sigma_{ym_n} \\
+%    \sigma_{x\theta} & \sigma_{\theta} & \sigma^2_{\theta}&\sigma_{\theta m_1}& \sigma_{\theta m_2}& \cdots &  \sigma_{\theta m_n} \\
+%    \sigma_{xm_1} & \sigma_{ym_1} & \sigma_{\theta m_1}&\sigma^2_{m_1}& \sigma_{m_1 m_2}& \cdots &  \sigma_{m_2 m_n} \\
+%     \sigma_{xm_2} & \sigma_{ym_2} & \sigma_{\theta m_2}&\sigma_{m_1 m_2}& \sigma^2_{m_2}& \cdots &  \sigma_{m_1 m_n} \\
+%    \vdots & \vdots &\vdots & \vdots &\vdots & \ddots & \vdots \\
+%     \sigma_{xm_n} & \sigma_{ym_n} & \sigma_{\theta m_n}&\sigma_{m_1 m_n}& \sigma_{m_2 m_n}& \cdots &  \sigma^2_{m_n} 
+%\end{pmatrix}
+%\end{align}
+
+%In der Kovarianz Matrix werden die Beziehungen aller Landmarken zueinander und zu den Fahrzeugpositionen dargestellt. Die Hauptdiagonale besteht aus den Varianzen aller Zuvallsvariablen. Werden neue Landmarken erfasst, wird der Zustandsvektor um diese erweitert. Dementsprechend wächst die Kovarianzmatrix quadratisch an, da diese die Größe $(2n+3) x (2n+3)$ besitzt.
+Der Pseudocode des EKF ist in Algorithmus \ref{EKF} zu sehen. 
+\floatname{algorithm}{Algorithmus}
+\begin{algorithm}
+	\caption{Erweiterter Kalman Filter mit gegebenem Steuerbefehl $ u_t $ und Beobachtung $ z_t $ sowie Erwartungswert $ \mu_{t-1} $ und Kovarianzmatrix $ \Sigma_{t-1} $ der vorherigen Roboterpose und Landmarkenpositionen.}
+	\label{EKF}
+	\begin{algorithmic}[1]
+		\Function{EXTENDEDKALMANFILTER}{$u_t,z_t,\mu_{t-1},\Sigma_{t-1}$}
+			\State $ \overline{\mu_t} = g(u_t,\mu_{t-1}) $
+			\State $ \overline{\Sigma_t} = G_t \Sigma_{t-1} G_t^T + R_t $
+			\State $ K_t = \overline{\Sigma_t} H_t^T(H_t \overline{\Sigma_t} H_t^T + Q_t)^{-1} $
+			\State $ \mu_t = \overline{\mu_t} + K_t(z_t - h(\overline{\mu_t})) $
+			\State $ \Sigma_t = (I - K_t H_t) \overline{\Sigma_t} $
+			\State \Return{$ \mu_t, \Sigma_t $}
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+Im ersten Schritt des Algorithmus wird zunächst eine Vorhersage über den Systemzustand $ \mu_t $ mit Hilfe der nicht-linearen Bewegungsgleichung $ g $ aus der vorherigen Schätzung $ \mu_{t-1} $ und dem Steuerbefehl $ u_t $ getroffen.
+
+\begin{align}
+	\overline{\mu_t} = g(u_t,\mu_{t-1})
+\end{align}
+
+%Da sowohl das Bewegungs- als auch das Beobachtungsmodell nie exakt sind, werden die zugehörigen nicht-linearen Gleichungen mit normalverteiltem Rauschen modelliert:
+Da das Bewegungsmodell nie exakt ist, wird die zugehörige nicht-linearen Glei\-chung\-en $ g $ mit normalverteiltem Rauschen modelliert:
+
+\begin{align}
+	x_t  = g(u_t,x_{t-1})+\varepsilon_t,	\varepsilon_t \sim \mathcal{N}(0,R_t) 
+\end{align}
+
+Das Rauschen hat einen Erwartungswert von $ 0 $ und die Unsicherheit wird durch die Kovarianzmatrix $ R_t $ widergespiegelt. Mit Hilfe einer Taylorapproximation wird $g$ über seine Jakobi-Matrix $G_t$ linearisiert. 
+
+Aus dem linearisierten Bewegungsmodell und der Unsicherheit der Posenschätzung des vorherigen Zeitschritts wird die Unsicherheit der aktuellen Posenvorhersage berechnet: 
+\begin{align}
+	\overline{\Sigma_t} = G_t \Sigma_{t-1} G_t^T + R_t 
+\end{align}
+
+% Die Kovarianzmatrix $R_t$ modelliert die Unsicherheiten der Bewegung.
+%Die Prädiktion des Algorithmus gibt nur eine Zustandsschätzung anhand der Bewegungsinformationen aus. Es werden somit nur die Position und Ausrichtung der Plattform, die sogenannte Pose vorhergesagt. Die Beobachtungen von Landmarken werden erst für die Korrektur verwendet. Das hat den Hintergrund, dass davon ausgegangen wird, dass Landmarken stationär sind. \\
+%Anschließend werden die zu erwartenden Beobachtung in der vorhergesagten Position $x_t$ mit den tatsächlichen Beobachtungen verglichen. Für die Schätzung der Landmarken $\tilde{z_t}$ wird das Beobachtungsmodell $z_t= h(y_t,m)$ verwendet. Da es sich bei $h$ ebenso um eine nichtlineare Funktion handelt, wird auch hier eine Linearisierung durch die Taylorreihenapproximation durchgeführt,. Mit der zugehörigen Jacobi Matrix  $H_t^T$ erhält man folgende Approximation für $h$:
+
+%\begin{align}
+%h(y_t,m)\approx h(\mu_t,m)+H_t^T(y_t-\mu_{t})
+%\end{align}
+
+Für die Schätzung der Positionen der Landmarken wird das Beobachtungsmodell verwendet, das wie das Bewegungsmodell durch eine nicht-lineare Funktion $ h $ mit normalverteiltem Rauschen modelliert wird: 
+
+\begin{align}
+	z_t = h(x_t,m)+\delta_t,	\delta_t \sim \mathcal{N}(0,Q_t)
+\end{align}
+
+Auch hier wird das Rauschen mit einem Erwartungswert von $ 0 $ und der Kovarianzmatrix $ Q_t $ für die Unsicherheit abgebildet. Die Linearisierung wird ebenfalls durch die Taylorreihenapproximation mit der zugehörigen Jacobi-Matrix $ H_t $ durchgeführt.
+
+Im nächsten Schritt wird der sogenannte Kalman Gain $K_t$ berechnet. Dieser dient bei der folgenden Fusionierung der Beobachtung und der Prädiktion als Gewichtungsfaktor. Dabei werden die Unsicherheiten in Form der Systemkovarrianz $\Sigma_t$ und der Kovarianz $Q_t $ des Beobachtungsmodells $h$ berücksichtigt:
+
+\begin{align}
+	%K_t =\Sigma_t H_t^T( H_t \Sigma_t  H_t^T + Q_t)
+	K_t = \overline{\Sigma_t} H_t^T(H_t \overline{\Sigma_t} H_t^T + Q_t)^{-1}
+\end{align}
+
+Anschließend folgt die Korrektur der Posenvorhersage $ \overline{\mu_t} $ und der Unsicherheit $ \overline{\Sigma_t} $. Hierbei wird die Posenschätzung berechent durch das Vergleichen der vom Beobachtungsmodell erwarteten Beobachtung $ h(\overline{\mu_t}) $ mit der tatsächlichen Beobachtung $ z_t $ und einer Gewichtung mit dem Kalman Gain:
+
+%Die eigentliche Korrektur erfolgt sowohl für die Schätzung $\mu_t $ als auch für die Kovarianzmatrix $\Sigma_t$.\\
+
+\begin{align}
+%	\mu = \mu_t +K_t(z_t-h(\mu_t)
+	\mu_t = \overline{\mu_t} + K_t(z_t - h(\overline{\mu_t}))
+\end{align}
+
+Die Unsicherheit wird ebenfalls durch eine Gewichtung mit dem Kalman Gain $ K_t $ und dem linearisierten Beobachtungsmodell $ H_t $ korrigiert:
+\begin{align}
+%	\Sigma_t = \Sigma_t (I-K_tH_t)
+	\Sigma_t = (I - K_t H_t) \overline{\Sigma_t}
+\end{align}
+
+
+\subsection[Partikelfilter SLAM (Kopp)]{Partikelfilter SLAM}
+
+Der Partikelfilter ist ein nicht-parametrischer Ansatz des Bayes Filter \cite{thrun2005}. Im Gegensatz zu EKF, der nur mit Normalverteilungen arbeitet, können beliebige Wahrscheinlichkeitsverteilungen angenommen werden.
+
+Es wird eine bestimmte Anzahl an Partikeln gewählt. Jeder Partikel stellt eine mögliche Roboterpose $ x_t $ mit den Positionen der Landmarken $ m $ zum Zeitpunkt $ t $ dar. Durch die Partikel wird zu jedem Zeitpunkt $ t $ eine Wahrscheinlichkeitsverteilung basierend auf dem Steuerungsbefehl und der Beobachtung aufgestellt. Die Verteilung wird durch die Menge $\mathcal{X}$ realisiert. 
+ 
+\begin{align}
+	\mathcal{X}_t = \{(x_t^{[i]},w_t^{[i]}) | i = 1,...,M\}
+\end{align}
+
+$M$ ist die Anzahl der Partikel und $x_t^{[i]}$ der Zustandsvektor eines Partikels $i$. Die Partikel erhalten zudem jeweils eine Gewichtung $w_t^{[i]}$, die sich im Bereich $ [0,1] $ bewegt. Die Summe aller Partikelgewichte entspricht Eins. Die gesamte Partikelmenge wird über die folgende Verteilung beschrieben:
+
+\begin{align}
+	p(x)=\sum_{i=1}^{M} w_t^{[i]}\delta_{x_t^{[i]}} (x)
+\end{align}
+
+Ziel eines Partikelfilters ist es eine oder mehrere Zielmengen aus der gesamten Partikelmenge mit höherer Gewichtung zu extrahieren. Die Partikelmenge wird durch den Algorithmus so verändert, dass Partikel mit kleiner Gewichtung wegfallen, Partikel mit hoher Gewichtung werden jedoch mehrfach verwendet. Nach der Abarbeitung ist immer die gleiche Anzahl an Partikeln vorhanden.
+
+Abbildung \ref{fig:partikelfilter} zeigt, dass sich, im Gegensatz zu EKF, durch Partikelmengen beliebige Verteilungen annähern lassen. Die Wahrscheinlichkeit, dass sich der Roboter an einer bestimmten Position $x$ befindet, ist an den  Positionen höher an denen sich Partikel häufen.   
+
+\begin{figure}
+	\centering
+	\begin {minipage}[t]{0.4\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Bilder/partikel_filter_1.png}
+		\caption{Approximierte Verteilungsfunktion durch Partikel (türkis)}
+		\label{fig:partikelfilter}
+	\end{minipage}
+	\hfill
+ 	\begin{minipage}[t]{0.5\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Bilder/Partikelfilter_2_all.png}
+		\caption{Beispiel Verteilung von Partikeln in 4 Zeitschritten}
+		\label{fig:partikelfilter2}
+	\end{minipage}
+\end{figure}
+
+Der Vorteil dabei ist, dass der Algorithmus, wie im Beispiel zu sehen, zu einem bestimmten Zeitpunkt mehrere mögliche Positionen behält. Würde versucht werden wie bei EKF mit einer Normalverteilung die Position abzubilden, müsste ein Mittelwert gebildet werden, der sich dann zwischen den beiden Extrempunkten ansiedelt. Dies ist auf der Abbildung  durch die gestrichelte Linie angedeutet. Der Algorithmus muss sich also nicht für eine Position entscheiden, sondern behält die verschiedenen Möglichkeiten der Position für den nächsten Berechnungsschritt. Auch grobe Fehlschätzungen zu manchen Zeitpunkten können ausgeglichen werden, da diese Partikel mit einer geringeren Wahrscheinlichkeit vorhanden bleiben. Damit wird verhindert, dass sich der Roboter aufgrund fehlerhafter Messungen nur auf eine mögliche Position festlegt, die bei zukünftigen Messungen aber keinen Sinn mehr ergibt.
+
+Abbildung \ref{fig:partikelfilter2} zeigt beispielhaft eine Lokalisierung mit einem Partikelfilter. Die Partikel häufen sich in jedem Zeitschritt zunehmend an den möglichen Roboterpositionen. In Bild (a) Registrieren die Sensoren noch hauptsächlich glatte Wände, daher kann sich der Roboter fast überall befinden. Mit jeder Bewegung des Roboters kommen neue Scandaten hinzu, anhand derer sich manche Positionen ausschließen lassen. In (b) bis (d) werden in jedem Zeitschritt mehr Informationen über die Umgebung gesammelt. Somit können zunehmend potentielle Positionen des Roboters ausgeschlossen werden. Die Partikel konzentrieren sich in einem Bereich. \\
+
+\textbf{Ablauf des Partikelfilters:}
+
+1. Initialisierung der Partikel
+
+2. Schätzung der nächsten Position für jeden Partikel
+
+3. Berechnen der Partikelgewichte
+
+4. Resampling
+
+5. Für den nächsten Zeitschritt wieder bei 2. beginnen \\
+
+Algorithmus \ref{Partikel} zeigt den Pseudocode des Partikelfilters. Um diesen anwenden zu können, müssen die Partikel zunächst initialisiert werden. Für eine globale Lokalisierung werden die Partikel häufig gleichmäßig über die gesamte Karte verteilt, in der die Lokalisierung erfolgen soll. Anschließend kann der Partikelfilter angewendet werden. 
+
+In Zeile 4 wird für jeden Partikel der Partikelmenge  $ \mathcal{X} $ basierend auf der Position des letzten Zeitschritts $ x_{t-1}^{[m]} $ und dem aktuellen Steuerungsbefehl $ u_t $ die neue Position geschätzt. Anschließend wird in Zeile 5 für jeden Partikel das Gewicht über die aktuelle Beobachtung $ z_t $ berechnet. In Zeile 6 werden die Partikel mit ihrem zugehörigen Gewicht zur temporären Partikelmenge $ \overline{\mathcal{X}}_t $ zusammengefasst. 
+
+In Zeile 8 folgt der Resampling Schritt. Hierbei werden alle Partikel abhängig von ihren Gewichten neu verteilt. Die Anzahl der Partikel bleibt gleich, jedoch häufen sich die Partikel an den Stellen in der Karte, an denen sich der Roboter mit einer höheren Wahrscheinlichkeit befindet. Dies geschieht indem Partikel mit einem niedrigen Gewicht wegfallen und Partikel mit einem hohen Gewicht dagegen vervielfältigt werden. In der so entstehenden Partikelverteilung hat jedes Partikel das gleiche Gewicht.  
+
+\floatname{algorithm}{Algorithmus}
+\begin{algorithm}
+	\caption{Partikelfilter mit gegebenem Steuerbefehl $ u_t $ und Beobachtung $ z_t $ sowie der Verteilung der Partikel $ \mathcal{X}_{t-1} $ des vorherigen Zeitpunktes \cite{Stachniss2016}.}
+	\label{Partikel}
+	\begin{algorithmic}[1]
+		\Function{PARTIKELFILTER}{$u_t,z_t,\mathcal{X}_{t-1}$}
+			\State $ \overline{\mathcal{X}}_t = \mathcal{X}_t = \emptyset $
+			\For{$ m = 1 $ to $ M $}
+				\State sample $ x_t^{[m]} \sim p(x_t \vert u_t,x_{t-1}^{[m]}) $										
+				\State $ w_t^{[m]} = p(z_t \vert x_t^{[m]}) $
+				\State $ \overline{\mathcal{X}}_t = \overline{\mathcal{X}}_t + \langle x_t^{[m]},w_t^{[m]} \rangle $ 
+			\EndFor
+			\For{$ m = 1 $ to $ M $}
+				\State draw $ i $  with probability $ \propto w_t^{[i]} $
+				\State add $ x_t^{[i]} $ to $ \mathcal{X}_t $
+			\EndFor
+			\State \Return{$ \mathcal{X}_t $}
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+%\floatname{algorithm}{Algorithmus}
+%\begin{algorithm}
+%	\caption{Partikelfilter mit gegebenem Steuerbefehl $ u_t $ und Beobachtung $ z_t $ sowie der Verteilung der Partikel $ \mathcal{S}_{t-1} $ des vorherigen Zeitpunktes.}
+%	\label{Partikel}
+%	\begin{algorithmic}[1]
+%		\Function{PARTIKELFILTER}{$u_t,z_t,\mathcal{S}_{t-1}$}
+%			\State $ \overline{\mathcal{S}}_t = \mathcal{S}_t = \emptyset $
+%			\For{$ j = 1 $ to $ M $}
+%				\State Ziehe $ x_t^{[j]} \sim \pi(x_t) $										\State $ w_t^{[j]} = \dfrac{p(x_t^{[j]})}{\pi(x_t^{[j]})} $
+%				\State $ \overline{\mathcal{S}}_t = \overline{\mathcal{S}}_t + (x_t^{[j]},w_t^{[j]}) $
+%			\EndFor
+%			\For{$ j = 1 $ to $ M $}
+%				\State Ziehe $ i \in 1,...,M $  jeweils mit einer Wahrscheinlichkeit proportional zu $ w_t^{[i]} $ aus $ \overline{\mathcal{S}}_t $
+%				\State $ \mathcal{S}_t = \mathcal{S}_t + (x_t^{[i]},\dfrac{1}{M}) $
+%			\EndFor
+%			\State \Return{$ \mathcal{S}_t $}
+%		\EndFunction
+%	\end{algorithmic}
+%\end{algorithm}
+
+Auch das SLAM-Problem kann mit Hilfe eines Partikelfilters gelöst werden. Hierbei wird eine initiale Karte mit der ersten Beobachtung erstellt. Innerhalb dieser Karte lokalisiert sich der Roboter mittels des Partikelfilters und die Karte wird entlang der wahrscheinlichsten Roboterpose erweitert. Die Dimension des Partikelfilter SLAMs steigt jedoch exponentiell mit der Dimension des Zustandsraums statt wie beim EKF quadratisch. Daher ist dieses Verfahren nicht praktikabel.  
+
+Das SLAM-Problem kann jedoch mit Hilfe des Rao-Blackwellized Partikelfilters  gelöst werden \cite{Stachniss2016}. Hierbei wird das Schätzproblem in zwei Terme zerlegt: 
+
+\begin{align}
+	p(x_{0:t},m \vert z_{1:t},u_{1:t}) &= p(x_{0:t} \vert z_{1:t},u_{1:t})p(m \vert x_{0:t},z_{1:t},u_{1:t}) \\
+	&= p(x_{0:t} \vert z_{1:t},u_{1:t})p(m \vert x_{1:t},z_{1:t})
+\end{align}
+
+Da mit dem ersten Term nur die Roboterpose geschätzt wird, ist dieser niedrigdimensional. Dies ermöglicht eine rekursive Schätzung zu jedem Zeitpunkt $ t $ mit Hilfe des Partikelfilters. Der zweite Term schätzt die Positionen der Landmarken und ist daher hochdimensional. Dieser Term wird für jeden Partikel separat bestimmt anhand der Posen des Partikels. Somit wird für jeden Partikel eine separate Karte erstellt. Hierfür gibt es verschiedene Ansätze, wie z.B. die Erstellung einer Rasterkarte der Umgebung jedes Partikels. Der FastSLAM Algorithmus stellt eine Fusionierung des Rao-Blackwellized Partikelfilters mit dem EKF dar. Die Roboterposen werden mit Hilfe des Partikelfilters geschätzt und die Schätzung der Landmarkenpositionen erfolgt durch unabhängige EKFs.   
+
+\subsection[Graph-basiertes SLAM (Kopp)]{Graph-basiertes SLAM}
+
+Graph-basierte SLAM Verfahren sind ein weiterer Ansatz zur Lösung des SLAM-Problems \cite{thrun2005}. Der große Vorteil des Verfahren ist im Allgemeinen der viel geringere Rechenaufwand gegenüber dem EKF-SLAM. Bei diesem wächst, wie bereits erwähnt, die Kovarianzmatrix quadratisch mit jeder detektierten Landmarke an. Die Anzahl an Linearisierungen, die dann bei jedem Schritt durchgeführt werden müssen, führt zu einer quadratisch steigenden Komplexität. 
+
+Im Gegensatz zum EKF sind Graphen-basierte SLAM Verfahren in der Lage das Full SLAM Problem zu lösen. Es wird offline mit allen Roboterposen und Umgebungsmerkmalen eine Karte erstellt. Die Karte stellt einen Graphen dar, der aus nichtlinearen quadratischen Beziehungen zwischen den Roboterposen und den Umgebungsmerkmalen aufgebaut ist. Das SLAM-Problem wird somit als Optimierungsproblem behandelt. Die entstehende Karte repräsentiert den wahrscheinlichsten Aufbau der Umgebung entlang der Trajektorie des Roboters. 
+
+Beim Graph-SLAM werden zunächst während der Fahrt lediglich alle Informationen gespeicherte, die über die Steuerungsbefehle und die Beobachtungen der Umgebung gesammelt werden. Sowohl die Kartierung der Umgebung als auch die Optimierung der Robotertrajektorie finden offline statt. Da alle Berechnungen erst auf Basis aller vorhandenen Informationen  angestellt werden, ist es möglich mit Graph-SLAM Ansätzen eine wesentlich genauere Karte zu erstellen als mit EKF-SLAM Verfahren. Außerdem können deutlich größere Karten erzeugt werden. 
+
+Grundsätzlich wird ein Graph bestehend aus Knoten und Kanten aufgebaut, wie auf Abbildung \ref{fig:Graph} zu sehen ist. Die Knoten stellen die verschiedenen Roboterposen $ x_{1:t} $ sowie die Positionen der Landmarken in der Karte $ m = \{m_i\} $ dar. Für jede Posenänderung und jede Observierung der Umgebung wird ein neuer Knoten erzeugt. Die Knoten werden über Kanten verbunden, die die Beziehungen zwischen diesen repräsentieren. Daher werden sie als Constraints bezeichnet. 
+
+Es wird unterschieden zwischen Kanten, die aufeinander folgende Bewegungsknoten $x_{t-1}$ und $x_t$ miteinander verbinden und Kanten, die Landmarkenknoten $m_i$ mit Bewegungsknoten $x_t$ verbinden \cite{thrun2005}. Somit entsteht jede Kante im  Graphen entweder durch eine Bewegung des Roboters oder eine Beobachtung eines Karten-Features. Der Graph wird also lediglich durch eine Addition neuer Knoten und der zugehörigen Constraints aufgebaut. 
+
+\begin{figure}
+\centering
+	\includegraphics[width=\linewidth]{Bilder/Graph_slam.png}
+	\caption{Darstellung des Graphen-basierten SLAMs mit zugehöriger Informaionsmatrix}
+	\label{fig:Graph}
+\end{figure}
+
+Da sowohl das Bewegungs- als auch das Beobachtungsmodell in der Regel nichtlinear ist, sind auch die Constraints nichtlinear. Diese werden linearisiert und in einer Informationsmatrix $ \Omega $ und einem Informationsvektor $ \xi $ gespeichert. 
+
+Abbildung \ref{fig:Graph} zeigt den Aufbau der dem Graphen zugehörigen Informationsmatrix. In dieser sind nur die Elemente mit Werten ungleich Null belegt, die türkisfarben eingefärbt sind. Dies sind neben den Diagonalelementen die Elemente, die Constraints beschreiben. Durch jeden Steuerungsbefehl entsteht ein weiterer Knoten im Graphen, der eine neue Roboterpose repräsentiert. Alle Constraints die durch Steuerbefehle jeweils zwischen zwei aufeinanderfolgende Posen $ x_{t-1} $ und $ x_t $ entstehen, führen zu einem entsprechenden Eintrag in der Informationsmatrix. Ebenso entsteht für jede Observierung einer Landmarke $ m_i $ ein Constraint zwischen dieser und der Roboterpose $ x_t $ von der aus die Landmarke observiert wird. Diese werden auch in den entsprechenden Elementen der Informationsmatrix eingetragen. Alle Einträge, die eine Beziehung zwischen zwei Landmarken beschreiben würden, behalten den Wert Null, da keine Messungen von einer Landmarke aus gemacht werden. 
+
+%Jede Kante hat zudem einen nichtlinearen Constraint $e_k$ der die Fehler der jeweiligen Messung angibt. Das Bewegungs- und Beobachtungsmodell liefern die Grundlage zur Berechnung der Fehler. Dazu werden jeweils die Kovarianzmatrizen $R$ für die Bewegung und $Q$ für die Beobachtung berechnet. 
+
+Die Constraints stellen Fehlerfunktionen dar. Mathematisch werden diese über folgende Gleichungen beschrieben:
+
+\begin{subequations}
+\label{Constraints}
+	\begin{align}
+		(z_t^i-h(xt,m_i))^T &Q_t^{-1} (z_t^i-h(x_t,m_i)) 
+		\label{Beobachtung}\\
+		(x_t-g(u_t,x_{t-1}))^T &R_t^{-1}  (x_t-g(u_t,x_{t-1}))
+		\label{Bewegung}
+	\end{align}
+\end{subequations}
+
+Constraints, die durch eine Beobachtung $ z_t $ einer Landmarke entstehen, werden über Gleichung \ref{Beobachtung} beschrieben. Hierbei ist $ h $ die Funktion des Beobachtungsmodells und $ Q_t $ die Kovarianz der verrauschten Messung. Die Constraints stellen die Fehler dar, die durch Abweichungen in den Umgebungsbeobachtungen und den durch das Beobachtungsmodell erwarteten Beobachtungen anhand der aktuellen Graphkonfiguration entstehen. 
+
+Entsprechend werden durch Gleichung \ref{Bewegung} auch die Constraints beschrieben, die durch eine Bewegung des Roboters von einer Pose $ x_{t-1} $ zu einer Pose $ x_t $ entstehen. Hierbei beschreibt die Funktion $ g $ das Bewegungsmodell und $ R_t $ spiegelt die Kovarianz des Bewegungsrauschens wieder. Es wird die Abweichung beschrieben, die sich aus der durch den Steuerungsbefehl erwarteten Pose und der durch das Bewegungsmodell erwartete Pose ergibt. 
+
+Aus der Summe aller Constrainnts ergibt sich eine Fehlerfunktion $ J $: 
+%Der gesamte Graph wird dann über die Matrix $\Omega$ und den Informationsvektor $x_j$ Beschrieben. Die Matrix enthält die Constraints, also die Fehler und wird bei jeder Bewegung oder Observierung aktualisiert. Der Vektor $x_j$ enthält die Knoten, also die Zustände. $J$ beschreibt den Gesamtfehler des Systems und wird wie folgt gebildet.
+
+\begin{align}
+	\begin{split}
+	J \quad = \quad &x_0^T\Omega_0x_0 + \sum_t(x_t-g(u_t,x_{t-1}))^t R_t^{-1} (x_t-g(u_t,x_{t-1})) \\ 
+	&+ \sum_t \sum_i(z_t^i-h(x_t,c_t^i))^T Q_t^{-1} (z_t^i-h(x_t,c_t^i))
+	\end{split}
+\end{align}
+
+Hierbei wird über den Term $ x_0^T\Omega_0x_0 $ der Ursprung der absoluten Koordinaten der Karte festgelegt durch die Initialisierung der Startposition des Roboters mit $ x_0 = (0,0,0)^T $. 
+
+Das Ziel Graph-basierter SLAM Verfahren ist es, die Fehlerfunktion $ J $ mit der Methode der kleinsten Quadrate zu minimieren. Dies wird über eine Optimierung der Robotertrajektorie $ x_{1:t} $ erreicht. 
+
+Algorithmus \ref{GraphSLAM} zeigt den Pseudocode des Basis-Algorithmus Graph-basierter SLAM Verfahren mit bekannten Korrespondenzen zwischen den Kartenfeatures verschiedener Messungen. Im ersten Schritt wird in Zeile 2 eine durchschnittliche Trajektorie $ \mu_{0:t} $ des Roboters über alle Steuerungsbefehle $ u_{1:t} $ initialisiert. Hierfür gibt es verschiedene Ansätze, wie z.B. durch Anwendung des EKF SLAMs oder einfach das Aneinanderhängen des Bewegungsmodells $ p(x_t \vert u_t,x_{t-1}) $.
+
+Anschließend wird in Zeile 4 die Informationsmatrix $ \Omega $ mit dem zugehörigen Informationsvektor $ \xi $ für das gesamte Full SLAM Problem erstellt. Hierfür werden die nichtlinearen Constraints des Graphen linearisiert. Die Linearisierung erfolgt, wie beim EKF, über die Taylorapproximation mit den zugehörigen Jacobi-Matrizen des Bewegungs- und Beobachtungsmodells. 
+
+Anschließend wird in Zeile 5 die Dimension der Informationsmatrix $ \Omega $ sowie des Informationsvektors $ \xi $ reduziert, um das Optimierungsproblem effizienter lösen zu können. Hierfür werden alle Einträge der Landmarken eliminiert indem die Beziehungen zwischen den Roboterposen entsprechend angepasst und ergänzt werden. Die entstehende Matrix $ \tilde{\Omega} $ und Vektor $ \tilde{\xi} $ behalten alle Informationen der ursprünglichen Werte bei, sind jedoch deutlich in der Dimension reduziert. Die Einträge spiegeln lediglich die Beziehungen zwischen den verschiedenen Roboterposen wieder. Da
+die selben Kartenfeatures auch von verschiedenen Roboterposen beobachtet werden können, entstehen in diesem Schritt auch Kanten zwischen Knoten nicht aufeinander folgender Roboterposen. 
+
+In Zeile 6 werden die Trajektorie des Roboters sowie die Positionen aller Landmarken der Karte geschätzt. Hierfür wird der Mittelwert der Robotertrajektorie sowie dessen Kovarianz und der Mittelwert der Landmarkenpositionen berechnet. 
+
+Die Zeilen 4 bis 6 werden wiederholt, um Fehler in der Linearisierung durch die Taylorapproximation auszugleichen. Für die Linearisierung wird in jeder Iteration die geschätzte Trajektorie der vorherigen Iteration verwendet. Die Ausgabe ist die Schätzung der wahrscheinlichsten Trajektorie des Roboters sowie aller Landmarkenpositionen. 
+
+\floatname{algorithm}{Algorithmus}
+\begin{algorithm}
+	\caption{GraphSLAM mit gegebenen Steuerungsbefehlen $ u_{1:t} $, Beobachtungen $ z_{1:t} $ und den entsprechenden Korrespondenzen $ c_{1:t} $.}
+	\label{GraphSLAM}
+	\begin{algorithmic}[1]
+		\Function{GRAPHSLAM}{$u_{1:t},z_{1:t},c_{1:t}$}
+			\State $ \mu_{0:t} $ =  initialisiere($ u_{1:t}  $)
+			\Repeat
+				\State $ \Omega, \xi $ =linearisiere($ u_{1:t},z_{1:t},c_{1:t},\mu_{0:t} $)
+				\State $ \tilde{\Omega}, \tilde{\xi} $ = reduziere($ \Omega, \xi $)
+				\State $ \mu, \Sigma_{0:t} $ = löse($ \tilde{\Omega}, \tilde{\xi}, \Omega, \xi $)
+			\Until{Konvergenz}
+			\State \Return{$ \mu $}
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+%Hierbei gilt $k \in C$, $C$ die Menge aller Constraints dar. Die Korrektur der Positionen und der Karte ergibt sich durch die Minimierung von $J$. \\
+%Wie schon erwähnt, ist es möglich unbekannte Korrespondenzen in der Abarbeitung eines SLAM Algrorithmus mit zu schätzen. Bei manchen Graph SLAM Verfahren wird dies realisiert, indem die Formulierung des Minimierungsproblems so erweitert wird, dass die Korrespondenzassoziation ein Teil dieses wird.
+
+Bei der bisherigen Betrachtung des Funktionsprinzips von Graph-SLAM Verfahren wurde vorausgesetzt, dass Korrespondenzen zwischen den  Kartenfeatures verschiedener Messungen bekannt sind. Diese sind meistens jedoch nicht bekannt. Daher müssen die unbekannte Korrespondenzen in der Abarbeitung eines SLAM Algorithmus mit geschätzt werden. Bei manchen Graph SLAM Verfahren wird dies realisiert, indem die Formulierung des Minimierungsproblems so erweitert wird, dass die Korrespondenzassoziation ein Teil dieses wird.
+
+Graphen-basierte Ansätze erzeugen erst eine Karte nachdem die vollständige Bewegung abgeschlossen ist und alle Daten vorliegen. Mittlerweile existieren allerdings auch inkrementelle Algorithmen, die in der Lage sind zu jedem Zeitpunkt der Fahrt eine Karte zu erzeugen. Dafür werden Gradienten-basierte Methoden \cite{Olson2007} sowie hierarchische Abstraktionen des Graphen \cite{Grisetti2010} genutzt. Eine weitere Variante sind Smoothing and Mapping Ansätze, die in jedem Zeitschritt eine Optimierung der Karte und der Trajektorie mit einer Umordnung der Variablen vornehmen \cite{Stachniss2016}.
+
+
+%
+%
+%Die bisherige Formulierung des Minimierungsproblems geht davon aus, dass die
+%Datenassoziation bekannt ist. Als Datenassoziation bezeichnet man die Korrespon- denz zwischen einer Messung und der bisher erstellen Karte bzw. die Korrespondenz zweier oder mehrerer Messungen. Eine bekannte Datenassoziation bedeutet, dass zu jedem Zeitpunkt klar ist, welche Teile der Umgebung gemessen wurden. Die Formu- lierung in Gl. (2) kann jedoch direkt erweitert werden, so dass die Datenassoziation Teil des Minimierungsproblems wird. Nehmen wir dazu an, dass beispielsweise die gemessenen Landmarken mj und mi in Wahrheit identisch sind. In diesem Fall kann man eine der beiden Variablen entfernen und alle Kanten zu dem entfernten Knoten mit den Knoten der anderen Landmarkenvariablen verbinden. 
+
+
+%
+%
+%Graph SLAM löst das Full-SLAM Problem und ist ein offline Algorithmus, welcher wie der EKF-SLAM eine Feature basierte Karte aufbaut, da er erst, wenn alle Daten (die gesamte Bewegung) gesammelt wurden, ein endgültiges Ergebnis liefert. Während der Verarbeitung werden alle Positionen des Roboters und der Features in der Karte gespeichert und für jeden weiteren Bearbeitungsschritt weiterverwendet. Die dabei entstehende Karte ist ein spärlicher Graph (spar- se graph), der sich über die Features und die Information darüber, aus welchen Positionen diese Features erkannt wurden, aufbaut. Das Erweitern des Graphen ist im Vergleich zum Erweitern der Kovarianzmatrix im EKF-SLAM deutlich einfacher zu berechnen.
+%Graph SLAM bildet seine Karten, indem er neue Informationen in den Graph einträgt, ohne sie vorher aufzulösen oder Berechnungen anzustellen. Somit kann er Karten bauen, die deutlich grö- ßer sind als im EKF-SLAM.
+%Da Graph SLAM alle Positionen speichert und erst hinterher das Kartieren durchführt, kann er im Nachhinein vorhandene Assoziationen und Berechnungen erneut überarbeiten und somit eine höhere Genauigkeit in der Karte erzielen, als das bei dem EKF-SLAM der Fall ist. Jedoch liegt ein Nachteil in der linearen Zunahme an benötigtem Speicher, da der Graph kontinuierlich aufgebaut wird und somit mit jedem Schritt wächst und erst bei der Berechnung nach der Datenakquirie- rung die Assoziationen bestimmt werden.
+
+
+%\section{Unterscheidung Ansätze anhand der Hardware}
+%
+%\textbf{Visual slam }
+%
+%
+%
+%		unzuverlässig bei stärkeren Variationen im Blickwinkel oder in der Beleuchtung 
+%\textbf{laser slam}		
+%
+%auf basis von Struktur
+%		unanfällig für Fehler durch Veränderungen der externen Beleuchtung und weniger anfällig für Fehler durch Blickwinkeländerungen, da die Geometrie in einer sehr hohen Auflösung aufgenommen wird 
+%		
+%\textbf{rgb-d slam}
+%\section{verschiedene Ansätze Orientierungspunkte/arten}
+%
+%Keypoints: lokal (mehrdeutig und robust gegen Umgebungsänderungen) oder global (Blickwinkelabhängig) 
+%
+%Objekte: näher an der Art, wie Menschen ihre Umwelt wahrnehmen und Karten, die aus Objekten/Segmenten bestehen, stellen besser Situationen dar, in denen statische Objekte dynamisch werden. Allerdings wird ein perfekter Objekt-Segmentierungs-Algorithmus benötigt. Außerdem kommt es in der realen Welt häufig vor, dass es nicht nur genau voneinander unterscheidbare und trennbare Objekte gibt. 
+%
+%Segmente: mehr beschreibende Formen als Keypoints ohne die strengen Bedingungen wie bei Objekten 
+
+
+\section[Place Recognition (Kopp)]{Place Recognition}
+
+%kartenfeatures mehrmals beobachtet
+%Kartenfetures $ m_i $, die  zu völlig unterschiedlichen Zeitpunkten $ x_{t_1} $ und $ x_{t_1} $ mit $ t_2 \gg t_1 $ gesehen werden 
+
+Kommt ein Roboter während seiner Mission wieder an einen bereits besuchten Ort, so sollte er sich auch in seiner Karte an diesem Ort wiederfinden. Da bei der Erstellung einer Karte jedoch viele Unsicherheiten mit einfließen, kann die geschätzte Pose in der Karte stark von der tatsächlichen abweichen. Durch die Beobachtungen zu einem früheren Zeitpunkt und das speichern von Merkmalen in der Karte sollte der Roboter jedoch seine Umgebung wiedererkennen. Dies wird Place Recognition genannt. Hierfür muss der Roboter in der Lage sein Korrespondenzen zwischen den aus den Sensordaten extrahierten Umgebungsmerkmale aus der Karte und der aktuellen Messung zu finden. Das Korrespondenzassoziationsproblem muss also global über die gesamte Karte gelöst werden. Es gibt verschiedene Ansätze dafür, die sich beispielsweise im verwendeten Kartentyp oder SLAM-Ansatz unterscheiden. 
+
+Nach einer erfolgreichen Place Recognition werden sowohl die Karte als auch die Posenschätzungen entsprechend der neuen Informationen anpasst und  verbessert. Dieser Vorgang wird als Loop Closure bezeichnet und bildet ein Unterproblem des SLAM. Dies ermöglicht es die Qualität der erstellten Karte sowie der Schätzung der Roboterpose zu verbessern. 
+
+%Erreicht ein Roboter eine Position, die er bereits kennt, so müsste er sich auf seiner Karte an demselben Ort wiederfinden. Durch den Fehler bei der Erstellung der Karte kann die- se Position auf der internen Karte allerdings weit von der tatsächlichen Position entfernt sein. Anhand der Merkmale der bereits bekannten Umgebung muss der Roboter dement- sprechend seine Position erkennen und seine Karte korrigieren, indem er die Schleife (engl. loop) schließt. Dieses Unterproblem des SLAM ist als Loop-Closing-Problem[Wie12] be- kannt.
+
+
+
+
+%, es wird eine abschätzung abgegeben und 
+%
+%Oft kommt im Zusammenhang mit SLAM verfahren der begriff der \textbf{Loop-closure} zu Deutsch \textit{Schleifen schließen} auf. Darin versteht man die die Kartenkorrektur bei Wiedererkundung eines bereits besuchten Ortes. Für jegliches SLAM verfahren ist das erkennen einer Loop-closure essentiell, da nur so Korrekturen der geschätzten Trajektorie erfolgen können.
+%
+%Das Schließen von Schleifen (Loop Closure) ist ein Problem, welches sich bei der Kartierung er- gibt, sobald der Roboter einen Bereich der Umgebung aufnimmt, von dem er zuvor bereits eine Aufnahme gemacht hat. Da in der Bewegung des Roboters zwischen diesen Aufnahmen des glei- chen Bereiches Fehler entstanden sein können, wie in Abbildung 2.2 zu sehen, führen die Gänge im oberen Bereich falsch zusammen. Damit die Aufnahmen genau aufeinander passen und ei- ne korrekte Karte, wie in Abbildung 2.3, aufgebaut wird, muss zur Behebung dieses Fehlers ein Loop Closure Algorithmus verwendet werden. Dieser Algorithmus speichert einen Bewegungs- graphen des Roboters und prüft mit diesem, ob der Roboter einen bereits erkundeten Knoten des Graphen sieht, mit dem er noch nicht verbunden ist. Ist ein solcher Knoten gefunden, muss ein Algorithmus (wie ICP siehe Abschnitt 4.6) z.B. die Sensordaten der beiden Knoten, die verbunden werden sollen, zueinander orientieren. Anschließend muss der Fehler der letzten Roboterpositi- on noch ausgeglichen werden. Dies kann geschehen, indem der Fehler auf alle Roboterpositionen der Schleife verteilt und die Karte dementsprechend ausgebessert wird.
+
+%Place Recognition durch Vergleichen der lokalen Karte, die die lokale Umgebung des Roboters repräsentiert, mit der Target Map, die die komplette Umgebung repräsentiert.
+%
+%Überleitung zum Thema, dass es in erster Linie um die PR geht und damit um LCD statt ein komplettes SLAM Verfahren 
+%oder statt Subsection in Titel aufnehmen, wenn Inhalt kein ganzes Unterkapitel füllen kann
+%-> dann so eine Überführung am Ende des Kapitels bzw in Problem
+%
+
+%Drift unvermeidbar wenn keine globale Positionsinformation gegeben -> zuverlässige Loop Closure Detection ist eine der Kernfähigen für ein gutes SLAM verfahren 
+
+%\section{Überblick}
+
+\section[ROS (Kopp)]{ROS}
+
+Die Entwicklung von Roboteranwendungen ist häufig mit einer aufwendigen Integration verschiedener Hard- und Softwarekomponenten verbunden. Abhilfe schafft die Middleware Robot Operating System (ROS). Dies ist ein Open Source Framework, das verschiedene Bibliotheken, Werkzeuge und Schnittstellen für die Entwicklung von Roboteranwendungen umfasst. Es bietet beispielsweise verschiedene Gerätetreiber, Robotersimulatoren und Visualisierungswerkzeuge sowie ein eigenes System zum Austausch von Nachrichten zwischen verschiedenen Prozessen. 
+
+Die Software wird in sogenannten Packages organisiert, die verschieden kombiniert werden können \cite{rospackage2019}. Dies ermöglicht einen modularen Aufbau der Software und macht die Entwicklung mit ROS sehr flexibel. Die verschiedenen Funktionen werden in Nodes unterteilt \cite{rosnodes2018}. Diese kommunizieren über das ROS-interne Nachrichtensystem. 
+
+Nodes können sowohl synchron als auch asynchron kommunizieren. Hierfür wird ein ROS-Master benötigt, der als Vermittler zwischen den Nodes fungiert. Für die asynchrone Kommunikation stehen sogenannte Topics zur Verfügung \cite{rostopics2019}. Dies sind Datenkanäle über die Nodes mit einer Publisher-Subscriber-Struktur Nachrichten austauschen können. Diese Nachrichten haben einen festen Nachrichtentyp, der vom Publisher-Node vorgegeben wird. Außerdem sind die Gesprächspartner einander unbekannt. Die synchrone Kommuniktion zwischen Nodes findet über sogenannte Services statt. Diese stellen Remote Procedure Calls dar. 
+
+Sogenannte launch-Files ermöglichen es effizient mehrere Nodes und andere Anwendungen und Werkzeuge gleichzeitig zu starten. Außerdem können Parameter in den Parameterserver geladen werden. In diesem werden Parameter für Nodes gespeichert, die sich diese zur Laufzeit dort gesammelt abholen können.
+
+Ein sehr hilfreiches Werkzeug ist das TF-Package \cite{rostf2017}. Mit diesem lassen sich die verschiedenen Koordinatensysteme eines Robotersystems zueinander in Relation setzen. Es bestimmt und trackt die  Transformationen zwischen den verschiedenen Koordinatensystemen und ermöglicht somit eine korrekte Anordnung der Komponenten des Roboters im Raum. 
+
+Die Nachrichten verschiedener Topics können in sogenannten Bag-Dateien auf\-ge\-zeich\-net werden \cite{rosbags2015}. Dies ist ein Dateiformat, in dem seriell ROS-Nachrichten in der Reihenfolge gespeichert werden, in der sie empfangen werden. Bei der Aufzeichnung wird für jedes Topic, dessen Nachrichten gespeichert werden sollen, ein Subscriber gestartet, der auf diese Nachrichten lauscht. Anschließend können die gespeicherten Nachrichten abgespielt werden, indem diese durch einen Publisher für andere Programmknoten veröffentlicht werden. Dadurch können beispielsweise verschiedene Sensornachrichten in ihrer genauen zeitlichen Abfolge gespeichert werden und erscheinen beim abspielen, wie wenn die Nachrichten gerade von den Sensoren erzeugt wurden. Dies ermöglicht eine offline Verarbeitung der Daten sowie reproduzierbare Experimente mit identischen Daten. 
+
+RVIZ bildet eine graphische Schnittstelle zur Visualisierung \cite{rviz2015}. Hier können bei\-spiels\-wei\-se verschiedene Sensornachrichten, die räumliche Lage verschiedener Koordinatensysteme zueinander sowie Karten und verschiedene Robotermodelle dargestellt werden und somit ihre Interaktion verdeutlicht werden. 
+

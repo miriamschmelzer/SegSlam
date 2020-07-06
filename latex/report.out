@@ -1,0 +1,77 @@
+\BOOKMARK [0][-]{chapter.1}{Einleitung}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Motivation}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Ziel der Arbeit}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Gliederung und Aufbau}{chapter.1}% 4
+\BOOKMARK [0][-]{chapter.2}{Umgebungswahrnehmung mit Punktwolken}{}% 5
+\BOOKMARK [1][-]{section.2.1}{Sensorik zur Umgebungswahrnehmung \(Kopp\)}{chapter.2}% 6
+\BOOKMARK [2][-]{subsection.2.1.1}{LiDAR}{section.2.1}% 7
+\BOOKMARK [2][-]{subsection.2.1.2}{RGB-D Kamera}{section.2.1}% 8
+\BOOKMARK [1][-]{section.2.2}{Registrierung}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.1}{Problemdefinition}{section.2.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.2}{ICP}{section.2.2}% 11
+\BOOKMARK [1][-]{section.2.3}{Segmentierung}{chapter.2}% 12
+\BOOKMARK [2][-]{subsection.2.3.1}{Segmentierung in der Bildverarbeitung}{section.2.3}% 13
+\BOOKMARK [2][-]{subsection.2.3.2}{Segmentierung von Punktwolken}{section.2.3}% 14
+\BOOKMARK [1][-]{section.2.4}{k-d-B\344ume}{chapter.2}% 15
+\BOOKMARK [2][-]{subsection.2.4.1}{Aufbau}{section.2.4}% 16
+\BOOKMARK [2][-]{subsection.2.4.2}{N\344chster-Nachbar-Suche}{section.2.4}% 17
+\BOOKMARK [1][-]{section.2.5}{Hauptkomponentenanalyse \(Schmelzer\)}{chapter.2}% 18
+\BOOKMARK [1][-]{section.2.6}{PCL}{chapter.2}% 19
+\BOOKMARK [0][-]{chapter.3}{SLAM}{}% 20
+\BOOKMARK [1][-]{section.3.1}{Lokalisierung}{chapter.3}% 21
+\BOOKMARK [1][-]{section.3.2}{Problemdefinition SLAM}{chapter.3}% 22
+\BOOKMARK [1][-]{section.3.3}{Kartentypen}{chapter.3}% 23
+\BOOKMARK [1][-]{section.3.4}{L\366sungsans\344tze}{chapter.3}% 24
+\BOOKMARK [2][-]{subsection.3.4.1}{EKF SLAM}{section.3.4}% 25
+\BOOKMARK [2][-]{subsection.3.4.2}{Partikelfilter SLAM}{section.3.4}% 26
+\BOOKMARK [2][-]{subsection.3.4.3}{Graph-basiertes SLAM}{section.3.4}% 27
+\BOOKMARK [1][-]{section.3.5}{Place Recognition}{chapter.3}% 28
+\BOOKMARK [1][-]{section.3.6}{ROS}{chapter.3}% 29
+\BOOKMARK [0][-]{chapter.4}{K\374nstliche neuronale Netze}{}% 30
+\BOOKMARK [1][-]{section.4.1}{Aufbau und Funktionsweise}{chapter.4}% 31
+\BOOKMARK [1][-]{section.4.2}{Training}{chapter.4}% 32
+\BOOKMARK [1][-]{section.4.3}{Convolutional Neural Networks}{chapter.4}% 33
+\BOOKMARK [1][-]{section.4.4}{Autoencoder}{chapter.4}% 34
+\BOOKMARK [0][-]{chapter.5}{SegMap-Algorithmus}{}% 35
+\BOOKMARK [1][-]{section.5.1}{Aufbau}{chapter.5}% 36
+\BOOKMARK [1][-]{section.5.2}{Filterung und Registrierung}{chapter.5}% 37
+\BOOKMARK [1][-]{section.5.3}{Dynamisches Voxelgitter}{chapter.5}% 38
+\BOOKMARK [1][-]{section.5.4}{Inkrementelle Normal- und Kr\374mmungssch\344tzung}{chapter.5}% 39
+\BOOKMARK [1][-]{section.5.5}{Inkrementelle Segmentierung durch Region Growing}{chapter.5}% 40
+\BOOKMARK [1][-]{section.5.6}{Deskriptor}{chapter.5}% 41
+\BOOKMARK [1][-]{section.5.7}{Kartierung}{chapter.5}% 42
+\BOOKMARK [1][-]{section.5.8}{Lokalisierung}{chapter.5}% 43
+\BOOKMARK [1][-]{section.5.9}{Inkrementeller Pose-Graph SLAM Solver}{chapter.5}% 44
+\BOOKMARK [1][-]{section.5.10}{Herausarbeitung semantischer Informationen}{chapter.5}% 45
+\BOOKMARK [1][-]{section.5.11}{Erweiterung um Segmentierung mit Farbwerten}{chapter.5}% 46
+\BOOKMARK [2][-]{subsection.5.11.1}{Filterung und Registrierung}{section.5.11}% 47
+\BOOKMARK [2][-]{subsection.5.11.2}{Dynamisches Voxelgitter}{section.5.11}% 48
+\BOOKMARK [2][-]{subsection.5.11.3}{Segmentierung}{section.5.11}% 49
+\BOOKMARK [0][-]{chapter.6}{Setup der Experimente}{}% 50
+\BOOKMARK [1][-]{section.6.1}{Kamera \(Kopp\)}{chapter.6}% 51
+\BOOKMARK [2][-]{subsection.6.1.1}{Kriterien}{section.6.1}% 52
+\BOOKMARK [2][-]{subsection.6.1.2}{Intel Realsense D435}{section.6.1}% 53
+\BOOKMARK [2][-]{subsection.6.1.3}{Erweiterung des Sichtfelds}{section.6.1}% 54
+\BOOKMARK [1][-]{section.6.2}{Odometrie \(Kopp\)}{chapter.6}% 55
+\BOOKMARK [1][-]{section.6.3}{Ausstattung des Computers}{chapter.6}% 56
+\BOOKMARK [1][-]{section.6.4}{Datens\344tze \(Schmelzer\)}{chapter.6}% 57
+\BOOKMARK [2][-]{subsection.6.4.1}{TUM Datensatz}{section.6.4}% 58
+\BOOKMARK [2][-]{subsection.6.4.2}{Eigener Datensatz}{section.6.4}% 59
+\BOOKMARK [0][-]{chapter.7}{Parametrierung f\374r Indoor Anwendung}{}% 60
+\BOOKMARK [1][-]{section.7.1}{Vorverarbeitung der Punktwolke}{chapter.7}% 61
+\BOOKMARK [1][-]{section.7.2}{Segmentierung}{chapter.7}% 62
+\BOOKMARK [2][-]{subsection.7.2.1}{Beschreibung}{section.7.2}% 63
+\BOOKMARK [2][-]{subsection.7.2.2}{Euklidische Segmentierung}{section.7.2}% 64
+\BOOKMARK [2][-]{subsection.7.2.3}{Segmenterung auf Basis von Fl\344chen}{section.7.2}% 65
+\BOOKMARK [2][-]{subsection.7.2.4}{Farbliche Segmentierung}{section.7.2}% 66
+\BOOKMARK [2][-]{subsection.7.2.5}{Vergleich der Segmentierungsmethoden}{section.7.2}% 67
+\BOOKMARK [1][-]{section.7.3}{Place Recognition}{chapter.7}% 68
+\BOOKMARK [0][-]{chapter.8}{Training des Deskriptors}{}% 69
+\BOOKMARK [1][-]{section.8.1}{Trainingsdaten}{chapter.8}% 70
+\BOOKMARK [1][-]{section.8.2}{Validierung mit Euklidische Segmentierung}{chapter.8}% 71
+\BOOKMARK [1][-]{section.8.3}{Validierung mit Fl\344chen-basierter Segmentierung}{chapter.8}% 72
+\BOOKMARK [0][-]{chapter.9}{Evaluierung der Ergebnisse und Fazit}{}% 73
+\BOOKMARK [1][-]{section.9.1}{Ergebnisse}{chapter.9}% 74
+\BOOKMARK [1][-]{section.9.2}{Ausblick}{chapter.9}% 75
+\BOOKMARK [1][-]{section.9.3}{Fazit der Arbeit}{chapter.9}% 76
+\BOOKMARK [0][-]{appendix*.83}{Referenzen}{}% 77

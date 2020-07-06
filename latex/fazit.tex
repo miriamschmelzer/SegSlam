@@ -1,0 +1,41 @@
+\chapter[Künstliche neuronale Netze (Kopp, Schmelzer)]{Evaluierung der Ergebnisse und Fazit}
+
+In diesem Kapitel werden die Ergebnisse dieser Arbeit diskutiert und ein Fazit gezogen. Außerdem werden in einem kurzen Ausblick weitere Ideen vorgestellt, die die Anwendbarkeit des Algorithmus zusätzlich verbessern könnten. 
+
+\section[Ergebnisse (Kopp, Schmelzer)]{Ergebnisse} 
+
+Ziel der Arbeit war es die Anwendbarkeit des SegMap-Algorithmus auf verschiedene indoor-Umgebungen verbunden mit der Nutzung einer RGB-D Kamera als \linebreak Wahrnehmungssensor zu analysieren. Hierfür mussten zunächst geeignete Datensätze gesucht werden. Da nur ein geeigneter Datensatz gefunden werden konnte, wurden zusätzlich noch weitere Datensätze erstellt. 
+
+Die Datensätze müssen neben Umgebungsdaten auch Odometrieinformationen enthalten. Um diese zu generieren, wurde eine Vorrichtung gebaut, mit deren Hilfe die Odometriedaten erzeugt und die Kamera auf einer konstanten Höhe durch eine Umgebung geschoben werden konnte. Es wurden mehrere Datensätze in unterschiedlichsten indoor-Umgebungen aufgezeichnet. Diese unterscheiden sich anhand des Aufbaus und der Menge der Objekte. So wurden verschiedene Flurumgebungen, Computerarbeitsplätze sowie Wohnungen aufgenommen. 
+
+Da der SegMap-Algorithmus für die Anwendung in einer urbanen outdoor-Umgebung mit einem LiDAR-Sensor parametriert ist, mussten diverse Parameter an die geänderten Anforderungen angepasst werden. Zur Ermittlung geeigneter Werte für die Segmentierungsparameter wurden zunächst mehrere statische Aufnahmen verschiedener Objekte in einer einfachen Umgebung erstellt. Anhand dieser konnten die Parameter für beide Segmentierungsmethoden so bestimmt werden, dass sinnvolle reproduzierbare Segmente entstehen. 
+
+Da eine RGB-D Kamera gegenüber einem LiDAR-Sensor den Vorteil hat, dass zusätzlich zur Tiefeninformation auch Farbwerte wahrgenommen werden, wurden beide Segmentierungsmethoden um eine Berücksichtigung der Farbwerte erweitert. \linebreak Dadurch konnte bei der auf euklidische Distanzen basierenden Segmentierung eine Verbesserung erreicht werden. Da anhand der Farben auch nah beieinander stehende oder sich berührende Objekte sinnvoll unterschieden werden, entstehen mehr Segmente. Da dem Algorithmus dadurch mehr Segmente in der lokalen Karte zum Finden geometrisch konsistenter Korrespondenzen in der Target Map zur Verfügung stehen, wird die Wahrscheinlichkeit einer erfolgreichen Lokalisierung somit erhöht. 
+
+Die Lokalisierungsparameter wurden zunächst versucht im Zusammenspiel mit dem bereits trainierten Deep-Learning-basierten Deskriptor so zu kombinieren, dass eine zuverlässige und reproduzierbare Erkennung von Loop Closures möglich ist. Wider der Erwartung wurde eine Parameterkombination gefunden mit der teilweise korrekte Loop Closures erkannt wurden. Allerdings waren diese nicht bei jedem Durchlauf reproduzierbar und nicht robust gegen falsche Zuordnungen. 
+
+Um bessere Lokalisierungsergebnisse zu erzielen, wurde der Deep-Learning-basierte Deskriptor jeweils für beide Segmentierungsmethoden neu trainiert. Die Trainingsdaten wurden aus den diversen Datensätzen erzeugt um den Deskriptor möglichst allgemein für indoor-Umgebungen zu trainieren. Durch das Training konnte sowohl der Deskriptor für die euklidische als auch der für die Flächen-basierte Segmentierung so verbessert werden, dass zuverlässig und reproduzierbar in manchen Umgebungen Loop Closures erkannt wurden. Diese wurden in den strukturreicheren Umgebungen wie den Computerarbeitsplätzen und Wohnungen gefunden. In den vergleichsweise leeren Flurumgebungen konnten nach wie vor keine Loop Closures erkannt werden.
+
+Die Ergebnisse haben gezeigt, dass der SegMap-Algorithmus grundsätzlich auf indoor-Umgebungen und die Verwendeung einer RGB-D Kamera anwendbar ist. Al\-ler\-dings werden mit den eigen trainierten Deskriptoren recht wenig Loop Closures erkannt, obwohl die Trajektorien deutlich mehr Überschneidungen aufweisen. Allerdings werden mit der richtigen Parametrierung keine falschen Zuordnungen mehr gefunden, die sowohl die Trajektorie als auch die Karte deutlich verzerren und damit verschlechtern. 
+
+Der deutlich kleinere Radius der lokalen Karte ist ein größeres Problem als erwartet, weil dadurch deutlich weniger geometrisch konsistente Korrespondenzen gefunden werden können. Im Vergleich mit den Ergebnissen mit dem KITTI-Odometriedatensatz, bei dem nur sechs geometrishc konsitsnete Korrespondenzen zwischen den Karten gefunden werden müssen, müsste der Deskriptor für eine indoor-Anendung noch deutlich besser sein. 
+
+\section[Ausblick (Kopp, Schmelzer)]{Ausblick}
+
+Der Deep-Learning-basierte Deskriptor hat für beide Segmentierungsmethoden noch deutliches Verbesserungspotential durch mehr Trainingsdaten. Zusätzlich würden \linebreak Ground-Truth Korrespondenzen die Trainingsdaten verbessern und eine umfassendere Auswertung der Güte des Deskriptors ermöglichen. Die Ground-truth Korrespondenzen könnten beispielsweise aus einer simulierte Umgebung in Gazebo generiert werden. Dies ist eine Software zur Simulation von Robotern und deren Umgebungen. 
+%http://gazebosim.org/
+Außerdem könnte der Deskriptor so erweitert werden, dass er zusätzlich auch Farbinformationen verarbeitet um die Segmente dadurch noch spezifischer zu beschreiben. 
+
+Im bisherigen Stand des Algorithmus befindet sich der Bereich der lokalen Karte in Form eines Zylinders um die Roboterpose. Da durch eine RGB-D Kamera kein 360$^{\circ}$-Sichtfeld abgedeckt wird, könnte der Bereich der lokalen Karte an das Sichtfeld der Kamera angepasst werden. Dadurch könnten zusätzlich Loop Closures auch in kleinen Räume und wenn der Roboter sich umdreht erkannt werden. Allerdings würde dies auch die Anzahl der Segmente in der lokalen Karte deutlich verringern und dadurch die Wahrscheinlichkeit einer erfolgreichen Lokalisierung mindern. 
+
+Die Parametrierung des Algorithmus ist sehr aufwendig, da viele Parameter aufeinander abgestimmt werden müssen die sich gegenseitig stark beeinflussen. Außerdem ist der Algorithmus sehr empfindlich gegen kleine Änderungen in der Parametrierung. Ein Ansatz um diesen Prozess zu beschleunigen, wäre ein künstliches neuronales Netz oder andere Verfahren des maschinellen Lernens zu verwenden, die die Parameter mit Hilfe von Ground-Truth Korrespondenzen automatisiert optimieren. 
+
+Der Algorithmus bietet zusätzlich die Möglichkeit ein weiteres künstliches neuronales Netz zu trainieren, das semantische Informationen aus den Segmenten gewinnt. Dieses könnte verwendet werden, um typische dynmaische Objekte  in indoor-umgebungen, wie beispielsweise Stühle und Menschen, zu erkennen und anschließend nicht für die Lokalisierung zu verwenden. 
+
+Für die Wahrnehmung der Umgebung könnte auch ein anderer Sensor verwendet werden, wie beispielsweise die RealSense L515 von Intel. Dies ist eine Kombination eines  MEMS LiDAR-Sensors mit einer RGB-Kamera. verglichen mit der verwendeten RGB-D Kamera bietet diese eine höhere Genauigkeit und die Punktwolke blutet weniger an Objektkanten aus. Der Sensor ist altuell aber noch nicht  auf dem Markt erhältlich. 
+%https://www.intelrealsense.com/lidar-camera-l515/
+
+\section[Fazit der Arbeit (Kopp, Schmelzer)]{Fazit der Arbeit}
+
+Das im Rahmen dieser Arbeit behandelte Thema deckt ein breit gefächertes Aufgabengebiet ab. Dadurch konnten wir im Studium gelerntes Wissen anwenden und vertiefen. Zudem haben wir auch viel neues Wissen erworben, das uns erst ermöglicht hat den Algorithmus vollumfänglich zu verstehen. So konnten wir fächerübergreifend von der Verarbeitung von Punktwolken über maschinelles Lernen bis zu Robotern und Hardware unser Wissen erweitern. Da es für uns beide der erste tiefergehende Kontakt mit ROS und der Verarbeitung von Punktwolken war, konnten wir im Umgang damit mehr Sicherheit gewinnen und neue Aspekte der Anwendungsmöglichkeiten kennenlernen. 
+Außerdem haben wir gelernt wie komplexe Systeme strukturiert parametriert werden können. Es wäre sehr interessant gewesen wie sich der Deskriptor verbessert hätte, wenn wir die Simulationssoftware Gazebo für die Erstellung von Datensätzen mit Ground-Truth Korrespondenzen verwendet hätten. 

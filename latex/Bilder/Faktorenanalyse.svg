@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="226"
+   height="240"
+   id="svg2751">
+  <defs
+     id="defs2754" />
+  <g
+     id="g3578">
+    <path
+       d="M 26.493506,204.35064 L 170.64935,24.155844"
+       id="path2764"
+       style="fill:none;fill-rule:evenodd;stroke:#0000ff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 165.97403,175.84416 L 94.025974,119.22078"
+       id="path2766"
+       style="fill:none;fill-rule:evenodd;stroke:#0000ff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 50.12987,159.74026 C 55.357043,149.31074 59.062772,138.10174 60.519481,126.49351 C 63.993133,102.52538 79.952099,103.17221 89.87013,94.025974 C 99.477693,79.084919 115.76349,71.739845 122.33766,70.649351 C 131.07953,69.571189 138.25683,80.580123 136.36364,88.571428 C 136.59958,105.94428 129.56569,114.22984 124.67532,125.19481 C 121.52735,129.73397 117.17268,133.46866 111.94805,136.62338 C 105.02164,139.30932 102.77056,152.46237 97.402597,154.80519 C 87.0587,162.285 90.709949,152.19037 77.922078,167.53247 C 75.043687,173.19217 64.363124,176.3202 58.441558,169.35065 C 54.302666,166.42085 49.147741,163.42154 50.12987,159.74026 z"
+       id="path2806"
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 26.493507,33.506493 L 26.493506,204.41558 L 204.41558,204.41558"
+       id="path2762"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3584">
+    <text
+       x="4.0616879"
+       y="31.42857"
+       id="text2788"
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:89.99999762%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="4.0616879"
+         y="31.42857"
+         id="tspan2790"
+         style="font-size:18px">Variable 2</tspan></text>
+    <text
+       x="142.85715"
+       y="18.441557"
+       id="text2792"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:89.99999762%;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="142.85715"
+         y="18.441557"
+         id="tspan2794">Faktor 1</tspan></text>
+    <text
+       x="154.54546"
+       y="162.5974"
+       id="text2796"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:89.99999762%;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="154.54546"
+         y="162.5974"
+         id="tspan2798">Faktor 2</tspan></text>
+    <text
+       x="139.74026"
+       y="221.55844"
+       id="text2800"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:89.99999762%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="139.74026"
+         y="221.55844"
+         id="tspan2802">Variable 1</tspan></text>
+  </g>
+</svg>

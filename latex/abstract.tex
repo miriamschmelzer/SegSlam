@@ -1,0 +1,32 @@
+\chapter*{Abstract}
+\setheader{Abstract}
+
+
+\begin{center}
+	\begingroup
+	\renewcommand*{\arraystretch}{1}
+	\rowcolors{2}{white}{white}
+	{\makeatletter	
+		\begin{tabular}{p{3.2cm}p{9.6cm}}
+			Thema: & \thema \\
+			& \\
+			\type kandidaten: & \verfasserA \\
+							  & \verfasserB \\
+			& \\
+			Betreuung: & \hoschschule \newline \prueferA \newline \prueferB \\
+			& \\
+			Abgabedatum: & \abgabedatum \\
+			& \\
+			Schlagworte: & \schlagworte \\
+			& \\
+		\end{tabular}
+	
+	\makeatother}
+	\endgroup
+\end{center}
+
+\bigskip
+
+\noindent
+
+Im Rahmen dieser Masterarbeit wird die Anwendbarkeit des SegMap-Algorithmus auf indoor-Umgebungen analysiert und entsprechend angepasst. Dieser ist auf die Verarbeitung von LiDAR-Daten ausgelegt und wird auf die Verarbeitung der Daten einer RGB-D Kamera angepasst. Der Algorithmus basiert auf einer Umgebungserkennung anhand von Segmenten. Die verwendeten Segmentierungsmethoden werden auf eine Verarbeitung von Farbinformationen erweitert. Für die Validierung der Anwendbarkeit des Algorithmus werden diverse indoor-Datensätze mit einer RGB-D Kamera erstellt und hierfür eine Vorrichtung zur Aufzeichnung der Odometrieinformation gebaut. Der Deep-Learning-basierte Segmentdeskriptor wird mit diesen Datensätzen trainiert und die Ergebnisse ausgewertet. 

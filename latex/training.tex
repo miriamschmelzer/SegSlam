@@ -1,0 +1,110 @@
+\chapter[Training des Deskriptors (Kopp, Schmelzer)]{Training des Deskriptors}
+
+Der mit dem SegMap-Algorithmus zur Verfügung gestellte Deskriptor wurde für urbane outdoor-Umgebungen mit dem KITTI Odometriedatensatz trainiert. Wie Kapitel \ref{sec:Place Recognition} gezeigt hat, können mit diesem Deskriptor keine guten Ergebnisse erzielt werden, wenn der Algorithmus in indoor-Umgebungen mit einer RGB-D Kamera eingesetzt wird. Dies ergibt sich aus den bereits genannten Unterschieden im Aufbau der Umgebungen und den durch die andere Parametrierung wesentlich kleineren Segmenten mit anderen Erscheinungsformen. 
+
+Um die Wahrscheinlichkeit einer erfolgreichen Lokalisierung in der Karte zu erhöhen, wurde der Deskriptor mit den indoor-Datensätzen aus Kapitel \ref{sec:Datensatz} trainiert. Im Folgenden wird zunächst erläutert, wie aus den verschiedenen Datensätzen Trainingsdaten erzeugt werden. Da der Deskriptor separat für beide Segmenteirungsmethoden trainiert wurde, folgt anschließend eine Validierung beider Deskriptoren. 
+
+\section[Trainingsdaten (Kopp, Schmelzer)]{Trainingsdaten}
+
+Die verschiedenen Datensätze sind in separaten Bag-Dateien gespeichert. Für die Erzeugung der Trainingsdaten müssen die Punktwolken segmentiert werden. Hierfür werden diese zunächst durch das Voxelgitter komprimiert und anschließend inkrementell sowohl euklidisch mit und ohne Berücksichtigung der Farbwerte als auch Flächen-basiert segmentiert. Es wurde die Parametrierung aus Kapitel \ref{sec:Segmentierung} verwendet.  
+
+Die so entstandenen Segmente mit jeder zugehörigen Beobachtung pro \linebreak Lokalisierungsschritt bilden die Trainingsdaten. Diese wurden wie in Kapitel \ref{sec:Deskriptor} erläutert in verschiedene Klassen unterteilt. Anschließend werden sie gefiltert, indem Segmente mit zu wenigen Beobachtungen sowie Klassen mit zu wenigen Beispielen entfernt wurden. 
+
+Kopien der gefilterten Trainingsdaten wurden mit verschiedenen Methoden ma\-ni\-pu\-liert, um die Menge der Trainingsdaten zu erweitern \cite{Dube2019}. Dabei wurden verschiedene Szenarien simuliert, die die Güte  des Deskriptors verbessern sollen. So werden unterschiedliche Blickwinkel auf Segmente trainiert durch die Rotation der Segmente mit verschiedenen Winkeln. Außerdem wurden Verdeckungen von Teilen der Segmente simuliert, indem bei jedem Segment Punkte entfernt werden, die auf einer Seite einer zufällig generierten Schnittebene liegen. Allerdings wurde darauf geachtet, dass hierbei weniger als 50\% der Punkte wegfallen. Zusätzlich wird zufälliges Rauschen simuliert, indem zufällig bis zu 10\% der Punkte eines Segmentes entfernt werden.
+
+Für das Training des mit dem Algorithmus zur Verfügung gestellten Deskriptors wurden zusätzlich Ground-truth Korrespondenzen zwischen Segmenten verwendet, die in Bereichen extrahiert wurden, die mehrmals besucht wurden. Diese wurden mit Hilfe von GPS ermittelt. Mit den Ground-Truth Korrespondenzen wurden die Trainingsdaten zusätzlich erweitert und wurden außerdem als Testdaten verwendet. Mit diesen Datenpaaren konnte die Güte des Deskriptors analysiert und Reseiver-Operating-\linebreak Characteristics-Kurven (ROC) geplottet werden. ROC-Kurven sind eine weit verbreitete Methode zur Bewertung der Qualität von Klassifizierern im Bereich des maschinellen Lernens. Es werden die richtig positiven Klassifizierungen mit den falsch positiven Klassifizierungen ins Verhältnis gesetzt. 
+
+In Tabelle \ref{tab:training} sind zum Vergleich die Eckdaten der Trainingsdaten sowie die Ergebnisse des Trainings der selbst trainierten Deskriptoren gegenüber dem bereits trainierten Deskriptor aufgeführt. Die Trainingsdaten wurden aus mehreren Datensätzen erzeugt, die in verschiedenen indoor-Umgebungen aufgenommen wurden. Die Datensätze enthalten Aufnahmen verschiedene Flure und Räume an der Hochschule Konstanz sowie verschiedener Wohnungsumgebungen. Die Datensätze bestehen teilweise aus Punktwolken, die nur Tiefeninformationen enthalten, manche Datensätze verfügen zusätzlich auch über Farbwerte. Es wurden insgesamt elf Datensätze ohne Farbinformationen und fünf Datensätze mit Farbinformationen verwendet. 
+
+\renewcommand{\arraystretch}{1}
+\begin {table}
+ \centering
+ \caption{Vergleich der verwendeten Trainingsdaten sowie der erzielten Ergebnisse des Trainings des bereits trainierten Deskriptors sowie der selbst trainierten Deskriptoren}
+ \label{tab:training}
+ \begin{tabulary}{\textwidth}{ L C C C }
+  \hhline{====}
+   Parameter    & KITTI &  Euklidische Abstände & Flächen-basiert \\
+  \hhline{====}
+  Anzahl Segmente & 30207 & 4236 & 3693  \\
+  \hhline{----}
+  Anzahl Klassen & 2558 & 1082 & 831 \\
+  \hhline{----}
+  Durchschnittliche Beobachtungen pro Segment & 11,81 & 4,91 & 4,44 \\
+  \hhline{----}
+  Genauigkeit (\%) & 37,86 & 18,28 & 15,49 \\
+%  \hhline{----}
+%  Loss gesamt & 6,2615 & 4,5445 & 4,4445 \\
+%  \hhline{----}
+%  Klassifizierungs-Loss & 2,8857 & 3,8891 & 3,9766 \\
+%  \hhline{----}
+%  Rekonstruktions-Loss & 0,0169 & 0,0033 & 0,0023 \\
+   \hhline{====}
+ \end{tabulary}
+\end{table}
+
+\renewcommand{\arraystretch}{1}
+\begin {table}[H]
+ \centering
+ \caption{Parameter zur Place Recognition sowohl mit der euklidischen als auch mit der der Flächen-basierten Segmentierung }
+ \label{tab:Parameter_PR_smooth}
+ \begin{tabulary}{\textwidth}{ L C C C }
+  \hhline{===}
+   Parameter    & Euklidische Segmentierung  & Flächen-basierte Segmentierung  \\
+  \hhline{===}
+  Radius lokale Karte (m) &  5,0 & 5,0  \\
+  \hhline{---}
+  Distanz zwischen Segmentierungen (m) &  0,05 & 0,05  \\
+  \hhline{---}
+  minimaler Abstand der Segmentzentroide (m) &  0,6 & 0,6  \\
+  \hhline{---}
+  Anzahl nächster Nachbarn &  45 & 50  \\
+  \hhline{---}
+  Grenzwert für geometrische Konsistenz (m) &  0,1 & 0,1  \\
+  \hhline{---}
+  Minimale Clustergröße &  5 & 5  \tabularnewline
+  \hhline{---}
+  Maximaler Konsistenzabstand für Caching (m) &  0,1 & 0,1 \\
+  \hhline{===}
+ \end{tabulary}
+\end{table}
+
+\section[Validierung mit Euklidische Segmentierung (Kopp, Schmelzer)]{Validierung mit Euklidische Segmentierung}
+
+Da die euklidische Segmentierung sowohl mit als auch ohne Farbinformationen arbeiten kann, werden alle bereits genannten Datensätze für die Generierung der Trainingsdaten für den Deskriptor verwendet. Die Datensätze mit Farbinformationen wurden zusätzlich auch mit der rein euklidischen Segmentierung verarbeitet. Dadurch wurden aus insgesamt 21 Datensätzen und der  bereits erwähnten Erweiterung der Trainingsdaten 4236 Segmente erzeugt. Diese sind auf 1082 Klassen aufgeteilt. Daraus ergibt sich, dass jedes Segment im Schnitt etwa fünf Mal beobachtet wurde.
+
+Durch das Training mit diesen Daten über 256 Epochen wurde eine Genauigkeit des Deskriptors von 18,82 \% erreicht. Verglichen mit der erreichten Genauigkeit des bereits trainierten Deskriptors ist diese wesentlich geringer. Dies lässt sich auf die Tatsache zurückführen, dass nur 14\% der Trainingsdaten zur Verfügung standen. Da die Datensätze lediglich die Kameradaten sowie die Odometrieinformationen enthalten, konnten keine Ground-Truth Korrespondenzen ermittelt werden. Diese werden jedoch für einer ROC-Kurve zur Analyse der Güte des Deskriptors benötigt. 
+
+Der Deskriptor wurde dennoch anhand drei verschiedener Datensätze getestet. Diese wurden in zwei verschiedenen Flur und Büro Umgebungen sowie in einer Wohnung aufgenommen. Die Testdatensätze wurden nicht für das Training verwendet. Die für die Lokalisierung benötigten Parameter wurden bereits in Kapitel \ref{sec:Place Recognition} näher erläutert. In verschiedenen Testreihen wurde versucht diese Parameter anhand der drei Testdatensätze so abzustimmen, dass der Algorithmus sich erfolgreich in seiner Karte lokalisiert. In Tabelle \ref{tab:Parameter_PR_smooth} sind die Parameter aufgeführt, mit denen in den verwendeten Testdatensätzen reproduzierbar Loop Closures erkannt wurden, die zu einer Verbesserung der Trajektorie und der Karte geführt haben.
+
+Abbildungen \ref{fig:PR_euklid_bb} zeigt Beispiele korrekt erkannter Loop Closures mit der farbigen Segmentierung. In (a) und (c) sind jeweils die Trajektorie mit der erstellten Karte ohne die Erkennung von Loop Closures und in (b) und (d) die durch eine korrekt erkannte Loop Closure verbesserten Ergebnisse. Abbildung \ref{fig:PR_euklid_bb} (b) zeig die Ergebnisse in einer Wohnungsumgebung, Abbildung \ref{fig:PR_euklid_bb} (d) in einer Umgebung die sowohl einen Flur als auch einen Raum mit Computerarbeitsplätzen zeigt. In beiden Umgebungen wurden reproduzierbar Loop Closures erkannt. Diese sind mit einem Pfeil gekennzeichnet. Abbildung \ref{fig:PR_euklid_bb} (d) verdeutlicht, dass sich strukturreiche Umgebungen, die viele verschiedene Objekte enthalten deutlich besser für eine Anwendung des Algorithmus eignen, da die Wahrscheinlichkeit eine Loop Closure zu erkennen deutlich höher ist. In der auf der Abbildung gezeigten Umgebung wurde die Loop Closure auch erst erkannt als mehrere Computerarbeitsplätze in der lokalen Karte waren. Durch die erkannte Loop Closure wurde die Trajektorie des Roboters verbessert und die Karte entsprechend an diese angepasst. Auch die Trajektorie im Flur wurde entsprechend verbessert, obwohl dort keine Loop Closure erkannt wurde. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{Bilder/Trainiert_euklid_segmentierung_alle.png}
+	\caption{Beispiele korrekt erkannter Loop Closures mit dem für die euklidische Segmentierung trainierten Deskriptor }
+	\label{fig:PR_euklid_bb}
+\end{figure}
+
+%Allerdings haben die Versuche gezeigt, dass keine Parameterkombination gefunden werden konnte, die mit dem trainierten Deskriptor zu einer zuverlässigen Erkennung von Loop Closures führt. Die Wahrscheinlichkeit einer Wiedererkennung von Segmenten der lokalen Karte wird erhöht, indem die Anzahl der Nächsten Nachbarn, die im Merkmalsraum gesucht werden, erhöht wird und zusätzlich die Anzahl der benötigten geometrisch konsistenten Korrespondenzen niedrig gewählt wird. Dies führt allerdings zu einer erheblichen Verschiedbung der Trajektorie durch falsch erkannte Loop Closures. Wenn diese Parameter jedoch erhöht werden, werden gar keine Loop Closures mehr erkannt. 
+
+\section[Validierung mit Flächen-basierter Segmentierung (Kopp, Schmelzer)]{Validierung mit Flächen-basierter Segmentierung}
+
+Für die Flächen-basierte Segmentierung wurden aus 16 Datensätzen mit der Datenerweiterung insgesamt 3693 Segmente für das Training erzeugt. Da keine sinnvolle Parametrierung für eine farbliche Segmentierung gefunden werden konnte, wurden die Datensätze mit Farbinformationen nur ohne Berücksichtigung der Farbwerte segmentiert. Die Trainingsdaten sind in 831 Klassen aufgeteilt mit durchschnittlich etwa vier Beobachtungen pro Segment. 
+
+Das Training des Deskriptors mit diesen Daten führte zu einer Genauigkeit von 15,49 \%. Auch diese ist deutlich geringer als die des mitgelieferten Deskriptors, der mit euklidisch segmentierten Trainingsdaten trainiert wurde. Aufgrund der geringeren Menge an Trainingsdaten ist die Genauigkeit auch nochmal geringer als die des Deskriptors für die euklidische Segmentierung. 
+
+Auch dieser Deskriptor wurde anhand derselben Testdatensätze wie bereits der Deskriptor für die euklidische Segmentierung ausgewertet. Mit den Parametern, die in Tabelle \ref{tab:Parameter_PR_smooth} aufgeführt sind, konnten in den verwendeten Testdatensätzen reproduzierbar Loop Closures erkannt werden, die zu einer Verbesserung der Trajektorie und der Karte geführt haben. 
+
+Abbildung \ref{fig:PR_smooth_bb} zeigt anhand der selben Umgebungen, die bereits bei der Validierung des Deskriptors für die euklidische Segmenteirung gezeigt wurden, Beispiele für korrekt erkannte Loop Closures. Die Ergebnisse sind sehr ähnlich wie beim Deskriptor für die euklidische Segmentierung. Auch hier wurden Loop Closures nur in Bereichen mit vielen Objekten erkannt. 
+
+%Die Abbildungen \ref{fig:PR_smooth_bb} und \ref{fig:PR_smooth_flur} zeigen Beispiele korrekt erkannter Loop Closures. Beide Abbildungen zeigen in (a) die Trajektorie mit der erstellten Karte ohne die Erkennung von Loop Closures und in (b) die durch eine korrekt erkannte Loop Closure verbesserten Ergebnisse. Abbildung \ref{fig:PR_smooth_bb} zeig die Ergebnisse in einer Wohnungsumgebung, Abbildung \ref{fig:PR_smooth_flur} in einer Umgebung die sowohl einen Flur als auch einen Raum mit Computerarbeitsplätzen zeigt. In beiden Umgebungen wurde jeweils reproduzierbar eine Loop Closure erkannt. Diese ist mit einem Pfeil gekennzeichnet. Abbildung \ref{fig:PR_smooth_flur} verdeutlicht, dass sich strukturreiche Umgebungen, die viele verschiedene Objekte enthalten deutlich besser für eine Anwendung des Algorithmus eignen, da die Wahrscheinlichkeit eine Loop Closure zu erkennen deutlich höher ist. In der auf der Abbildung gezeigten Umgebung wurde die Loop Closure auch erst erkannt als mehreren Computerarbeitsplätzen in der lokalen Karte waren. Durch die erkannte Loop Closure wurde die Trajektorie des Roboters verbessert und die Karte entsprechend an diese angepasst. Auch die Trajektorie im Flur wurde entsprechend verbessert, obwohl dort keine Loop Closure erkannt wurde. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{Bilder/Trainiert_smooth_segmentierung_alle.png}
+	\caption{Beispiele korrekt erkannter Loop Closures mit dem für die Flächen-basierte Segmentierung trainierten Deskriptor }
+	\label{fig:PR_smooth_bb}
+\end{figure}
+%Es konnte ebenfalls keine Parameterkombination gefunden werden, die zu einer zuverlässigen Lokalisierung und damit zu einer Verbesserung der Trajektorie geführt haben. 
+
+

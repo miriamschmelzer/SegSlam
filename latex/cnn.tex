@@ -1,0 +1,267 @@
+\chapter[Künstliche neuronale Netze (Schmelzer)]{Künstliche neuronale Netze}
+
+Künstliche neuronale Netze (KNN) sind in den letzten Jahren immer populärer geworden. Mit ihrer Hilfe werden komplexe Probleme, deren Lösung sich mathematisch schwer beschreiben lässt, berechenbar und können somit computergestützt gelöst werden. Anwendung finden sie meist bei Aufgaben, die vom Menschen intuitiv gelöst werden, wie beispielsweise bei der Sprach-, Gesichts- oder Handschrifterkennung. KNNs basieren auf dem Prinzip der Mustererkennung. Um derartige Aufgaben lösen zu können, müssen sie nicht mit den Merkmalen, die ein zu erkennendes Muster definieren, programmiert werden. Stattdessen sind sie in der Lage selbstständig Merkmale aus einer großen Datenmenge zu extrahieren. Durch diesen eigenständigen Lernprozess fallen sie im Gebiet der künstlichen Intelligenz in den Bereich des maschinellen Lernens.  
+
+\section[Aufbau und Funktionsweise (Schmelzer)]{Aufbau und Funktionsweise}
+
+Der Aufbau von KNNs ähnelt dem des menschlichen Gehirns. Es besteht aus mehreren künstlichen Neuronen, die jeweils mehrere Eingangssignale in ein Ausgangssignal verarbeiten. Dieses Ausgangssignal wird Aktivierung genannt. 
+
+In Abbildung \ref{fig:aufbau-knn} ist ein sogenanntes Multi-layer Perzeptron (MLP) abgebildet. Die Netzstruktur eines MLPs entspricht dem klassischen Aufbau eines KNNs \linebreak \cite{Goodfellow2016}. Es besteht aus mehreren künstlichen Neuronen, die in Schichten hin\-ter\-ein\-an\-der angeordnet ein Netz bilden. Die einzelnen Neuronen einer Schicht, die auf der Abbildung durch Kreise dargestellt sind, sind jeweils über gerichtete Kanten mit jedem Neuron der nächsten Schicht verbunden. Diese Schichten werden Fully Connected Layer genannt. KNNs, die ausschließlich aus diesen bestehen, ohne Verbindungen zu vorherigen Schichten, werden als Fully Connected Feedforward-Netze bezeichnet. 
+%KNNs stellen also gerichtete Graphen dar, deren Knoten reelwertige Funktionen sind. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{Bilder/KNN_2.png}
+    \caption{Aufbau eines künstlichen neuronalen Netzes}
+    \label{fig:aufbau-knn}
+\end{figure}
+
+Abbildung \ref{fig:neuron} zeigt die verschiedenen Elemente, aus denen ein künstliches Neuron $ j $  zusammengesetzt ist. Die $ n $ Eingangssignale $ \{ x_1 , x_2 , ..., x_n \} $ werden unabhängig voneinander mit den Gewichten $ \{ w_{1j}, w_{2j}, ..., w_{nj} \} $ gewichtet. Die Übertragungsfunktion $ \sum $ summiert alle gewichteten Eingangssignale zu einem einzigen numerischen Wert auf, der die Netzeingabe $ net_j $ bildet:
+
+\begin{align}
+	net_j = \sum_{i=1}^{n} x_i w_{ij}
+\end{align}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Bilder/KNN_1.png}
+    \caption{Aufbau eines künstlichen Neurons}
+    \label{fig:neuron}
+\end{figure}
+
+Anschließend wird die Netzeingabe durch einen Schwellwert $ b $, dem sogenannten Bias, verschoben und mit Hilfe einer Aktivierungsfunktion $ \varphi $ die Aktivierung $ a_j $ des Neurons berechnet:
+
+\begin{align}
+	a_j = \varphi ( net_j - b_j )
+\end{align}
+
+Mathematisch bedeutet die Verschiebung der Netzeingabe durch den Bias eine Verschiebung der Trennebene, die den Merkmalsraum zur Klassifizierung teilt, durch eine Translation. Abbildung  \ref{fig:trennebene} zeigt exemplarisch einen zweidimensionalen Merkmalsraum, in dem zwei Klassen unterschieden werden. Das Ziel des KNNs ist es eine Trennebene zu finden, die die beiden Klassen am besten voneinander teilt. Je genauer diese Ebene die Klassen trennt, desto besser ist das Ergebnis der Klassifizierung durch das KNN. Hierbei ist der konkrete Verlauf der Trennebene nicht fest. Durch KNNs können auch nicht-lineare Trennebenen erreicht werden, wie in der Abbildung durch die gepunktete Linie gezeigt wird. 
+%(Auf Trennung mehr eingehen? durch mehrere Schichten auch nicht lineare trennung des Merkmalsraums möglich, Schwellwertverschiebung kann auch einfach als Skalierung entsprechend der Bedürfnisse/Klassifizierungsproblems beschrieben werden, Die konkrete Gestalt der Aktivierungsfunktion ist nicht fest. ) 
+
+%Gängige Aktivierungsfunktionen sind beispielsweise die Sigmoidfunktion oder die Rectified Linear Unit (ReLU) Aktivierungsfunktion. 
+Als Aktivierungsfunktion wird beispielsweise häufig die Sigmoidfunktion oder das Rectified Linear Unit (ReLU) verwendet.
+
+Die Sigmoidfunktion wird verwendet, um die Aktivierungen der Neuronen in den Wertebereich zwischen 0 und 1 zu bringen \cite{Li2020a}. 
+Die Eingabe der Aktivierungsfunktion bildet die Netzeingabe $ net_j $, die durch den Bias $ b_j $ verschoben wird. Dies ist eine reelle Zahl. Mathematisch wird die Sigmoidfunktion durch folgende Glei\-chung beschrieben: 
+
+\begin{align}
+	\sigma(x) = \dfrac{1}{1+e^{-x}}
+\end{align}
+
+Abbildung \ref{fig:sig} zeigt graphisch den Verlauf der Sigmoidfunktion. Hohen negativen Eingabewerten wird der Wert 0 zugewiesen, während hohe positive Eingabewerte den Wert 1 bekommen. Nur in einem kleinen Bereich um 0 können Werte zwischen 0 und 1 angenommen werden. Wie in Kapitel \ref{sec:training} näher erläutert wird, lernen KNNs auf Basis von Gradienten. Die Sigmoidfunktion stellt eine differenzierbare reelle Funktion dar. Im Gegensatz zur nicht-differenzierbaren Sprungfunktion, kann sie dadurch bei KNNs eingesetzt werden.
+
+%Die Sigmoidfunktion stellt eine differenzierbare reelle Funktion dar. Dadurch kann sie im gegensatz zur nicht differenzierbaren Sprungfunktion bei KNNs eingesetzt werden, da diese auf Basis von Gradienten lernen. Dies wird in Kapitel \ref{sec:training} näher erläutert. 
+
+\begin{figure}
+	\centering
+	\begin {minipage}[t]{0.3\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Bilder/Klassfizierung.png}
+		\caption{Darstellung verschiedener Trennebenen in einem zweidimensionalen Merkmalsraum}
+		\label{fig:trennebene}
+	\end{minipage} 
+	\hfill
+	\begin{minipage}[t]{0.3\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Bilder/Sigmoid.png}
+		\caption{Funktionsverlauf der Sigmoidfunktion}
+		\label{fig:sig}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.3\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Bilder/RELU.png}
+		\caption{Funktionsverlauf der ReLU Aktivierungsfunktion}
+		\label{fig:relu}
+	\end{minipage}
+\end{figure}
+
+Die ReLU Aktivierungsfunktion verändert positive Eingangssignale nicht, sondern beschränkt den minimalen Wert lediglich auf 0 \cite{Li2020a}. 
+Es werden also nur negative Eingangswerte verändern indem diese auf 0 gesetzt werden. Sie wird durch folgende Funktion beschrieben: 
+
+\begin{align}
+	f(x) = max(0,x)
+\end{align}
+
+Der Funktionsverlauf ist auf Abbildung \ref{fig:relu} dargestellt. Für positive Eingangssignale ist die Funktion nicht beschränkt und verläuft linear mit einer Steigung von 1. Die ReLU Aktivierungsfunktion ist sehr beliebt und wird heute häufiger verwendet als die Sigmoidfunktion. Im Vergleich zu dieser wird der Lernprozess bei Verwendung der ReLU Aktivierungsfunktion deutlich beschleunigt. 
+%Durch den linearen Verlauf ohne Konvergenz gegen eine feste Schranke im positiven Bereich  Training mti reLu im Vergleich zu Sigmoid schneller, da es eine lineare Funktion ist, die nicht gegen einen festen Wert konvergiert.
+
+Das in Abbildung \ref{fig:aufbau-knn} dargestellte KNN besteht aus drei horizontal aufeinander folgenden Schichten. Links befindet sich die Eingabeschicht, gefolgt von einer verdeckten Zwischenschicht und einer Ausgabeschicht. 
+
+Der Informationsfluss durch das KNN beginnt bei der Eingabeschicht, deren Neuronen die Eingabedaten zugeführt werden. Eingabedaten können beispielsweise bei der Vorhersage von Aktienkursen verschiedene Unternehmensdaten sein. 
+%die einzelnen \textbf{Pixel eines Bildes} sein. 
+
+Die Aktivierungen der Neuronen der Eingabeschicht werden wiederum als Eingabe den Neuronen der Zwischenschicht zugeführt, deren Aktivierungen dann als Eingabe an die nächste Schicht weitergeleitet werden. 
+
+Ein KNN kann aus mehreren Zwischenschichten bestehen. Sie werden verdeckte Schichten oder hidden Layer genannt, da weder ihre Eingabe, noch ihre Aktivierungen für den Anwender sichtbar sind. Der Anwender sieht lediglich die Netzeingabe und seine Ausgabe. Besteht ein KNN aus vielen verdeckten Zwischenschichten, wird es tief genannt. Es wird dann von \glqq Deep Learning\grqq{} gesprochen. 
+
+Die Aktivierungen der letzten Schicht bilden die Ausgabe des Netzes. Bei Klassifikationen wird für jede mögliche Ausgabe eine Wahrscheinlichkeit gesucht. Daher wird häufig die Softmax-Funktion verwendet, um eine Wahrscheinlichkeitsverteilung über alle möglichen Ausgaben zu erzeugen \cite{Goodfellow2016}. Hierfür werden alle Aktivierungen der Neuronen der letzten Schicht in Form eines Vektor zusammengefasst. Durch die Softmax-Funktion werden alle Werte in einen Bereich zwischen 0 und 1 überführt und anschließend wieder in einem Vektor abgespeichert. Alle Komponenten dieses Vektors ergeben in Summe den Wert 1. 
+%Bei Klassifikationen wird bei der \textit{Ausgabeschicht} häufig die Softmax-Aktivierungsfunktion verwendet, da diese eine Wahrscheinlichkeitsverteilung über alle möglichen Ausgaben erzeugt. 
+
+%Je mehr Neuronen ein Netz aufbauen, desto komplexere Trennebenen können im Merkmalsraum abgebildet werden. Abbildung \ref{fig:Overfitting} verdeutlicht dies anhand eines Beispiels eines binären Klassifikationsproblems in einem zweidimensionalen Merkmalsraum. Die Entscheidungsbereiche werden hier farblich getrennt. Die türkisfarbenen Bereiche entsprechen den Bereichen im Merkmalsraum, dem die türkisfarbenen Kreise zuzuordnen sind, die blauen Kreuze gehören dementsprechend in die grauen Bereiche. Datenpunkte, die farblich in den falschen Bereichen liegen, werden als Ausreißer gesehen. die Klassifikationen sind jeweils das Ergebnis eines Fully Connected Feedforward-Netzes mit nur einer verdeckten Schicht. Lediglich die Anzahl der Neuronen dieser Schicht variieren. In (a) ist die Klassifikation mit zwei Neuronen, in (b) mit fünf Neuronen und in (c) mit 15 Neuronen in der verdeckten Schicht zu sehen. Mit zunehmender Anzahl der Neuronen nimmt auch die Anzahl der falschen Klassifikationen ab und die Funktion zur Klassifizierung wird zunehmend komplexer. In (c) sind keine Ausreißer mehr zu erkennen. 
+%
+%Komplexe Klassifikationsfunktionen können jedoch auch den Nachteil der Überanpassung an 
+%https://cs231n.github.io/neural-networks-1/
+%
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=\linewidth]{Bilder/Hidden_layer.png}
+%    \caption{Veranschaulichung des Einflusses der Anzahl der Neuronen auf die Komplexität der Trennebene mit (a) 2, (b) 5 und (c) 15 Neuronen}
+%    \label{fig:Overfitting}
+%\end{figure}
+%
+
+Beim schichtweisen Aufbau von KNNs kann von einer Hierarchie gesprochen werden. In jeder Schicht werden Merkmale extrahiert, die die Zusammenhänge in den be\-trach\-te\-ten Daten beschreiben. Diese Merkmale werden von Schicht zu Schicht zunehmend komplexer und abstrakter. Ein großer Vorteil von KNNs ist, dass sie eigenständig lernen, welche Merkmale extrahiert werden. Die erzielte komplexe Datenverarbeitung wird  durch eine verschachtelte Reihe einfacherer Bearbeitungsschritte realisiert. Ein KNN ist also eine Funktion, die aus vielen kleinen einfachen Funktionen zusammengesetzt ist und erst als Ganzes im Verhalten komplex wird. 
+
+%Je tiefer ein KNN ist, desto komplexere Funktionen können abgebildet werden. Abbildung ... verdeutlicht dies anhand eines Beispiels. In (a)
+% BSp mit einer verdeckten schicht: je mehr neuronen desto komplexere funktionen
+%die vielen Neuronen aufmehrere scichten aufteilen besser weil so hierarchische Strukturen besser abgebildet werden,  b werden großräumige symmetrien besser erkannt und dadurch besser gelernt. ansonsten steigt anzahl der benötigten neuroenen exponentiell mit nur einer schicht
+
+KNNs können zum Lösen vieler verschiedener Problemstellungen eingesetzt werden. Zu ihren breit gefecherten Anwendungsbereichen gehören beispielsweise die Erkennung verschiedener Objekte in Bildern,   Spracherkennung, Reglerentwürfe in der Re\-gel\-ungs\-tech\-nik sowie die Vorhersage von Entwicklungen wirtschaftlicher Prozesse und vieles mehr. Je nach Anwendung werden verschiedene Netzstrukturen verwendet, die Vorteile bei der Behandlung bestimmter Aufgabenstellungen gegenüber anderen Netzstrukturen aufweisen. Da sich die Funktionsweise verschiedener Netztopologien mit unter stark unterscheiden kann, gibt es auch verschiedene Lernverfahren, die sich für bestimmte Netzarten besser eignen. 
+
+\section[Training (Schmelzer)]{Training}
+\label{sec:training}
+
+Neben der Struktur können sich KNNs auch anhand des verwendeten Lernalgorithmus unterscheiden. Der Lernprozess eines KNNs wird auch Training genannt. Ein häufig verwendeter Ansatz ist der des überwachten Lernens. Dies bezeichnet das Lernen anhand von Beispielen. Hierbei wird ein Trainingsdatensatz verwendet, der aus Paaren von Ein- und zugehörigen Ausgabedaten besteht.
+
+Im Wesentlichen bedeutet Lernen das Modifizieren der Gewichte $ w_j $ der Ver\-bin\-dung\-en zwischen den Neuronen sowie deren Schwellwerte $ b_j $. Dies wird über iterative oder rekursive Algorithmen realisiert. Zu Beginn jedes Trainings werden alle Parameter, also die Gewichte und Schwellwerte, initialisiert. Hierfür werden häufig zufällige Werte vergeben. 
+
+Die Grundlage für die meisten Lernmethoden ist der Backpropagation-Algorithmus, der auf dem Gradientenverfahren basiert \cite{Goodfellow2016}. Dieser setzt sich aus drei Schritten zusammen. Zunächst werden die Eingabedaten durch alle Schichten des Netzes propagiert. Die Netz\-aus\-gabe wird mit der angestrebten zugehörigen Ausgabe $ y $ des Trainingsdatensatzes verglichen und der Fehler berechnet. Dieser entspricht der Differenz beider Werte. Mit Hilfe einer Fehlerfunktion wird der gesamte Fehler über alle Trainingsdaten berechnet. Hierfür wird beispielsweise häufig der Mittelwert der quadratischen Abweichung (MSE) verwendet. Anschließend wird dieser Fehler verwendet, um rückwärts durch das Netz schichtweise die Gewichte und Schwellwerte entsprechend ihres Einflusses auf den Fehler neu zu berechnen. Hierfür wird der Gradient $ \nabla_w E = \delta E/\delta w $ bzw. $ \nabla_b E = \delta E/\delta b $ verwendet, um die Gewichte und Schwellwerte in die Richtung, in der der Fehler minimiert wird, zu verändern. Die neuen Gewichte und Schwellwerte werden gewichtet mit einer Lernrate $ \eta $ berechnet, die angibt, wie stark die Parameter in jedem Schritt verändert werden:
+
+\begin{subequations}
+	\begin{align}
+		w_j = w_j - \eta * \nabla_w E \\
+		b_j = b_j - \eta * \nabla_b E
+	\end{align}
+\end{subequations}	
+
+Dies wird solange wiederholt, bis der Fehler unterhalb eines vorgegebenen Schwellwerts fällt. Jeder Trainingsdurchlauf wird als Epoche bezeichnet. 
+
+Die Lernrate $ \eta $ darf nicht zu klein aber auch nicht zu groß gewählt werden. Bei einer zu kleinen Lernrate dauert das Training sehr lange. Außerdem besteht die Gefahr, dass das Netz in einem lokalen Minimum stehen bleibt. Dies ist auf Abbildung \ref{fig:lokalesMinimum} zu sehen. 
+
+Eine große Lernrate beschleunigt das Training zwar, allerdings kann es zum Overshooting kommen, bei dem das Minimum der Fehlerkurve übersprungen wird und der Fehler wieder zunimmt. Dies ist auf  Abbildung \ref{fig:overshooting} dargestellt. Zusätzlich existieren Ansätze mit einer variablen Lernrate. Hierbei wird zu Beginn des Trainings eine hohe Lernrate gewählt, die im Laufe des Trainings kleiner wird.
+%http://www.dkriesel.com/_media/science/neuronalenetze-de-zeta2-2col-dkrieselcom.pdf
+Bei einer geeigneten Lernrate verbessert sich die Abbildung der Eingabedaten auf die Netzausgabe in jedem Lernschritt und approximiert zunehmend die angestrebte Ausgabe. Der Fehler der Netzausgabe wird minimiert. 
+
+\begin{figure}
+	\centering
+	\begin {minipage}[t]{0.45\linewidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{Bilder/Lernrate_zu_niedrig.png}
+		\caption{Graphische Darstellung des Gradientenverfahrens mit einer zu kleinen Lernrate}
+		\label{fig:lokalesMinimum}
+	\end{minipage} 
+	\hfill
+	\begin{minipage}[t]{0.45\linewidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{Bilder/Lernrate_zu_hoch.png}
+		\caption{Beispiel für Overshooting}
+		\label{fig:overshooting}
+	\end{minipage}
+\end{figure}
+
+Ziel ist es hierbei das Netz so zu trainieren, dass es gut generalisiert. Dies bedeutet, dass das Netz nach dem Training in der Lage sein soll, für Eingabedaten, die von den erlernten Beispielen abweichen, gute Ergebnisse in der Ausgabe zu generieren. Jedoch besteht die Gefahr des Auswendiglernens, z.B. wenn das Netz beim Training die Trainingsdaten zu häufig gesehen hat oder die Trainingsdaten nicht verschieden genug gewählt wurden. Dies wird Overfitting genannt, da das Netz zu genau an die Trainingsdaten angepasst wird und außerhalb dieser keine guten Ergebnisse liefert. 
+
+Overfitting kann beispielsweise durch Dropout vermieden werden. Dabei werden zufällig eine festgelegte Anzahl Neuronen pro Trainingsschritt abgeschalten und das Netz somit gezwungen weniger spezielle Merkmale zu erlernen.  
+
+Validiert wird das trainierte KNN nach dem Training mit Hilfe eines Validierungsdatensatzes. Dieser  wird vor dem Training vom Trainingsdatensatz entfernt und nicht für das Training verwendet. Die Fehlerquote auf diesem Datensatz zeigt, wie gut das Netz seine erlernten Fähigkeiten auf unbekannte Daten abstrahieren kann. 
+
+Um das Training zu beschleunigen, werden die Trainingsdaten häufig in gleich große Untermengen unterteilt, sogenannte Batches. Die Parameter werden dann nach jedem Batch neu berechnet. Dadurch werden die Parameter wesentlich häufiger angepasst und schneller eine Konvergenz gegen die Soll-Ausgabe erzielt. Die Trainingsdaten in den Batches müssen dabei jeweils normalverteilt sein im Vergleich zum gesamten Trainingsdatensatz, damit der Fehler über jedes Batch eine näherungsweise Schätzung des Fehlers über den gesamten Datensatz darstellt. 
+
+Zusätzlich kann das Training durch Batch Normalization wesentlich beschleunigt werden \cite{Ioffe2015}. Hierbei werden die Eingabedaten normiert damit das Netz nicht empfindlich gegen kleine Änderungen in der Verteilung der Werte der Eingabedaten wird.
+
+Ein weiterer Trainingsansatz ist das unüberwachte Lernen. Hierbei umfasst der Trainingsdatensatz nur Eingabedaten. Während des Trainings versucht das KNN diese eigenständig sinnvoll zu klassifizieren. Dies wird beispielsweise bei der Klassifizierung von Texten verwendet. Hierbei wird eine Menge verschiedener Texte automatisch analysiert und anhand der behandelten Themen in sinnvolle Gruppen unterteilt. 
+
+Ein ganz anderer Ansatz ist das bestärkende lernen, oder auch Reinforcement Learning genannt. Hierbei werden dem KNN keine Eingabedaten gegeben, sondern lediglich ein Ziel bezüglich seiner Ausgabe, das es während dem Training erreichen soll. Das Netz kann seine Eingabedaten selbstständig steuern und überprüft seine Ausgabedaten in jedem Schritt, ob das gesetzte Ziel erreicht wurde. Ein Beispiel hierfür ist ein humanoider Roboter, der selbstständig das Laufen erlernt. 
+
+\section[Convolutional Neural Networks (Schmelzer)]{Convolutional Neural Networks}
+
+Die bisher vorgestellten Fully Connected Feedforward-Netze können nur Vektoren als  Eingabedaten verarbeiten. Wenn also beispielsweise ein Bild verarbeitet werden soll, müssen die einzelnen Pixel des Bildes in einem langen Vektor hintereinander gehangen werden. Objekte können dadurch nicht unabhängig von ihrer genauen Position im Bild erkannt werden, da mit einer anderen Position des Objektes  ein völlig anderer Eingabevektor erzeugt wird. 
+
+Zur Verarbeitung solcher hochdimensionaler Daten werden Faltungsnetze, sogenannte Convolutional Neural Networks (CNN), eingesetzt \cite{Li2020b}. Diese sind eine spezielle Form von KNNs, die die Verarbeitung von Matrizen als Eingabe ermöglichen. Sie dienen dazu Strukturen unabhängig von ihrer exakten Position aus den Ein\-ga\-be\-da\-ten herauszufiltern. Bei der Bilderkennung werden beispielsweise in der ersten Schicht Kanten und Ecken herausgearbeitet, die in der nächsten Schicht dann zu einfachen Strukturen kombiniert werden. So werden charakteristische Merkmale der Eingabedaten herausgearbeitet, auf Basis derer diese dann verschiedenen Klassen zugeordnet werden können. Eingesetzt werden CNNs hauptsächlich bei der Bild- und Spracherkennung. Ein Beispiel hierfür ist die Zuordnung, ob auf einem Bild ein Hund oder eine Katze zu sehen ist.
+
+In Abbildung \ref{fig:aufbau-cnn} ist ein typischer Aufbau eines CNNs abgebildet. Es besteht aus mehreren Faltungsschichten, die Convolutional Layer genannt werden. Diese Schichten wechseln sich immer mit einer Pooling-Schicht ab, die genutzt wird, um die räumliche Dimension zu verringern. Die Netzausgabe wird von einem oder mehreren Fully Connected Layern am Ende des Netzes gebildet. Die Anzahl der Neuronen in diesen Schichten ist deutlich geringer als die in der Eingabeschicht. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Bilder/cnn.png}
+    \caption{Beispiel zum Aufbau eines Faltungsnetzes}
+    \label{fig:aufbau-cnn}
+\end{figure}
+
+Die Convolutional Layer sind die Hauptbestandteile des Netzes. Ihre Funk\-tions\-wei\-se basiert auf der mathematischen Faltung der Eingabedaten, die häufig bei der Signal- und Bildverarbeitung Anwendung findet. Die Neuronen der Eingabeschicht sind entsprechend der Eingabematrix $ A = (a_{ij}) \in K^{n \times n} $ angeordnet. Soll beispielsweise ein Bild verarbeitet werden, wird jedem Neuron ein Pixel zugeordnet. Die Aktivierungen der Neuronen werden über eine diskrete Faltung berechnet. Hierzu wird eine oder mehrere im Verhältnis zur Eingabematrix kleine Faltungsmatrix $ F = (f_{ij}) \in K^{k \times k} $, ein sogenanntes Filterkernel, über das Eingabebild geschoben. Dadurch werden bestimmte Informationen aus den Eingabedaten herausgefiltert, wie beispielsweise Kanten. Die Aktivierungen bilden das innere Produkt der Faltungsmatrix mit dem darunterliegenden Bildausschnitt: 
+
+\begin{align}
+	A \ast F := (a \ast f)_{xy} = \sum_{i=1}^{k} \sum_{j=1}^{k} a_{(x+i-1)(y+j-1)} \cdot f_{ij}
+	\label{faltung}
+\end{align}
+
+Abbildung \ref{fig:filter-kernel} veranschaulicht das Prinzip der Convolutional Layer. In grau ist die 5 $\times$ 5 Eingabematrix dargestellt. Über diese wird ein Filterkernel der Größe 3 $\times$ 3 geschoben. Die Werte des Kernels stellen die Gewichte dar und werden durch die kleineren türkisfarbenen Zahlen im türkisfarbenen Bereich der Eingabematrix angezeigt. Mit Hilfe des Filterkernels werden die neuen Werte des jeweils mittleren Matrixeintrags berechnet. 
+
+\begin{figure}
+	\centering
+	\begin{minipage}[t]{0.45\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Bilder/Filter_Kernel.png}
+		\caption{Beispiel eines Convolutional Layers mit Valid Padding}
+		\label{fig:filter-kernel}
+	\end{minipage}
+	\hfill
+	\begin {minipage}[t]{0.45\linewidth}
+		\centering
+    		\includegraphics[width=\linewidth]{Bilder/Padding.png}
+    		\caption{Darstellung des Same Padding in einem Convolutional Layer}
+    		\label{fig:padding}
+	\end{minipage}
+\end{figure}
+
+Am Rand einer Eingabematrix können Teile des Filterkernels nicht durch benachbarte Neuronen berücksichtigt werden. Für das Verhalten in diesen Bereichen gibt es verschiedene Ansätze. Dies wird Padding genannt. In Abbildung \ref{fig:filter-kernel} wird bei\-spiels\-wei\-se das Valid Padding angewendet. Hierbei wird das Filterkernel lediglich auf die Matrixelemente angewendet, bei denen das Filterkernel vollständig über der Matrix liegt. Abbildung \ref{fig:padding} zeigt dagegen das Same Padding, bei dem der Filterkernel auf alle Neuronen der Eingabematrix angewendet wird. 
+
+Gleichung \eqref{faltung} zeigt, dass die Aktivierungen durch Faltung, wie bei klassischen KNNs, mit gewichteten Summen berechnet werden, die anschließend einer Aktivierungsfunktion zugeführt werden. Der Unterschied ist, dass die Neuronen nur mit benachbarten Neuronen der vorherigen Schicht verbunden sind. Die Größe der Nachbarschaft wird hierbei durch die Größe des Filterkernels vorgegeben. Dies wird local Connectivity genannt. Die Gewichte, die durch das Filterkernel vorgegeben werden, sind für jedes Neuron gleich. Dieses teilen der Gewichte verringert den Trainingsaufwand gegenüber klassischen KNNs wesentlich, da deutlich weniger Gewichte trainiert werden müssen. Außerdem wird weniger Speicherplatz benötigt. CNNs werden in der Regel überwacht mittels Backpropagation oder ähnlichen Lernalgorithmen trainiert. 
+
+In der Pooling-Schicht werden die Aktivierungen eines gewissen Bereichs von Neuronen zu einem Wert zusammengefasst. Dadurch wird eine Invarianz gegen Verschiebungen der Informationen in den Eingabedaten erreicht.  Abbildung \ref{fig:pooling} zeigt zwei verschiedene Pooling-Methoden \cite{Saha2018}. 
+
+Beim Max Pooling wird jeweils nur der höchste Wert aller Aktivierungen eines Be\-reichs weitergeführt und die übrigen werden gelöscht. Dadurch werden nur die ausdrucksstärksten Informationen weitergegeben und die Darstellung der Informationen zunehmend abstrakter. Beim Average Pooling hingegen wird der Mittelwert über alle Aktivierungen eines Bereichs gebildet. 
+
+\begin{figure}
+	\centering
+	\begin{minipage}[t]{0.45\linewidth}
+		\centering
+    		\includegraphics[width=\linewidth]{Bilder/Max_pooling.png}
+    		\caption{Beispiel für Max und Average Pooling}
+    		\label{fig:pooling}
+	\end{minipage}
+	\hfill
+	\begin {minipage}[t]{0.45\linewidth}
+		\centering
+    \includegraphics[width=0.4\linewidth]{Bilder/flattening.png}
+    \caption{Darstellung des Flattening einer Matrix}
+    \label{fig:flattening}
+	\end{minipage}
+\end{figure}
+
+Abgeschlossen werden CNNs immer mit einem oder mehreren Fully Connected Layern. Um die Aktivierungen der letzten Convolutional oder Pooling-Schicht an die erste vollständig verbundene Schicht zu übergeben, werden diese in einem Vektor aneinander gehangen. Dies wird Flattening genannt \cite{Saha2018}. Abbildung \ref{fig:flattening} verdeutlicht das Prinzip des Flattenings. Eine 3 $\times$ 3 Matrix wird durch Flattening in einen 9 $\times$ 1 Vektor übertragen.
+
+Bis zum ersten Fully Connected Layer wird die Anzahl der Neuronen, die in der Eingabeschicht belegt wurden, durch die pooling-Schichten deutlich verringert. Innerhalb der Fully Connected Layern wird die Anzahl der Neuronen bis zur Ausgabeschicht weiter verringert, beispielsweise auf die Anzahl der verschiedenen Klassen, denen das Netz  die Eingabesignale zuordnen soll. 
+
+\section[Autoencoder (Schmelzer)]{Autoencoder}
+
+Autoencoder sind eine weitere Spezialform von KNNs \cite{Bard2019}. Sie werden verwendet, um hochdimensionale Eingabedaten auf einen möglichst niedrigdimensionalen Merkmalsvektor zu komprimieren. Die Datenmenge wird deutlich verringert ohne wichtige Informationen zu verlieren, indem wesentliche Merkmale aus den Eingabedaten extrahiert werden. Anschließend können die Eingabedaten aus ihrer komprimierten Repräsentation rekonstruiert werden. 
+
+Abbildung \ref{fig:autoencoder} zeigt einen beispielhaften Aufbau eines Autoencoders. Der kom\-pri\-mie\-ren\-de Teil der Netzarchitektur stellt den Encoder dar, während der dekomprimierende Teil analog als Decoder bezeichnet wird. Ziel ist es eine möglichst effiziente umkehrbare Kodierung mit wenig Informationsverlust zu lernen, um nach der Dekodierung möglichst exakt die Eingabedaten wieder zu erhalten. Die Anzahl der Neuronen in der Eingabe- und Ausgabeschicht sind daher identisch.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Bilder/KNN_3.png}
+    \caption{Beispiel zum Aufbau eines Autoencoders}
+    \label{fig:autoencoder}
+\end{figure}
+
+Trainiert werden Autoencoder beispielsweise über den Backpropagation-Algorithmus, bei dem der Fehler zwischen der Ein- und Ausgabe minimiert werden muss. Die Netzstruktur eines Autoencoders ist nicht fest vorgegeben und kann daher neben der klassischen Struktur eines MLP beispielsweise auch einem CNN ähneln.
+ 
+Zum Einsatz kommen Autoencoder beispielsweise bei der Rauschreduzierung, der Visualisierung von höherdimensionalen Daten im zwei- oder dreidimensionalen Raum und der Komprimierung, um beispielsweise Speicherplatz zu sparen oder effizienter Daten, wie Audiosignale oder Bilder, zu übertragen. 
+
+Bei Dimensionsreduzierung werden Autoencoder als alternative zur weit verbreiteten  Hauptkomponentenanalyse eingesetzt, die ebenfalls Daten aus einem Eingaberaum in einen niedrigdimensionaleren Raum projiziert.
+Es wurde gezeigt, dass Autoencoder hierbei bessere Ergebnisse liefern als die Hauptkomponentenanalyse \cite{Hinton2006}. 
+
+%\section{Tensorflow}

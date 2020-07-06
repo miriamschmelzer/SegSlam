@@ -1,0 +1,188 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Beispiel eines station\IeC {\"a}ren Roboters in Form eines Greifarms}}{2}{figure.caption.7}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Beispiel eines mobilen Staubsaugerroboters}}{2}{figure.caption.7}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Beispiel eines mobilen Roboters zum Einsatz im Katastrophenschutz}}{2}{figure.caption.7}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Beispiel eines mobilen Roboters bei einer Logistik-Anwendung}}{2}{figure.caption.7}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Ein unbemanntes Luftfahrzeug als Beispiel eines mobilen Roboters}}{3}{figure.caption.8}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Spot Mini von Boston Dynamics}}{3}{figure.caption.8}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Projekt CaRoLime des Instituts f\IeC {\"u}r Systemdynamik der HTWG}}{3}{figure.caption.8}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.8}{\ignorespaces Beispiele f\IeC {\"u}r Segmente}}{4}{figure.caption.9}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Beispiel zum Vergleich der Abbildung eines Objektes (a) als zweidimensionales Farbbild und als dreidimensionale Punktwolke (b) ohne und (c) mit Farbwerten\relax }}{7}{figure.caption.10}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Funktionsweise eines zweidimensionalen 360$^\circ $-LiDAR der Firma SICK}}{10}{figure.caption.11}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Funktionsweise verschiedener Solid-State LiDAR-Sensoren}}{11}{figure.caption.12}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Darstellung der verschiedenen Techniken zur Erzeugung von Tiefeinformationen bei RGB-D Kameras\relax }}{12}{figure.caption.13}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Beispiel eines pseudo-zuf\IeC {\"a}lligen Punktmusters einer Structured Light Kamera\relax }}{13}{figure.caption.14}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Ermittlung der Tiefeinformation anhand der Disparit\IeC {\"a}t korrespondierender Bildpunkte \relax }}{13}{figure.caption.14}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Beispiel zur Registrierung von Punktwolken}}{15}{figure.caption.15}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Beispiel f\IeC {\"u}r die Verbesserung der Odometrie durch Scan Matching bei einer SLAM-Anwendung}}{16}{figure.caption.16}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Beispiele zur Segmentierung in der Bildverarbeitung anhand des Bildes in (a) basierend auf (b) einen Schwellwert und (c) durch Kantenerkennung\relax }}{19}{figure.caption.17}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Aufbau eines $k$-d-Baums am Beispiel einer zweidimensionalen Punktwolke\relax }}{26}{figure.caption.18}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Beispiel einer orthogonalen Bereichssuche in einem $k$-d-Baum\relax }}{28}{figure.caption.19}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Beispiel zur PCA\relax }}{30}{figure.caption.20}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Beispiel f\IeC {\"u}r die Entstehung von Odometriefehlern durch Unebenheiten im Boden\relax }}{32}{figure.caption.21}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Beispiel f\IeC {\"u}r die Entstehung von Odometriefehlern durch unterschiedliche Raddurchmesser\relax }}{32}{figure.caption.21}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Lokalisierung bei bestehender Karte\relax }}{33}{figure.caption.22}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Darstellung der Normalverteilung \IeC {\"u}ber die Roboterposition\relax }}{34}{figure.caption.23}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Graphische Darstellung des (a) Full SLAM sowie (b) des Online SLAM Problems \relax }}{35}{figure.caption.24}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Graphische Darstellung der Ungenauigkeiten in der Roboterpose sowie der Positionen der Landmarken \relax }}{36}{figure.caption.25}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Karten\relax }}{37}{figure.caption.26}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.8}{\ignorespaces a)-c) beschreiben die drei schritte des EKF Algorithmus. Hellblau Symbolisiert Sch\IeC {\"a}tzungen, grau Unsicherheiten\relax }}{38}{figure.caption.27}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Approximierte Verteilungsfunktion durch Partikel (t\IeC {\"u}rkis)\relax }}{42}{figure.caption.28}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Beispiel Verteilung von Partikeln in 4 Zeitschritten\relax }}{42}{figure.caption.28}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Darstellung des Graphen-basierten SLAMs mit zugeh\IeC {\"o}riger Informaionsmatrix\relax }}{45}{figure.caption.29}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Aufbau eines k\IeC {\"u}nstlichen neuronalen Netzes\relax }}{52}{figure.caption.30}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Aufbau eines k\IeC {\"u}nstlichen Neurons\relax }}{52}{figure.caption.31}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Ermittlung der Tiefeinformation anhand der Disparit\IeC {\"a}t korrespondierender Bildpunkte \relax }}{54}{figure.caption.32}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Funktionsverlauf der Sigmoidfunktion\relax }}{54}{figure.caption.32}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Funktionsverlauf der ReLU Aktivierungsfunktion\relax }}{54}{figure.caption.32}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Graphische Darstellung des Gradientenverfahrens mit einer zu kleinen Lernrate\relax }}{57}{figure.caption.33}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Beispiel f\IeC {\"u}r Overshooting\relax }}{57}{figure.caption.33}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Beispiel zum Aufbau eines Faltungsnetzes\relax }}{59}{figure.caption.34}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Beispiel eines Convolutional Layers mit Valid Padding\relax }}{59}{figure.caption.35}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Darstellung des Same Padding in einem Convolutional Layer\relax }}{59}{figure.caption.35}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Beispiel f\IeC {\"u}r Max und Average Pooling\relax }}{60}{figure.caption.36}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Darstellung des Flattening einer Matrix\relax }}{60}{figure.caption.36}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Beispiel zum Aufbau eines Autoencoders\relax }}{61}{figure.caption.37}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Modularer Aufbau des Segmap-Algorithmus \cite {Dube2018}\relax }}{65}{figure.caption.38}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Beispiele inkrementell gewachsener Segmente \IeC {\"u}ber mehrere aufeinander folgende Beobachtungen \cite {Dube2018}\relax }}{70}{figure.caption.39}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Zweidimensionale Darstellung von region growing und merging mit euklidischen Distanzen \cite {Dube2018}\relax }}{72}{figure.caption.40}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Beispielhafte Darstellung der Entwicklung und des trackings von Segmenten w\IeC {\"a}hrend der Roboter sich bewegt \cite {Dube2018}\relax }}{73}{figure.caption.41}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Darstellung der Struktur des Deskriptor-Autoencoders \cite {Dube2019}\relax }}{74}{figure.caption.42}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Vergleich eines Konsistenz-Graphen (a) ohne und (b) mit Partition \cite {Dube2018}\relax }}{79}{figure.caption.43}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Beispiel zur Caching von konsistenten Korrespondenzen \cite {Dube2018}\relax }}{81}{figure.caption.44}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.8}{\ignorespaces K\IeC {\"u}nstliches Neuronales Netz zur Extrahierung von semantischen Informationen aus den Segmenten\relax }}{84}{figure.caption.45}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Darstellung einer farbigen lokalen Punktwolke des Farbbildes in (a) und der zugeh\IeC {\"o}rogen Punktwolke (b) \relax }}{87}{figure.caption.46}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Vergleich der euklidischen Segmentierung anhand der in (a) dargestellten Szene, (b) ohne Ber\IeC {\"u}cksichtigung der Farbe und mit Ber\IeC {\"u}cksichtigung der Farbe (c) ohne und (d) mit dem Zusammenf\IeC {\"u}gen benachbarter Cluster mit \IeC {\"a}hnlichen Farbwerten\relax }}{91}{figure.caption.47}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Darstellung der Aufl\IeC {\"o}sung anhand des Punktabstandes in einer definierten Entfernung d\relax }}{97}{figure.caption.48}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Darstellung der motorbetriebenen Dreheinheit mit Kamera\relax }}{99}{figure.caption.50}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Darstellung der starren Anordnung zweier Kameras\relax }}{99}{figure.caption.50}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Vergleich der Punktwolke (a) einer einzelnen Kamera und (b) der Punktwolke der Konfiguration mit zwei Kameras \relax }}{99}{figure.caption.51}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Beispiele f\IeC {\"u}r die erzeugten Trajektorie anhand (a) der Odometrieinformation sowie (b) und (c) nur durch ICP\relax }}{100}{figure.caption.52}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Darstellung des Prinzips eines Differentialantriebs\relax }}{101}{figure.caption.53}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Plattform f\IeC {\"u}r die Datenaufzeichnung \relax }}{102}{figure.caption.54}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Darstellung des Prinzips zur Ermittlung der neuen Pose \relax }}{102}{figure.caption.54}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Test Genauigkeit der Odometrieinformationen\relax }}{103}{figure.caption.55}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Darstellung der Vorverarbeitung der Daten des TUM-Datensatzes\relax }}{105}{figure.caption.56}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Darstellung der Vorverarbeitung der Odometriedaten\relax }}{107}{figure.caption.57}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Darstellung des Bereichs der lokalen Karte\relax }}{111}{figure.caption.59}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Beispiel einer Segmentierung mit zu grober Aufl\IeC {\"o}sung des Voxelgitters\relax }}{112}{figure.caption.60}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Darstellung des Einflusses der Aufl\IeC {\"o}sung des Voxelgitters auf die Segmentierung\relax }}{113}{figure.caption.61}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Darstellung des Einflusses des Wachstumsradius auf die Segmentierung\relax }}{114}{figure.caption.62}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Beispiel f\IeC {\"u}r die Normalensch\IeC {\"a}tzung mit verschiedenen Nachbarschaftsgr\IeC {\"o}\IeC {\ss }en\relax }}{115}{figure.caption.63}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Darstellung des Winkels zwischen zwei Normalenvektoren\relax }}{115}{figure.caption.63}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.7}{\ignorespaces Beispiel eines Segmentduplikats\relax }}{116}{figure.caption.64}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Vergleich verschiedener Aufl\IeC {\"o}sungen des Voxelgitters bei der euklidischen Segmentierung\relax }}{119}{figure.caption.66}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Ergebnisse der euklidischen Segmentierung verschiedener Objekte mit den ermittelten Parametern\relax }}{120}{figure.caption.67}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.10}{\ignorespaces Vergleich verschiedener Parameterwerte bei der Fl\IeC {\"a}chen-basierten Segmentierung\relax }}{122}{figure.caption.68}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.11}{\ignorespaces Ergebnisse der Fl\IeC {\"a}chen-basierten Segmentierung verschiedener Objekte mit den ermittelten Parametern\relax }}{124}{figure.caption.69}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.12}{\ignorespaces Beispiele f\IeC {\"u}r die euklidische Segmentierung mit Ber\IeC {\"u}cksichtigung der Farbwerte mit den gew\IeC {\"a}hlten Parametern\relax }}{126}{figure.caption.70}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.13}{\ignorespaces Beispiele f\IeC {\"u}r (a) eine richtige und (b) eine falsche Zuordnung geometrisch konsistenter Korrespondenzen\relax }}{133}{figure.caption.73}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.14}{\ignorespaces Beispiel einer Flurumgebung mit einer erkannten Loop Closure\relax }}{134}{figure.caption.75}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.15}{\ignorespaces Beispiel einer Wohnungsumgebung mit drei erkannten Loop Closures\relax }}{135}{figure.caption.76}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.16}{\ignorespaces Beispiel einer Wohnungsumgebung mit einer erkannten Loop Closure\relax }}{135}{figure.caption.77}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7.17}{\ignorespaces Beispiel einer Umgebung in der keine Loop Closure erkannt wird\relax }}{136}{figure.caption.78}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Beispiele korrekt erkannter Loop Closures mit dem f\IeC {\"u}r die euklidische Segmentierung trainierten Deskriptor \relax }}{141}{figure.caption.81}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Beispiele korrekt erkannter Loop Closures mit dem f\IeC {\"u}r die Fl\IeC {\"a}chen-basierte Segmentierung trainierten Deskriptor \relax }}{143}{figure.caption.82}% 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\contentsfinish 

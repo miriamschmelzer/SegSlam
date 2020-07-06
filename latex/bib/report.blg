@@ -1,0 +1,5 @@
+[0] Config.pm:304> INFO - This is Biber 2.12
+[1] Config.pm:307> INFO - Logfile is 'report.blg'
+[79] biber-darwin:315> INFO - === Thu May 28, 2020, 09:51:37
+[364] Utils.pm:209> ERROR - Cannot find control file 'report.bcf'! - Did latex run successfully on your .tex file before you ran biber?
+[364] Biber.pm:114> INFO - ERRORS: 1

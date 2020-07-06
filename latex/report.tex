@@ -1,0 +1,113 @@
+\documentclass[]{htwg-report}
+
+\include{header/header}
+
+\addbibresource{./bib/report.bib}
+
+\begin{document}
+
+\renewcommand{\figurename}{Abbildung}
+\renewcommand{\tablename}{Tabelle}
+\renewcommand{\contentsname}{Inhaltsverzeichnis}
+\renewcommand{\listfigurename}{Abbildungsverzeichnis}
+\renewcommand{\listtablename}{Tabellenverzeichnis}
+
+%% Use Roman numerals fotr he page numbers of the title pages and table of
+%% contents.
+\frontmatter
+
+%% 'reporttype' add background elements to the cover / front page
+%% possible values are:
+%% bachelor	--> B S C
+%% master	--> M S C
+%% other		--> none
+\reporttype{master}
+\reporttypetext{Master Thesis} 
+
+\title[Analyse der Anwendbarkeit und Erweiterungen eines Segment-basierten SLAM-Algorithmus auf Indoor-Umgebungen mit einer RGB-D Kamera]{Analyse der Anwendbarkeit und Erweiterungen eines Segment-basierten SLAM-Algorithmus auf Indoor-Umgebungen mit einer RGB-D Kamera}
+
+\author{Miriam Schmelzer}
+\studentnumber{123456}
+\studentemail{Miriam.Schmelzer@htwg.de}
+\newcommand{\verfasserA}{Miriam Schmelzer}
+\newcommand{\verfasserB}{Florian Kopp}
+\newcommand{\thema}{Analyse der Anwendbarkeit und Erweiterungen eines Segment-basierten SLAM-Algorithmus auf Indoor-Umgebungen mit einer RGB-D Kamera}
+\newcommand{\dobA}{16.08.1994}
+\newcommand{\birthplaceA}{Bochum}
+\newcommand{\dobB}{22.04.1990}
+\newcommand{\birthplaceB}{Böblingen}
+\newcommand{\hoschschule}{Hochschule Konstanz (HTWG)}
+\newcommand{\institut}{HTWG Konstanz, Labor für mobile Robotik}
+\newcommand{\prueferA}{Prof. Dr. Oliver Bittel}
+\newcommand{\prueferB}{Dipl.-Inf.-Wiss. Jürgen Keppler}
+\newcommand{\ausgabedatum}{01.09.2019}
+\newcommand{\abgabedatum}{29.05.2020}
+\newcommand{\type}{Master}
+\newcommand{\typeshortcut}{M}
+\newcommand{\studiengangA}{Master Informatik}
+\newcommand{\studiengangB}{Elektrische Systeme}
+\newcommand{\strasseA}{Muntpratstr. 9}
+\newcommand{\wohnortA}{78462 Konstanz}
+\newcommand{\strasseB}{Josef-Haydn-Weg 6}
+\newcommand{\wohnortB}{71032 Böblingen}
+\newcommand{\schlagworte}{ROS, Segmentierung, SLAM, RGB-D Kamera}
+
+\doclocation{Konstanz}
+\docdate{25 Mai 2020}
+%          
+%% Include an optional title page.
+\input{titleA}
+\input{titleB}
+
+\input{abstract}
+%\input{extended_abstract}
+\input{affidavit}
+\input{affidavitB}
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+%\newpage
+%\section*{Abkürzungsverzeichnis}
+%\begin{acronym}
+%\acro{slam}[SLAM]{Simultaneous Localization and Mapping}
+%\end{acronym}
+
+%\printnomenclature
+%\printacronyms
+%\include{abkuerzung_acroListe}
+%\input{abkuerzungen}
+
+%% Use Arabic numerals for the page numbers of the chapters.
+\mainmatter
+
+%% \input{chapter-1}
+
+\input{einleitung}
+%\input{grundlagen}
+\input{punktwolken}
+\input{slam}
+\input{cnn}
+%\input{allg_grundlagen}
+\input{segmap}
+\input{setup}
+\input{parametrierung}
+\input{training}
+%\input{ergebnisse}
+%%\input{state_of_the_art}
+%%\input{hauptteil}
+%%\input{implementierung}
+%%\input{evaluierung}
+\input{fazit}
+
+%% Use letters for the chapter numbers of the appendices.
+\appendix
+
+%\input{appendix-a}
+\printbibliography[heading=bibintoc]
+
+\end{document}
+
